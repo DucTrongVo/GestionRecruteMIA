@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ProjetJEE.iml" filepath="$PROJECT_DIR$/ProjetJEE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjetJEE-ear/ProjetJEE-ear.iml" filepath="$PROJECT_DIR$/ProjetJEE-ear/ProjetJEE-ear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjetJEE-ejb/ProjetJEE-ejb.iml" filepath="$PROJECT_DIR$/ProjetJEE-ejb/ProjetJEE-ejb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjetJEE-web/ProjetJEE-web.iml" filepath="$PROJECT_DIR$/ProjetJEE-web/ProjetJEE-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ProjetJEEShared/ProjetJEEShared.iml" filepath="$PROJECT_DIR$/ProjetJEEShared/ProjetJEEShared.iml" />
+    </modules>
+  </component>
+</project>
