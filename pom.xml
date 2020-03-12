@@ -11,4 +11,11 @@
     <module>ProjetJEE-ejb</module>
     <module>ProjetJEEShared</module>
 </modules>
+    <dependencies>
+        <dependency>
+            <groupId>fr.miage.toulouse.PROJETJEE</groupId>
+            <artifactId>ProjetJEEShared</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>
