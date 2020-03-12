@@ -19,5 +19,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ProjetJEE-ejb" />
     <orderEntry type="module" module-name="ProjetJEE-web" />
+    <orderEntry type="module" module-name="ProjetJEE" />
   </component>
 </module>

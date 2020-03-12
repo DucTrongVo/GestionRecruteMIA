@@ -1,3 +1,6 @@
 /ProjetJEE-ear/target/
 
 /.idea/
+/ProjetJEE-ejb/target/
+/ProjetJEEShared/target/
+/ProjetJEE-web/target/
