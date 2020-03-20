@@ -16,12 +16,14 @@ import javax.persistence.Id;
  * @author igouane
  */
 @Entity
-public class Manager extends Collaborateur implements Serializable {
+public class Collaborateur extends Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private boolean isCodir;
 
     public Long getId() {
         return id;
@@ -41,10 +43,10 @@ public class Manager extends Collaborateur implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Manager)) {
+        if (!(object instanceof Collaborateur)) {
             return false;
         }
-        Manager other = (Manager) object;
+        Collaborateur other = (Collaborateur) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -53,7 +55,7 @@ public class Manager extends Collaborateur implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Manager[ id=" + id + " ]";
+        return "entities.Collaborateur[ id=" + id + " ]";
     }
     
 }
