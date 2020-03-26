@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author igouane
  */
 @Entity
-public class Candidat extends Personne implements Serializable {
+public class Candidat implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,6 +30,26 @@ public class Candidat extends Personne implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    private String nom;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+    
+    private String prenom;
 
     @Override
     public int hashCode() {

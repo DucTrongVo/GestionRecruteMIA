@@ -6,37 +6,22 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 /**
  *
  * @author igouane
  */
 @Entity
-public class Competence implements Serializable {
-
-    @ManyToMany(mappedBy = "listeCompetences")
-    private List<Personne> personnes;
+public class Test implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private String nom;
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     public Long getId() {
         return id;
@@ -56,10 +41,10 @@ public class Competence implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Competence)) {
+        if (!(object instanceof Test)) {
             return false;
         }
-        Competence other = (Competence) object;
+        Test other = (Test) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -68,7 +53,7 @@ public class Competence implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Competence[ id=" + id + " ]";
+        return "entities.Test[ id=" + id + " ]";
     }
     
 }

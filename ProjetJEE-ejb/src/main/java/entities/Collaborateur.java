@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author igouane
  */
 @Entity
-public class Collaborateur extends Personne implements Serializable {
+public class Collaborateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -24,6 +24,14 @@ public class Collaborateur extends Personne implements Serializable {
     private Long id;
     
     private boolean isCodir;
+
+    public boolean getIsCodir() {
+        return isCodir;
+    }
+
+    public void setIsCodir(boolean isCodir) {
+        this.isCodir = isCodir;
+    }
 
     public Long getId() {
         return id;

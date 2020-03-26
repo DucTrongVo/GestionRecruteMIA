@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -24,10 +26,36 @@ public class Personne implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @NotNull
     private String nom;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public ArrayList<Competence> getListeCompetences() {
+        return listeCompetences;
+    }
+
+    public void setListeCompetences(ArrayList<Competence> listeCompetences) {
+        this.listeCompetences = listeCompetences;
+    }
     
     private String prenom;
     
+    @ManyToMany
     private ArrayList<Competence> listeCompetences;
 
     public Long getId() {
