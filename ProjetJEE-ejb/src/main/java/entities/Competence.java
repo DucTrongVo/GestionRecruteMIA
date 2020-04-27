@@ -20,13 +20,14 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Competence implements Serializable {
 
-    @ManyToMany(mappedBy = "listeCompetences")
-    private List<Personne> personnes;
-
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToMany(mappedBy = "listeCompetences")
+    private List<Collaborateur> collaborateurs;
     
     private String nom;
 
@@ -44,6 +45,14 @@ public class Competence implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public List<Collaborateur> getCollaborateurs() {
+        return collaborateurs;
+    }
+
+    public void setCollaborateurs(List<Collaborateur> collaborateurs) {
+        this.collaborateurs = collaborateurs;
     }
 
     @Override

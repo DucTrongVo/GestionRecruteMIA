@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package repositories;
 
 import entities.Collaborateur;
 import java.util.List;
@@ -29,5 +29,9 @@ public interface CollaborateurFacadeLocal {
     List<Collaborateur> findRange(int[] range);
 
     int count();
+    
+    Collaborateur findByPrenomAndNom(String prenom, String nom);
+    
+    Collaborateur creerCollaborateurSiInexistant(String prenom, String nom);
     
 }

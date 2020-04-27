@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package repositories;
 
-import entities.Test;
+import entities.Manager;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,19 @@ import javax.ejb.Local;
  * @author igouane
  */
 @Local
-public interface TestFacadeLocal {
+public interface ManagerFacadeLocal {
 
-    void create(Test test);
+    void create(Manager manager);
 
-    void edit(Test test);
+    void edit(Manager manager);
 
-    void remove(Test test);
+    void remove(Manager manager);
 
-    Test find(Object id);
+    Manager find(Object id);
 
-    List<Test> findAll();
+    List<Manager> findAll();
 
-    List<Test> findRange(int[] range);
+    List<Manager> findRange(int[] range);
 
     int count();
     

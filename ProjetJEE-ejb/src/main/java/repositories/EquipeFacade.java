@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package repositories;
 
-import entities.Candidat;
+import entities.Competence;
+import entities.Equipe;
+import java.util.ArrayList;
+import static java.util.Collections.list;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +18,7 @@ import javax.persistence.PersistenceContext;
  * @author igouane
  */
 @Stateless
-public class CandidatFacade extends AbstractFacade<Candidat> implements CandidatFacadeLocal {
+public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacadeLocal {
 
     @PersistenceContext(unitName = "fr.miage.toulouse.PROJETJEE_ProjetJEE-ejb_ejb_1.0PU")
     private EntityManager em;
@@ -25,8 +28,14 @@ public class CandidatFacade extends AbstractFacade<Candidat> implements Candidat
         return em;
     }
 
-    public CandidatFacade() {
-        super(Candidat.class);
+    public EquipeFacade() {
+        super(Equipe.class);
+    }
+    
+    public ArrayList<Competence> listerLesCompetences(){
+        ArrayList<Competence> listeCompetences = new ArrayList<Competence>();
+        
+        return listeCompetences;
     }
     
 }

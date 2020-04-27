@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package repositories;
 
-import entities.Candidat;
+import entities.Equipe;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,19 @@ import javax.ejb.Local;
  * @author igouane
  */
 @Local
-public interface CandidatFacadeLocal {
+public interface EquipeFacadeLocal {
 
-    void create(Candidat candidat);
+    void create(Equipe equipe);
 
-    void edit(Candidat candidat);
+    void edit(Equipe equipe);
 
-    void remove(Candidat candidat);
+    void remove(Equipe equipe);
 
-    Candidat find(Object id);
+    Equipe find(Object id);
 
-    List<Candidat> findAll();
+    List<Equipe> findAll();
 
-    List<Candidat> findRange(int[] range);
+    List<Equipe> findRange(int[] range);
 
     int count();
     

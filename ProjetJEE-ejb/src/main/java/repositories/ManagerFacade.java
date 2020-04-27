@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package repositories;
 
-import entities.Competence;
+import entities.Manager;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author igouane
  */
 @Stateless
-public class CompetenceFacade extends AbstractFacade<Competence> implements CompetenceFacadeLocal {
+public class ManagerFacade extends AbstractFacade<Manager> implements ManagerFacadeLocal {
 
     @PersistenceContext(unitName = "fr.miage.toulouse.PROJETJEE_ProjetJEE-ejb_ejb_1.0PU")
     private EntityManager em;
@@ -25,8 +25,10 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
         return em;
     }
 
-    public CompetenceFacade() {
-        super(Competence.class);
+    public ManagerFacade() {
+        super(Manager.class);
     }
+    
+    
     
 }

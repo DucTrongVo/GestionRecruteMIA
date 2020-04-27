@@ -6,10 +6,12 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -17,6 +19,17 @@ import javax.persistence.Id;
  */
 @Entity
 public class Equipe implements Serializable {
+
+    @OneToMany(mappedBy = "equipe")
+    private List<Collaborateur> collaborateurs;
+
+    public List<Collaborateur> getCollaborateurs() {
+        return collaborateurs;
+    }
+
+    public void setCollaborateurs(List<Collaborateur> collaborateurs) {
+        this.collaborateurs = collaborateurs;
+    }
 
     private static final long serialVersionUID = 1L;
     @Id
