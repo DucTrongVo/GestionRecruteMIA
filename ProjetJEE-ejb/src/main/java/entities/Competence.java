@@ -6,10 +6,12 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  *
@@ -19,11 +21,23 @@ import javax.persistence.Id;
 public class Competence implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ManyToMany(mappedBy = "listeCompetences")
+    private List<Collaborateur> collaborateurs;
+    
     private String nom;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
     public Long getId() {
         return id;
@@ -31,6 +45,14 @@ public class Competence implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public List<Collaborateur> getCollaborateurs() {
+        return collaborateurs;
+    }
+
+    public void setCollaborateurs(List<Collaborateur> collaborateurs) {
+        this.collaborateurs = collaborateurs;
     }
 
     @Override
