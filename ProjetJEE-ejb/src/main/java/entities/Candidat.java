@@ -17,7 +17,8 @@ import javax.persistence.Id;
  */
 @Entity
 public class Candidat implements Serializable {
-
+    private String nom;
+    private String prenom;
     public Candidat(String prenom, String nom) {
         this.nom = nom;
         this.prenom = prenom;
@@ -39,8 +40,7 @@ public class Candidat implements Serializable {
         this.id = id;
     }
     
-    private String nom;
-
+    
     public String getNom() {
         return nom;
     }
@@ -57,7 +57,7 @@ public class Candidat implements Serializable {
         this.prenom = prenom;
     }
     
-    private String prenom;
+    
 
     @Override
     public int hashCode() {
