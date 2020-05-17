@@ -6,9 +6,12 @@
 package repositories;
 
 import entities.Candidat;
+import entities.Poste;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import services.ServiceCandidat;
 
 /**
  *
@@ -25,8 +28,29 @@ public class CandidatFacade extends AbstractFacade<Candidat> implements Candidat
         return em;
     }
 
+    ServiceCandidat serviceCandidat;
+    
     public CandidatFacade() {
         super(Candidat.class);
     }
     
+    public void postuler(Candidat c, Poste p){
+        if(c.getListePostulation().contains(p)){
+            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" a déja postuler au poste "+p.getNomPoste());
+        }else{
+            c.postuler(p);
+            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" postulé avec succès au poste "+p.getNomPoste());
+            p.ajouterUnCandidature(c);
+        }
+    }
+    
+    public void retirerLeCandidature(Candidat c, Poste p){
+        if(!c.getListePostulation().contains(p)){
+            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" n'a pas encore postulé au poste "+p.getNomPoste());
+        }else{
+            c.retirerLeCandidature(p);
+            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" a retiré avec succès son candidature au poste "+p.getNomPoste());
+            p.ajouterUnCandidature(c);
+        }
+    }
 }

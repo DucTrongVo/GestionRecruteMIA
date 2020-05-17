@@ -6,10 +6,12 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -19,6 +21,10 @@ import javax.persistence.Id;
 public class Candidat implements Serializable {
     private String nom;
     private String prenom;
+    
+    @OneToMany
+    private List<Poste> listePostulation;
+    
     public Candidat(String prenom, String nom) {
         this.nom = nom;
         this.prenom = prenom;
@@ -57,8 +63,26 @@ public class Candidat implements Serializable {
         this.prenom = prenom;
     }
     
-    
+    public List<Poste> getListePostulation(){
+        return this.listePostulation;
+    }
+    /**
+     * Permet le candidature à postuler 
+     * @param poste le poste à postuler
+     */
+    public void postuler(Poste poste){
+        listePostulation.add(poste);
+        //poste.ajouterUnCandidature(this);
+    }
 
+    /**
+     * Permet un candidat à retire son candidature d'un poste
+     * @param poste le poste à retirer le candidature
+     */
+    public void retirerLeCandidature(Poste poste){
+        listePostulation.remove(poste);
+        //poste.supprimerUnCandidature(this);
+    }
     @Override
     public int hashCode() {
         int hash = 0;
