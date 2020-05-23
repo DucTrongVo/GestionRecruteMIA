@@ -5,6 +5,7 @@
  */
 package repositories;
 
+import entities.Equipe;
 import entities.Personne;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +30,7 @@ public interface PersonneFacadeLocal {
     List<Personne> findRange(int[] range);
 
     int count();
+    
+    List<Personne> findByEquipe(Equipe equipe);
     
 }

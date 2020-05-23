@@ -84,4 +84,14 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         }
     }    
     
+    public List<Personne> findByEquipe(Equipe equipe) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);
+        Root<Personne> root = cq.from(Personne.class);
+        cq.where(cb.equal(root.get("equipe"), equipe));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+    
+    
+    
 }

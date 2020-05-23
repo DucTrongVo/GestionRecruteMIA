@@ -6,9 +6,14 @@
 package repositories;
 
 import entities.Competence;
+import entities.Personne;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -27,6 +32,29 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
 
     public CompetenceFacade() {
         super(Competence.class);
+    }
+    public Competence findByCompetence(String nom) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
+        Root<Competence> root = cq.from(Competence.class);
+        cq.where(
+                cb.and(
+                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
+                )
+        );
+        return getEntityManager().createQuery(cq).getSingleResult();
+    }    
+
+    public void CreerCompetence(String nom){
+        Competence competence = new Competence(nom);
+    }
+    
+    public List<Competence> findByPersonne(Personne collaborateur) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
+        Root<Competence> root = cq.from(Competence.class);
+        cq.where(cb.equal(root.get("collaborateur"), collaborateur));
+        return getEntityManager().createQuery(cq).getResultList();
     }
     
 }

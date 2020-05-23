@@ -29,6 +29,10 @@ public class Competence implements Serializable {
     @ManyToMany(mappedBy = "listeCompetences")
     private List<Personne> listePersonnes;    
 
+    public Competence(String nom) {
+        this.nom = nom;
+    }
+
     public Competence(String nom, List<Personne> listePersonnes) {
         this.nom = nom;
         this.listePersonnes = listePersonnes;
@@ -86,21 +90,3 @@ public class Competence implements Serializable {
     }
     
 }
-
-/*
-    public Competence findByCompetence(String nom) {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
-        Root<Competence> root = cq.from(Competence.class);
-        cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
-                )
-        );
-        return getEntityManager().createQuery(cq).getSingleResult();
-    }    
-
-    public void CreerCompetence(String nom){
-        Competence competence = new Competence(nom);
-    }
-*/
