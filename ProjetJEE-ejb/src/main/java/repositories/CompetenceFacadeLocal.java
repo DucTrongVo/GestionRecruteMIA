@@ -6,6 +6,7 @@
 package repositories;
 
 import entities.Competence;
+import entities.Personne;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface CompetenceFacadeLocal {
     List<Competence> findRange(int[] range);
 
     int count();
+    
+    List<Competence> findByPersonne(Personne personne);
     
 }
