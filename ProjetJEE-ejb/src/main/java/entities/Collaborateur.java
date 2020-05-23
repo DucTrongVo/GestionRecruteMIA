@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  * @author igouane
  */
 @Entity
-public class Collaborateur implements Serializable {
+public class Collaborateur extends Candidat implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -33,20 +33,13 @@ public class Collaborateur implements Serializable {
     @ManyToOne
     private Equipe equipe;
     
-    @NotNull
-    private String nom;
-
-    private String prenom;
     
     @ManyToMany
     private ArrayList<Competence> listeCompetences;
     
-    protected Collaborateur() {
-    }
 
     public Collaborateur(String prenom, String nom) {
-        this.nom = nom;
-        this.prenom = prenom;
+        super(prenom, nom);
     }
 
     public Equipe getEquipe() {
@@ -65,21 +58,6 @@ public class Collaborateur implements Serializable {
         this.isCodir = isCodir;
     }
     
-     public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
 
     public ArrayList<Competence> getListeCompetences() {
         return listeCompetences;

@@ -18,6 +18,14 @@ import javax.persistence.Id;
 @Entity
 public class Candidat implements Serializable {
 
+    public Candidat(String prenom, String nom) {
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+    
+    protected Candidat() {
+    }
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

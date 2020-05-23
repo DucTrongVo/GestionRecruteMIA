@@ -18,6 +18,10 @@ import javax.persistence.Id;
 @Entity
 public class Manager extends Collaborateur implements Serializable {
 
+    public Manager(String prenom, String nom){
+        super(prenom, nom);
+    }
+
     private static final long serialVersionUID = 1L;
     
     @Id
