@@ -8,14 +8,13 @@ package repositories;
 import entities.Competence;
 import entities.Equipe;
 import java.util.ArrayList;
-import static java.util.Collections.list;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author igouane
+ * @author zamourak
  */
 @Stateless
 public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacadeLocal {
@@ -31,11 +30,9 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
     public EquipeFacade() {
         super(Equipe.class);
     }
-    
     public ArrayList<Competence> listerLesCompetences(){
         ArrayList<Competence> listeCompetences = new ArrayList<Competence>();
         
         return listeCompetences;
-    }
-    
+    }    
 }
