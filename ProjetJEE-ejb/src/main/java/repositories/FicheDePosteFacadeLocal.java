@@ -5,7 +5,7 @@
  */
 package repositories;
 
-import entities.Equipe;
+import entities.FicheDePoste;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,19 @@ import javax.ejb.Local;
  * @author zamourak
  */
 @Local
-public interface EquipeFacadeLocal {
+public interface FicheDePosteFacadeLocal {
 
-    void create(Equipe equipe);
+    void create(FicheDePoste ficheDePoste);
 
-    void edit(Equipe equipe);
+    void edit(FicheDePoste ficheDePoste);
 
-    void remove(Equipe equipe);
+    void remove(FicheDePoste ficheDePoste);
 
-    Equipe find(Object id);
+    FicheDePoste find(Object id);
 
-    List<Equipe> findAll();
+    List<FicheDePoste> findAll();
 
-    List<Equipe> findRange(int[] range);
+    List<FicheDePoste> findRange(int[] range);
 
     int count();
     

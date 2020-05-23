@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author igouane
+ * @author zamourak
  */
 @Local
 public interface CompetenceFacadeLocal {

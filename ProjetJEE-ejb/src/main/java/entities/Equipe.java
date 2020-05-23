@@ -20,6 +20,13 @@ import javax.persistence.OneToMany;
 @Entity
 public class Equipe implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    private String nom;
+
     @OneToMany(mappedBy = "equipe")
     private List<Collaborateur> collaborateurs;
 
@@ -31,12 +38,6 @@ public class Equipe implements Serializable {
         this.collaborateurs = collaborateurs;
     }
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    private String nom;
 
     public String getNom() {
         return nom;
@@ -80,3 +81,10 @@ public class Equipe implements Serializable {
     }
     
 }
+/*
+    public ArrayList<Competence> listerLesCompetences(){
+        ArrayList<Competence> listeCompetences = new ArrayList<Competence>();
+        
+        return listeCompetences;
+    }
+*/

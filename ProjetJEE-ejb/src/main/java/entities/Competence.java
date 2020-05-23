@@ -25,12 +25,17 @@ public class Competence implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+    private String nom;    
     @ManyToMany(mappedBy = "listeCompetences")
-    private List<Collaborateur> collaborateurs;
-    
-    private String nom;
+    private List<Personne> listePersonnes;    
 
+    public Competence(String nom, List<Personne> listePersonnes) {
+        this.nom = nom;
+        this.listePersonnes = listePersonnes;
+    }
+
+
+    
     public String getNom() {
         return nom;
     }
@@ -43,17 +48,17 @@ public class Competence implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public List<Collaborateur> getCollaborateurs() {
-        return collaborateurs;
+
+    public List<Personne> getListePersonnes() {
+        return listePersonnes;
     }
 
-    public void setCollaborateurs(List<Collaborateur> collaborateurs) {
-        this.collaborateurs = collaborateurs;
+    public void setListePersonnes(List<Personne> listePersonnes) {
+        this.listePersonnes = listePersonnes;
     }
+
+
+
 
     @Override
     public int hashCode() {
@@ -81,3 +86,21 @@ public class Competence implements Serializable {
     }
     
 }
+
+/*
+    public Competence findByCompetence(String nom) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
+        Root<Competence> root = cq.from(Competence.class);
+        cq.where(
+                cb.and(
+                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
+                )
+        );
+        return getEntityManager().createQuery(cq).getSingleResult();
+    }    
+
+    public void CreerCompetence(String nom){
+        Competence competence = new Competence(nom);
+    }
+*/

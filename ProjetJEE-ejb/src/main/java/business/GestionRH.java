@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CandidatFacadeLocal;
-import repositories.PosteFacadeLocal;
+import repositories.PersonneFacadeLocal;
+import repositories.FicheDePosteFacadeLocal;
 
 /**
  *
@@ -22,9 +22,9 @@ import repositories.PosteFacadeLocal;
 @Stateless
 public class GestionRH implements GestionRHLocal {
     @EJB
-    private PosteFacadeLocal posteFacadeLocal;
+    private FicheDePosteFacadeLocal posteFacadeLocal;
     @EJB
-    private CandidatFacadeLocal candidatFacadeLocal;    
+    private PersonneFacadeLocal candidatFacadeLocal;    
     
     /**
      * Enlever un poste de la liste des poste disponible
