@@ -5,9 +5,10 @@
  */
 package business;
 
-import entities.Candidat;
 import entities.Competence;
-import entities.Poste;
+import entities.Equipe;
+import entities.FicheDePoste;
+import entities.Personne;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -31,7 +32,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idPoste
      */
     public void supprimerPoste(Long idPoste){
-        Poste poste = posteFacadeLocal.find(idPoste);
+        FicheDePoste poste = posteFacadeLocal.find(idPoste);
         if(poste == null){
             System.out.println("Le poste n'existe pas");
         }else{
@@ -41,15 +42,15 @@ public class GestionRH implements GestionRHLocal {
     }
     /**
      * 
-     * @param idCandidat
-     * @param idPoste 
+     * @param idCandidat id du candidat
+     * @param idPoste id du poste
      */
     public void candidater(Long idCandidat, Long idPoste){
-        Candidat candidat = candidatFacadeLocal.find(idCandidat);
+        Personne candidat = candidatFacadeLocal.find(idCandidat);
         if(candidat == null){
             System.out.println("Le candidat n'existe pas");
         }else{
-            Poste poste = posteFacadeLocal.find(idPoste);
+            FicheDePoste poste = posteFacadeLocal.find(idPoste);
             if(poste == null){
                 System.out.println("Le poste n'existe pas");
             }else{
@@ -59,12 +60,17 @@ public class GestionRH implements GestionRHLocal {
         }
     }
     
+    /**
+     * 
+     * @param idCandidat id du candidat
+     * @param idPoste id du poste 
+     */
     public void retirerUnCandidature(Long idCandidat, Long idPoste){
-        Candidat candidat = candidatFacadeLocal.find(idCandidat);
+        Personne candidat = candidatFacadeLocal.find(idCandidat);
         if(candidat == null){
             System.out.println("Le candidat n'existe pas");
         }else{
-            Poste poste = posteFacadeLocal.find(idPoste);
+            FicheDePoste poste = posteFacadeLocal.find(idPoste);
             if(poste == null){
                 System.out.println("Le poste n'existe pas");
             }else{
@@ -73,9 +79,13 @@ public class GestionRH implements GestionRHLocal {
             }
         }
     }
-    
-    public Poste consulterUnPoste(Long idPoste){
-        Poste poste = posteFacadeLocal.find(idPoste);
+    /**
+     * 
+     * @param idPoste du poste à consulter
+     * @return 
+     */
+    public FicheDePoste consulterUnPoste(Long idPoste){
+        FicheDePoste poste = posteFacadeLocal.find(idPoste);
         if(poste == null){
             System.out.println("Le poste n'existe pas");
             return null;
@@ -87,12 +97,13 @@ public class GestionRH implements GestionRHLocal {
      * Retourner la liste des postes disponibles
      * @return 
      */
-    public List<Poste> getListPostes(){
+    public List<FicheDePoste> getListPostes(){
         return posteFacadeLocal.findAll();
     }
     
-    public void creerUnPoste(String nom, String presEnt, String presPoste){
-        Poste poste = new Poste(nom,presEnt,presPoste,new ArrayList<Competence>());
+    public void creerUnPoste(String nom, String statut, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        FicheDePoste poste = new FicheDePoste(nom, statut, presentationEntreprise, presentationPoste,
+                                                listeCompetenceRecherchees,equipeDemandeuse );
         posteFacadeLocal.create(poste);
         System.out.println("Nouveau poste créé avec succès!");
     }

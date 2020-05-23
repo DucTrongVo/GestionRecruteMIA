@@ -6,7 +6,7 @@
 package services;
 
 import business.GestionRH;
-import entities.Poste;
+import entities.FicheDePoste;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -18,8 +18,8 @@ import javax.ejb.Stateless;
 public class ServiceCandidat implements ServiceCandidatRemote {
 
     private GestionRH gestionRH;
-    private List<Poste> listeDesPostes;
-    private Poste posteAConsulter;
+    private List<FicheDePoste> listeDesPostes;
+    private FicheDePoste posteAConsulter;
     
     @Override
     public void updateListPostes() {
@@ -41,12 +41,12 @@ public class ServiceCandidat implements ServiceCandidatRemote {
         posteAConsulter = gestionRH.consulterUnPoste(idPoste);
     }
     
-    public Poste getPosteAConsulter(Long idPoste){
+    public FicheDePoste getPosteAConsulter(Long idPoste){
         this.updatePosteAConsulter(idPoste);
         return this.posteAConsulter;
     }
     
-    public List<Poste> getListeDesPostes(){
+    public List<FicheDePoste> getListeDesPostes(){
         this.updateListPostes();
         return this.listeDesPostes;
     }

@@ -5,6 +5,7 @@
  */
 package repositories;
 
+import entities.Competence;
 import entities.FicheDePoste;
 import entities.Personne;
 import javax.ejb.EJB;
@@ -36,56 +37,56 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
 
     /**
      * Ajouter un candidature au liste des candidatures du poste
-     * @param p le poste en question
-     * @param c le candidat qui postule
+     * @param poste le poste en question
+     * @param candidat le candidat qui postule
      */
-    public void ajouterUnCandidatAuPoste(FicheDePoste p, Personne candidat){
-        if(p.getListeCandidats().contains(candidat)){
-            System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+p.getNom());
+    public void ajouterUnCandidatAuPoste(FicheDePoste poste, Personne candidat){
+        if(poste.getListeCandidats().contains(candidat)){
+            System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+poste.getNom());
         }else{
-            p.ajouterUnCandidature(candidat);
-            System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" ajouté avec succès au poste "+p.getNom());
+            poste.ajouterUnCandidature(candidat);
+            System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" ajouté avec succès au poste "+poste.getNom());
         }
     }
     
     /**
      * Supprimer un candidature au liste des candidatures du poste
-     * @param p le poste en question
-     * @param c le candidat qui doit être supprimer
+     * @param poste le poste en question
+     * @param personne le candidat qui doit être supprimer
      */
-    public void supprimerUnCandidatDuPoste(FicheDePoste p, Candidat c){
-        if(p.getListCandidats().contains(c)){
-            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" n'existe pas dans le poste "+p.getNomPoste());
+    public void supprimerUnCandidatDuPoste(FicheDePoste poste, Personne personne){
+        if(!poste.getListeCandidats().contains(personne)){
+            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'existe pas dans le poste "+poste.getNom());
         }else{
-            p.supprimerUnCandidature(c);
-            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" supprimé avec succès du poste "+p.getNomPoste());
+            poste.supprimerUnCandidature(personne);
+            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" supprimé avec succès du poste "+poste.getNom());
         }
     }
     /**
      * Ajouter une compétence dans le liste des compétences demandés
-     * @param p le poste dans lequel il faut ajouter la compétence
-     * @param c la compétence à ajouter
+     * @param poste le poste dans lequel il faut ajouter la compétence
+     * @param competence la compétence à ajouter
      */
-    public void ajouterCompetenceAuPoste(FicheDePoste p, Competence c){
-        if(p.getListeCompetences().contains(p)){
-            System.out.println("Le compétence "+c.getNom()+" existe déja dans la demande du poste "+p.getNomPoste());
+    public void ajouterCompetenceAuPoste(FicheDePoste poste, Competence competence){
+        if(poste.getListeCompetenceRecherchees().contains(poste)){
+            System.out.println("Le compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
         }else{
-            p.ajouterCompetenceAuPoste(c);
-            System.out.println("Le compétence "+c.getNom()+" ajouté avec succès dans la demande du poste "+p.getNomPoste());
+            poste.ajouterCompetenceAuPoste(competence);
+            System.out.println("Le compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
         }
     }
     
     /**
      * Supprimer une compétence dans le liste des compétences demandés
-     * @param p le poste dans lequel il faut suprrimer la compétence
-     * @param c la compétence à supprimer
+     * @param poste le poste dans lequel il faut suprrimer la compétence
+     * @param candidat la compétence à supprimer
      */
-    public void supprimerCompetenceAuPoste(FicheDePoste p, Competence c){
-        if(p.getListeCompetences().contains(p)){
-            System.out.println("Le compétence "+c.getNom()+" n'existe pas dans la demande du poste "+p.getNomPoste());
+    public void supprimerCompetenceAuPoste(FicheDePoste poste, Competence candidat){
+        if(!poste.getListeCompetenceRecherchees().contains(poste)){
+            System.out.println("Le compétence "+candidat.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
         }else{
-            p.supprimerCompetenceAuPoste(c);
-            System.out.println("Le compétence "+c.getNom()+" supprimé avec succès de la demande du poste "+p.getNomPoste());
+            poste.supprimerCompetenceAuPoste(candidat);
+            System.out.println("Le compétence "+candidat.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
         }
     }
 

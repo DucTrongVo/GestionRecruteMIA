@@ -30,4 +30,6 @@ public interface FicheDePosteFacadeLocal {
 
     int count();
     
+    public void supprimerPoste(FicheDePoste poste);
+    
 }

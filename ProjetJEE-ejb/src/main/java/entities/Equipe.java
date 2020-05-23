@@ -28,13 +28,13 @@ public class Equipe implements Serializable {
     private String nom;
 
     @OneToMany(mappedBy = "equipe")
-    private List<Collaborateur> collaborateurs;
+    private List<Personne> collaborateurs;
 
-    public List<Collaborateur> getCollaborateurs() {
+    public List<Personne> getCollaborateurs() {
         return collaborateurs;
     }
 
-    public void setCollaborateurs(List<Collaborateur> collaborateurs) {
+    public void setCollaborateurs(List<Personne> collaborateurs) {
         this.collaborateurs = collaborateurs;
     }
 

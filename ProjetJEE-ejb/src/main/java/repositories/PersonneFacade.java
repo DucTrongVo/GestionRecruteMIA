@@ -5,11 +5,19 @@
  */
 package repositories;
 
+import entities.Competence;
+import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import services.ServiceCandidat;
 
 /**
@@ -34,31 +42,29 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     ServiceCandidat serviceCandidat;
     
 
-    public void postuler(Personne c, FicheDePoste p){
-        if(c.getListePostulation().contains(p)){
-            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" a déja postuler au poste "+p.getNomFicheDePoste());
+    public void postuler(Personne personne, FicheDePoste poste){
+        if(personne.getListePostulation().contains(poste)){
+            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" a déja postuler au poste "+poste.getNom());
         }else{
-            c.postuler(p);
-            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" postulé avec succès au poste "+p.getNomPoste());
-            p.ajouterUnCandidature(c);
+            personne.postuler(poste);
+            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" postulé avec succès au poste "+poste.getNom());
         }
     }
     
-    public void retirerLeCandidature(Candidat c, Poste p){
-        if(!c.getListePostulation().contains(p)){
-            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" n'a pas encore postulé au poste "+p.getNomPoste());
+    public void retirerLeCandidature(Personne personne, FicheDePoste poste){
+        if(!personne.getListePostulation().contains(poste)){
+            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'a pas encore postulé au poste "+poste.getNom());
         }else{
-            c.retirerLeCandidature(p);
-            System.out.println("Candidat "+c.getNom()+" "+c.getPrenom()+" a retiré avec succès son candidature au poste "+p.getNomPoste());
-            p.ajouterUnCandidature(c);
+            personne.retirerLeCandidature(poste);
+            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" a retiré avec succès son candidature au poste "+poste.getNom());
         }
     }
 
 
-    public Collaborateur findByPrenomAndNom(String prenom, String nom) {
+    public Personne findByPrenomAndNom(String prenom, String nom) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Collaborateur> cq = cb.createQuery(Collaborateur.class);
-        Root<Collaborateur> root = cq.from(Collaborateur.class);
+        CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);
+        Root<Personne> root = cq.from(Personne.class);
         cq.where(
                 cb.and(
                         cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
@@ -68,11 +74,11 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         return getEntityManager().createQuery(cq).getSingleResult();
     }
 
-    public Collaborateur creerCollaborateurSiInexistant(String prenom, String nom) {
+    public Personne creerPersonneSiInexistant(String prenom, String nom, boolean isCodir, Equipe equipe, ArrayList<Competence> listeCompetences, List<FicheDePoste> listePostulation) {
         try{
             return this.findByPrenomAndNom(prenom, nom);
         }catch(NoResultException noRes){
-            Collaborateur nouveauCollaborateur = new Collaborateur(prenom, nom);
+            Personne nouveauCollaborateur = new Personne(prenom, nom, isCodir, equipe, listeCompetences, listePostulation);
             this.create(nouveauCollaborateur);
             return nouveauCollaborateur;
         }

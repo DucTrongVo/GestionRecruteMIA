@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,13 +42,14 @@ public class FicheDePoste implements Serializable {
 
     
     
-    public FicheDePoste(String nom, String statut, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, List<Personne> listeCandidats, Equipe equipeDemandeuse) {
+    public FicheDePoste(String nom, String statut, String presentationEntreprise, String presentationPoste, 
+                        List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse) {
         this.nom = nom;
         this.statut = statut;
         this.presentationEntreprise = presentationEntreprise;
         this.presentationPoste = presentationPoste;
         this.listeCompetenceRecherchees = listeCompetenceRecherchees;
-        this.listeCandidats = listeCandidats;
+        this.listeCandidats = new ArrayList<Personne>();
         this.equipeDemandeuse = equipeDemandeuse;
     }
 
@@ -116,7 +118,29 @@ public class FicheDePoste implements Serializable {
         this.equipeDemandeuse = equipeDemandeuse;
     }
 
+    public void supprimerCompetenceAuPoste(Competence c){
+        this.listeCompetenceRecherchees.remove(c);
+    }
     
+    public void ajouterCompetenceAuPoste(Competence c){
+        this.listeCompetenceRecherchees.add(c);
+    }
+    
+    /**
+     * Supprimer un candidat dans la liste des candidatures
+     * @param c candidat qui doit être supprimer au poste
+     */
+    public void supprimerUnCandidature(Personne c){
+        this.listeCandidats.remove(c);
+    }
+    
+    /**
+     * Ajouter un candidat dans la liste des candidatures
+     * @param c candidat qui postuler au poste
+     */
+    public void ajouterUnCandidature(Personne c){
+        this.listeCandidats.add(c);
+    }
     
     @Override
     public int hashCode() {

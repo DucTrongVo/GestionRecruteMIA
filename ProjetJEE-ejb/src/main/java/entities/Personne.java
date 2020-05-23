@@ -40,12 +40,12 @@ public class Personne implements Serializable {
     private ArrayList<Competence> listeCompetences;    
 
     @OneToMany
-    private List<Poste> listePostulation;
+    private List<FicheDePoste> listePostulation;
 
     public Personne() {
     }
 
-    public Personne(String nom, String prenom, boolean isCodir, Equipe equipe, ArrayList<Competence> listeCompetences, List<Poste> listePostulation) {
+    public Personne(String nom, String prenom, boolean isCodir, Equipe equipe, ArrayList<Competence> listeCompetences, List<FicheDePoste> listePostulation) {
         this.nom = nom;
         this.prenom = prenom;
         this.isCodir = isCodir;
@@ -103,16 +103,29 @@ public class Personne implements Serializable {
         this.listeCompetences = listeCompetences;
     }
 
-    public List<Poste> getListePostulation() {
+    public List<FicheDePoste> getListePostulation() {
         return listePostulation;
     }
 
-    public void setListePostulation(List<Poste> listePostulation) {
+    public void setListePostulation(List<FicheDePoste> listePostulation) {
         this.listePostulation = listePostulation;
     }
 
+    /**
+     * Permettre au collaborateur de postuler à une poste
+     * @param poste le poste à postuler
+     */
+    public void postuler(FicheDePoste poste){
+        this.listePostulation.add(poste);
+    }
     
-    
+    /**
+     * permettre au collaborateur à retirer sa candidature d'une poste
+     * @param poste le poste à retirer le candidature
+     */
+    public void retirerLeCandidature(FicheDePoste poste){
+        this.listePostulation.remove(poste);
+    }
     @Override
     public int hashCode() {
         int hash = 0;
