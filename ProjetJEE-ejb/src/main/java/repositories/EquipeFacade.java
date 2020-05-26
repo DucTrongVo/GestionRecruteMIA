@@ -7,10 +7,15 @@ package repositories;
 
 import entities.Competence;
 import entities.Equipe;
+import entities.Personne;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -35,4 +40,20 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
         
         return listeCompetences;
     }    
+    @Override
+    public Equipe creerEquipe(String nomEquipe,Personne manager) {
+        Equipe equipe = new Equipe(nomEquipe,manager);
+        this.create(equipe);
+        return equipe;
+    }
+    
+     @Override
+    public Equipe findByManager(Personne manager) {
+     CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+     CriteriaQuery<Equipe> cq = cb.createQuery(Equipe.class);
+     Root<Equipe> root = cq.from(Equipe.class);
+     cq.where(cb.equal(root.get("manager"), manager));
+     return getEntityManager().createQuery(cq).getSingleResult();
+    }
+    
 }
