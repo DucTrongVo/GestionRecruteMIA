@@ -92,6 +92,4 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         return getEntityManager().createQuery(cq).getResultList();
     }
     
-    
-    
 }

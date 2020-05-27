@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import repositories.CompetenceFacadeLocal;
 import repositories.EquipeFacadeLocal;
+import repositories.FicheDePosteFacadeLocal;
 import repositories.PersonneFacadeLocal;
 
 /**
@@ -31,6 +32,11 @@ public class GestionManager implements GestionManagerLocal {
     
     @EJB
     private PersonneFacadeLocal personneFacade;
+    
+    @EJB
+    private FicheDePosteFacadeLocal ficheDePosteFacade;
+    
+    private GestionRHLocal gestionRH;
 
     public ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe){
         Equipe equipe = equipeFacade.find(idEquipe);
@@ -47,7 +53,7 @@ public class GestionManager implements GestionManagerLocal {
     }
     
     public void creerDemandeDeCompetence(){
-        
+        ficheDePosteFacade.
     }
 
 }

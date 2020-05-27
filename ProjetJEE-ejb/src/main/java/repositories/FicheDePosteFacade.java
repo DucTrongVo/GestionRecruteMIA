@@ -6,8 +6,11 @@
 package repositories;
 
 import entities.Competence;
+import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -44,7 +47,6 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         if(poste.getListeCandidats().contains(candidat)){
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+poste.getNom());
         }else{
-            poste.ajouterUnCandidature(candidat);
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" ajouté avec succès au poste "+poste.getNom());
         }
     }
@@ -69,10 +71,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void ajouterCompetenceAuPoste(FicheDePoste poste, Competence competence){
         if(poste.getListeCompetenceRecherchees().contains(poste)){
-            System.out.println("Le compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
         }else{
             poste.ajouterCompetenceAuPoste(competence);
-            System.out.println("Le compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
         }
     }
     
@@ -83,21 +85,18 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void supprimerCompetenceAuPoste(FicheDePoste poste, Competence candidat){
         if(!poste.getListeCompetenceRecherchees().contains(poste)){
-            System.out.println("Le compétence "+candidat.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+candidat.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
         }else{
             poste.supprimerCompetenceAuPoste(candidat);
-            System.out.println("Le compétence "+candidat.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+candidat.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
         }
     }
-
-    /**
-     * Supprimer le poste de la BD
-     * @param poste 
-     */
-    @Override
-    public void supprimerPoste(FicheDePoste poste) {
-        posteFacadeLocal.remove(poste);
-    }
     
+    
+    public void creerDemandeDeCompetence(Equipe equipe, ArrayList listeCompetences, String nom){
+        FicheDePoste ficheDePoste = new FicheDePoste(nom, String statut, String presentationEntreprise, String presentationPoste, 
+                        List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse));
+        
+    }
 }
 

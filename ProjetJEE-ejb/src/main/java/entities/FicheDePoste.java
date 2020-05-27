@@ -39,9 +39,7 @@ public class FicheDePoste implements Serializable {
 
     public FicheDePoste() {
     }
-
-    
-    
+ 
     public FicheDePoste(String nom, String statut, String presentationEntreprise, String presentationPoste, 
                         List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse) {
         this.nom = nom;
@@ -53,12 +51,9 @@ public class FicheDePoste implements Serializable {
         this.equipeDemandeuse = equipeDemandeuse;
     }
 
-    
-    
     public Long getId() {
         return id;
     }
-
 
     public String getNom() {
         return nom;
@@ -68,8 +63,6 @@ public class FicheDePoste implements Serializable {
         this.nom = nom;
     }
 
-    
-    
     public String getStatut() {
         return statut;
     }
@@ -116,30 +109,6 @@ public class FicheDePoste implements Serializable {
 
     public void setEquipeDemandeuse(Equipe equipeDemandeuse) {
         this.equipeDemandeuse = equipeDemandeuse;
-    }
-
-    public void supprimerCompetenceAuPoste(Competence c){
-        this.listeCompetenceRecherchees.remove(c);
-    }
-    
-    public void ajouterCompetenceAuPoste(Competence c){
-        this.listeCompetenceRecherchees.add(c);
-    }
-    
-    /**
-     * Supprimer un candidat dans la liste des candidatures
-     * @param c candidat qui doit être supprimer au poste
-     */
-    public void supprimerUnCandidature(Personne c){
-        this.listeCandidats.remove(c);
-    }
-    
-    /**
-     * Ajouter un candidat dans la liste des candidatures
-     * @param c candidat qui postuler au poste
-     */
-    public void ajouterUnCandidature(Personne c){
-        this.listeCandidats.add(c);
     }
     
     @Override
