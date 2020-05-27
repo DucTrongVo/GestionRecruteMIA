@@ -6,6 +6,7 @@
 package repositories;
 
 import entities.Equipe;
+import entities.Personne;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,13 @@ public interface EquipeFacadeLocal {
     List<Equipe> findRange(int[] range);
 
     int count();
+    
+    public Equipe findByManager(Personne manager);
+    
+    public Equipe creerEquipe(String nomEquipe,Personne manager);
+    
+    
+    
+    
     
 }

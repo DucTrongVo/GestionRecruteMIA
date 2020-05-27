@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CompetenceFacadeLocal;
-import repositories.EquipeFacadeLocal;
-import repositories.PersonneFacadeLocal;
+import repositories.CompetenceFacade;
+import repositories.EquipeFacade;
+import repositories.PersonneFacade;
 
 /**
  *
@@ -24,13 +24,13 @@ import repositories.PersonneFacadeLocal;
 public class GestionManager implements GestionManagerLocal {
     
     @EJB
-    private EquipeFacadeLocal equipeFacade;
+    private EquipeFacade equipeFacade;
     
     @EJB
-    private CompetenceFacadeLocal competenceFacade;
+    private CompetenceFacade competenceFacade;
     
     @EJB
-    private PersonneFacadeLocal personneFacade;
+    private PersonneFacade personneFacade;
 
     public ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe){
         Equipe equipe = equipeFacade.find(idEquipe);

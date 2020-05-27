@@ -6,9 +6,13 @@
 package repositories;
 
 import entities.Competence;
+import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
-import javax.ejb.EJB;
+import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
+import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,9 +23,6 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements FicheDePosteFacadeLocal {
-
-    @EJB
-    FicheDePosteFacadeLocal posteFacadeLocal;
     
     @PersistenceContext(unitName = "fr.miage.toulouse.PROJETJEE_ProjetJEE-ejb_ejb_1.0PU")
     private EntityManager em;
@@ -68,7 +69,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      * @param competence la compétence à ajouter
      */
     public void ajouterCompetenceAuPoste(FicheDePoste poste, Competence competence){
-        if(poste.getListeCompetenceRecherchees().contains(poste)){
+        if(poste.getListeCompetenceRecherchees().contains(competence)){
             System.out.println("Le compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
         }else{
             poste.ajouterCompetenceAuPoste(competence);
@@ -79,25 +80,55 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     /**
      * Supprimer une compétence dans le liste des compétences demandés
      * @param poste le poste dans lequel il faut suprrimer la compétence
-     * @param candidat la compétence à supprimer
+     * @param competence la compétence à supprimer
      */
-    public void supprimerCompetenceAuPoste(FicheDePoste poste, Competence candidat){
-        if(!poste.getListeCompetenceRecherchees().contains(poste)){
-            System.out.println("Le compétence "+candidat.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
+    public void supprimerCompetenceAuPoste(FicheDePoste poste, Competence competence){
+        if(!poste.getListeCompetenceRecherchees().contains(competence)){
+            System.out.println("Le compétence "+competence.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
         }else{
-            poste.supprimerCompetenceAuPoste(candidat);
-            System.out.println("Le compétence "+candidat.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
+            poste.supprimerCompetenceAuPoste(competence);
+            System.out.println("Le compétence "+competence.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
         }
     }
 
     /**
      * Supprimer le poste de la BD
-     * @param poste 
+     * @param poste la poste à supprimer
      */
     @Override
     public void supprimerPoste(FicheDePoste poste) {
-        posteFacadeLocal.remove(poste);
+        this.remove(poste);
+        System.out.println(Constants.DELETE_SUCCES);
     }
     
+    public void creerUnPoste(String nom, String presentationEntreprise, String presentationPoste, 
+                                List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        FicheDePoste poste = new FicheDePoste(nom, presentationEntreprise, presentationPoste,
+                                                listeCompetenceRecherchees,equipeDemandeuse );
+        this.create(poste);
+        System.out.println(Constants.CREATE_SUCCES);
+    }
+    public Equipe getEquipeDuDemandeurDePoste(FicheDePoste poste){
+        return poste.getEquipeDemandeuse();
+    }
+    public List<Equipe> getEquipesDemandeursDeCompetence(Competence c){
+        List<Equipe> equipes = new ArrayList<>();
+        
+        List<FicheDePoste> postes = this.findAll();
+        
+        for(FicheDePoste p : postes){
+            Equipe e = p.getEquipeDemandeuse();
+            if(!equipes.contains(e)){
+                equipes.add(e);
+            }
+        }
+        
+        return equipes;
+    }
+    
+    public void setStatut(FicheDePoste p, StatutDePoste statut){
+        p.setStatut(statut);
+        System.out.println("Statut du poste "+p.getNom()+" remet à "+statut.toString()+" avec succès!");
+    }
 }
 

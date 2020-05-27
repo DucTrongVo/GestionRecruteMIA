@@ -9,6 +9,7 @@ import entities.Competence;
 import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
+import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -74,12 +75,13 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         return getEntityManager().createQuery(cq).getSingleResult();
     }
 
-    public Personne creerPersonneSiInexistant(String prenom, String nom, boolean isCodir, Equipe equipe, ArrayList<Competence> listeCompetences, List<FicheDePoste> listePostulation) {
+    public Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences) {
         try{
             return this.findByPrenomAndNom(prenom, nom);
         }catch(NoResultException noRes){
-            Personne nouveauCollaborateur = new Personne(prenom, nom, isCodir, equipe, listeCompetences, listePostulation);
+            Personne nouveauCollaborateur = new Personne(prenom, nom, listeCompetences);
             this.create(nouveauCollaborateur);
+            System.out.println(Constants.CREATE_SUCCES);
             return nouveauCollaborateur;
         }
     }    
@@ -93,5 +95,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     }
     
     
-    
+    public void isRecruit(Personne p){
+        p.setIsCollaborateur(true);
+    }
 }
