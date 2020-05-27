@@ -54,7 +54,6 @@ public class Personne implements Serializable {
         this.isManager = false;
         this.equipe = null;
         this.listeCompetences = listeCompetences;
-        this.listePostulation = new ArrayList<>();
         this.isCollaborateur = false;
     }
     
@@ -123,29 +122,6 @@ public class Personne implements Serializable {
         this.listeCompetences = listeCompetences;
     }
 
-    public List<FicheDePoste> getListePostulation() {
-        return listePostulation;
-    }
-
-    public void setListePostulation(List<FicheDePoste> listePostulation) {
-        this.listePostulation = listePostulation;
-    }
-
-    /**
-     * Permettre au collaborateur de postuler à une poste
-     * @param poste le poste à postuler
-     */
-    public void postuler(FicheDePoste poste){
-        this.listePostulation.add(poste);
-    }
-    
-    /**
-     * permettre au collaborateur à retirer sa candidature d'une poste
-     * @param poste le poste à retirer le candidature
-     */
-    public void retirerLeCandidature(FicheDePoste poste){
-        this.listePostulation.remove(poste);
-    }
     @Override
     public int hashCode() {
         int hash = 0;

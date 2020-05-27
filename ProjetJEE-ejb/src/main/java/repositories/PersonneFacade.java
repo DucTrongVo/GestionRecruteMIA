@@ -47,30 +47,6 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         return p.getListeCompetences();
     }
 
-    /**
-     * Permettre au collaborateur de postuler à une poste
-     * @param personne la personne qui va postuler
-     * @param poste le poste à postuler
-     */
-    public void postuler(Personne personne, FicheDePoste poste){
-        if(personne.getListePostulation().contains(poste)){
-            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" a déja postuler au poste "+poste.getNom());
-        }else{
-            personne.postuler(poste);
-            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" postulé avec succès au poste "+poste.getNom());
-        }
-    }
-    
-    public void retirerLeCandidature(Personne personne, FicheDePoste poste){
-        if(!personne.getListePostulation().contains(poste)){
-            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'a pas encore postulé au poste "+poste.getNom());
-        }else{
-            personne.retirerLeCandidature(poste);
-            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" a retiré avec succès son candidature au poste "+poste.getNom());
-        }
-    }
-
-
     public Personne findByPrenomAndNom(String prenom, String nom) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);

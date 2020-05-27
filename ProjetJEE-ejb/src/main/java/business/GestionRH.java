@@ -72,7 +72,6 @@ public class GestionRH implements GestionRHLocal {
             if(poste == null){
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
-                personneFacade.postuler(candidat,poste);
                 posteFacade.ajouterUneCandidatAuPoste(poste, candidat);
             }
         }
@@ -93,7 +92,6 @@ public class GestionRH implements GestionRHLocal {
             if(poste == null){
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
-                personneFacade.retirerLeCandidature(candidat, poste);
                 posteFacade.supprimerUnCandidatDuPoste(poste, candidat);
             }
         }
