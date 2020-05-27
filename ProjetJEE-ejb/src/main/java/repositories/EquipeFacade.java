@@ -47,7 +47,7 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
         return equipe;
     }
     
-     @Override
+    @Override
     public Equipe findByManager(Personne manager) {
      CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
      CriteriaQuery<Equipe> cq = cb.createQuery(Equipe.class);
@@ -55,5 +55,8 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
      cq.where(cb.equal(root.get("manager"), manager));
      return getEntityManager().createQuery(cq).getSingleResult();
     }
+    
+    
+    
     
 }
