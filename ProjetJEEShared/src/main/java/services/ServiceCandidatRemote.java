@@ -16,6 +16,6 @@ import javax.ejb.Remote;
 public interface ServiceCandidatRemote {
     public void updateListPostes();
     public void updatePosteAConsulter(Long idPoste);
-    public void candidater(Long idCandidat, Long idPoste);
+    public void creerUneCandidature(Long idCandidat, Long idPoste);
     public void retirerUnCandidature(Long idCandidat, Long idPoste);
 }

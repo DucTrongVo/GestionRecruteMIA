@@ -5,6 +5,10 @@
  */
 package business;
 
+import entities.Competence;
+import entities.Equipe;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +17,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionManagerLocal {
+    
+    ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe);
+    
+    void creerDemandeDeCompetence(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);
+
     
 }

@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CompetenceFacade;
-import repositories.EquipeFacade;
-import repositories.PersonneFacade;
+import repositories.CompetenceFacadeLocal;
+import repositories.EquipeFacadeLocal;
+import repositories.FicheDePosteFacadeLocal;
+import repositories.PersonneFacadeLocal;
 
 /**
  *
@@ -24,13 +25,16 @@ import repositories.PersonneFacade;
 public class GestionManager implements GestionManagerLocal {
     
     @EJB
-    private EquipeFacade equipeFacade;
+    private EquipeFacadeLocal equipeFacade;
     
     @EJB
-    private CompetenceFacade competenceFacade;
+    private CompetenceFacadeLocal competenceFacade;
     
     @EJB
-    private PersonneFacade personneFacade;
+    private PersonneFacadeLocal personneFacade;
+    
+    @EJB
+    private FicheDePosteFacadeLocal ficheDePosteFacade;
 
     public ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe){
         Equipe equipe = equipeFacade.find(idEquipe);
@@ -46,8 +50,8 @@ public class GestionManager implements GestionManagerLocal {
         return listCompetences;
     }
     
-    public void creerDemandeDeCompetence(){
-        
+    public void creerDemandeDeCompetence(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        ficheDePosteFacade.creerUneDemandeDePoste(nom, presentationEntreprise, presentationPoste, listeCompetenceRecherchees, equipeDemandeuse);
     }
 
 }

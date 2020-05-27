@@ -102,4 +102,6 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     public void ajouterUneCompetence(Personne personne, Competence competence){
         personne.getListeCompetences().add(competence);
     }
+    
+    
 }
