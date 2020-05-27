@@ -42,6 +42,9 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
 
     ServiceCandidat serviceCandidat;
     
+    public List<Competence> getListCompetences(Personne p){
+        return p.getListeCompetences();
+    }
 
     public void postuler(Personne personne, FicheDePoste poste){
         if(personne.getListePostulation().contains(poste)){
@@ -100,9 +103,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         p.setIsCollaborateur(true);
     }
     
-    
-     public Personne getManager(Equipe e){
-        return e.getManager();
+    public void ajouterUneCompetence(Personne personne, Competence competence){
+        personne.getListeCompetences().add(competence);
     }
-    
 }

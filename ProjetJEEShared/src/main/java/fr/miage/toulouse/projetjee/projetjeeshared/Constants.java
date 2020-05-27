@@ -19,5 +19,7 @@ public final class Constants {
     public static final String DELETE_SUCCES = "Supprimé succès!";
     
     public static final String CREATE_SUCCES = "Création succès!";
+    
+    public static final String POSTE_STATUS_IS = "Le poste en question est de statut ";
         
 }

@@ -127,7 +127,6 @@ public class GestionRH implements GestionRHLocal {
     public List<Equipe> getEquipesDemandeurDeCompetence(Long idCompetence){
         Competence c = competenceFacade.find(idCompetence);
         if(c != null){
-            List<Equipe> equipes = new ArrayList<>();
             return posteFacade.getEquipesDemandeursDeCompetence(c);
         }
         System.out.println("L'id "+idCompetence.toString()+" n'appartient à aucune compétence");
@@ -171,14 +170,24 @@ public class GestionRH implements GestionRHLocal {
                 FicheDePoste poste = posteFacade.find(idPoste);
                 if(poste == null){
                     System.out.println(Constants.POSTE_NOT_EXIST);
+                    throw new IllegalArgumentException(Constants.POSTE_NOT_EXIST);
                 }else{
-                    posteFacade.setStatut(poste, StatutDePoste.OUVERT);
+                    if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.EN_ATTENTE)){
+                        posteFacade.setStatut(poste, StatutDePoste.OUVERT);
+                    }else{
+                        String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
+                        System.out.println(err);
+                        throw new IllegalArgumentException(err);
+                    }
                 }
             }else{
-                System.out.println("Seulement un codir peut valider la création d'une poste!");
+                String err = "Seulement un codir peut valider la création d'une poste!";
+                System.out.println(err);
+                throw new IllegalArgumentException(err);
             }
         }else{
             System.out.println(Constants.USER_NOT_EXIST);
+            throw new IllegalArgumentException(Constants.USER_NOT_EXIST);
         }
     }
     /**
@@ -195,9 +204,11 @@ public class GestionRH implements GestionRHLocal {
                 posteFacade.setStatut(poste, StatutDePoste.ARCHIVEE);
             }else{
                 System.out.println(Constants.POSTE_NOT_EXIST);
+                throw new IllegalArgumentException(Constants.POSTE_NOT_EXIST);
             }
         }else{
             System.out.println(Constants.USER_NOT_EXIST);
+            throw new IllegalArgumentException(Constants.USER_NOT_EXIST);
         }
     }
     /**
@@ -213,9 +224,11 @@ public class GestionRH implements GestionRHLocal {
                 posteFacade.supprimerUnCandidatDuPoste(poste, personne);
             }else{
                 System.out.println(Constants.POSTE_NOT_EXIST);
+                throw new IllegalArgumentException(Constants.POSTE_NOT_EXIST);
             }
         }else{
             System.out.println(Constants.USER_NOT_EXIST);
+            throw new IllegalArgumentException(Constants.USER_NOT_EXIST);
         }
     }
 }

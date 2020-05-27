@@ -31,8 +31,9 @@ public class Equipe implements Serializable {
     @OneToMany(mappedBy = "equipe")
     private List<Personne> collaborateurs;
 
-    public Equipe(){};
-    
+    public Equipe() {
+    }
+
     public Equipe(String nomEquipe,Personne manager) {
         this.nom=nomEquipe;
         this.manager=manager;

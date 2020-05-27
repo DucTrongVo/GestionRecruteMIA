@@ -36,11 +36,12 @@ public class GestionManager implements GestionManagerLocal {
         Equipe equipe = equipeFacade.find(idEquipe);
         ArrayList<Competence> listCompetences = new ArrayList<>() ;
         List<Personne> listPersonne = personneFacade.findByEquipe(equipe);
-        for(int i=0; i<listPersonne.size(); i++){
-            Personne personne = listPersonne.get(i);
-            List<Competence> listCompetencesProvisoire = competenceFacade.findByPersonne(personne);
-            for(int j=0;j<listCompetencesProvisoire.size(); j++){
-                listCompetences.add(listCompetencesProvisoire.get(j));
+        for(Personne personne : listPersonne){
+            List<Competence> listCompetencesProvisoire = personneFacade.getListCompetences(personne);
+            for(Competence competence : listCompetencesProvisoire){
+                if(!listCompetences.contains(competence)){
+                    listCompetences.add(competence);
+                }
             }
         }
         return listCompetences;

@@ -36,6 +36,9 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         super(FicheDePoste.class);
     }
 
+    public StatutDePoste getStatutDePoste(FicheDePoste poste){
+        return poste.getStatut();
+    }
     /**
      * Ajouter un candidature au liste des candidatures du poste
      * @param poste le poste en question
