@@ -5,6 +5,7 @@
  */
 package repositories;
 
+import entities.Competence;
 import entities.Equipe;
 import entities.Personne;
 import java.util.List;
@@ -34,9 +35,5 @@ public interface EquipeFacadeLocal {
     public Equipe findByManager(Personne manager);
     
     public Equipe creerEquipe(String nomEquipe,Personne manager);
-    
-    
-    
-    
-    
+      
 }

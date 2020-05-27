@@ -44,11 +44,11 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      * @param poste le poste en question
      * @param candidat le candidat qui postule
      */
-    public void ajouterUnCandidatAuPoste(FicheDePoste poste, Personne candidat){
+    public void ajouterUneCandidatAuPoste(FicheDePoste poste, Personne candidat){
         if(poste.getListeCandidats().contains(candidat)){
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+poste.getNom());
         }else{
-            poste.ajouterUnCandidature(candidat);
+            poste.getListeCandidats().add(candidat);
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" ajouté avec succès au poste "+poste.getNom());
         }
     }
@@ -62,7 +62,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         if(!poste.getListeCandidats().contains(personne)){
             System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'existe pas dans le poste "+poste.getNom());
         }else{
-            poste.supprimerUnCandidature(personne);
+            poste.getListeCandidats().remove(personne);
             System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" supprimé avec succès du poste "+poste.getNom());
         }
     }
@@ -75,7 +75,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         if(poste.getListeCompetenceRecherchees().contains(competence)){
             System.out.println("Le compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
         }else{
-            poste.ajouterCompetenceAuPoste(competence);
+            poste.getListeCompetenceRecherchees().add(competence);
             System.out.println("Le compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
         }
     }
@@ -89,7 +89,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         if(!poste.getListeCompetenceRecherchees().contains(competence)){
             System.out.println("Le compétence "+competence.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
         }else{
-            poste.supprimerCompetenceAuPoste(competence);
+            poste.getListeCompetenceRecherchees().remove(competence);
             System.out.println("Le compétence "+competence.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
         }
     }
@@ -104,13 +104,12 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         System.out.println(Constants.DELETE_SUCCES);
     }
     
-    public void creerUnPoste(String nom, String presentationEntreprise, String presentationPoste, 
-                                List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        FicheDePoste poste = new FicheDePoste(nom, presentationEntreprise, presentationPoste,
-                                                listeCompetenceRecherchees,equipeDemandeuse );
+    public void creerUneDemandeDePoste(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        FicheDePoste poste = new FicheDePoste(nom, presentationEntreprise, presentationPoste, listeCompetenceRecherchees,equipeDemandeuse );
         this.create(poste);
         System.out.println(Constants.CREATE_SUCCES);
     }
+    
     public Equipe getEquipeDuDemandeurDePoste(FicheDePoste poste){
         return poste.getEquipeDemandeuse();
     }

@@ -5,6 +5,8 @@
  */
 package repositories;
 
+import entities.Competence;
+import entities.Equipe;
 import entities.FicheDePoste;
 import java.util.List;
 import javax.ejb.Local;
@@ -31,5 +33,8 @@ public interface FicheDePosteFacadeLocal {
     int count();
     
     public void supprimerPoste(FicheDePoste poste);
+    
+    void creerUneDemandeDePoste(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);  
+
     
 }

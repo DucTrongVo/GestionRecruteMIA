@@ -54,7 +54,7 @@ public class GestionRH implements GestionRHLocal {
      */
     public void creerUnPoste(String nom, String presentationEntreprise, String presentationPoste, 
                             List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        posteFacade.creerUnPoste(nom, presentationEntreprise, presentationPoste,
+        posteFacade.creerUneDemandeDePoste(nom, presentationEntreprise, presentationPoste,
                                             listeCompetenceRecherchees,equipeDemandeuse );
     }
         
@@ -63,7 +63,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idCandidat id du candidat
      * @param idPoste id du poste
      */
-    public void candidater(Long idCandidat, Long idPoste){
+    public void creerUneCandidature(Long idCandidat, Long idPoste){
         Personne candidat = personneFacade.find(idCandidat);
         if(candidat == null){
             System.out.println(Constants.USER_NOT_EXIST);
@@ -73,7 +73,7 @@ public class GestionRH implements GestionRHLocal {
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
                 candidat.postuler(poste);
-                poste.ajouterUnCandidature(candidat);
+                posteFacade.ajouterUneCandidatAuPoste(poste, candidat);
             }
         }
     }
@@ -94,7 +94,7 @@ public class GestionRH implements GestionRHLocal {
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
                 candidat.retirerLeCandidature(poste);
-                poste.supprimerUnCandidature(candidat);
+                poste.getListeCandidats().remove(candidat);
             }
         }
     }
