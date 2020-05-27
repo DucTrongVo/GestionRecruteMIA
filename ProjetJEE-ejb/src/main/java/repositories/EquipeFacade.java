@@ -9,7 +9,6 @@ import entities.Competence;
 import entities.Equipe;
 import entities.Personne;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,8 +34,9 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
     public EquipeFacade() {
         super(Equipe.class);
     }
+    
     public ArrayList<Competence> listerLesCompetences(){
-        ArrayList<Competence> listeCompetences = new ArrayList<Competence>();
+        ArrayList<Competence> listeCompetences = new ArrayList<>();
         
         return listeCompetences;
     }    
@@ -54,18 +54,6 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
      Root<Equipe> root = cq.from(Equipe.class);
      cq.where(cb.equal(root.get("manager"), manager));
      return getEntityManager().createQuery(cq).getSingleResult();
-    }
-    
-    
-     public Personne getManager(Equipe e){
-        List<Personne> collabs = e.getCollaborateurs();
-        
-        for(Personne p : collabs){
-            if(p.isIsManager()){
-                return p;
-            }
-        }
-        return null;
     }
     
 }

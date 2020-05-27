@@ -10,7 +10,7 @@ package fr.miage.toulouse.projetjee.projetjeeshared;
  * @author trongvo
  */
 public enum StatutDePoste {
-        EN_ATTEND,
+        EN_ATTENTE,
         OUVERT,
         ARCHIVEE
 }

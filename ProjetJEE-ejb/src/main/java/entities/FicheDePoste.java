@@ -46,7 +46,7 @@ public class FicheDePoste implements Serializable {
     public FicheDePoste(String nom, String presentationEntreprise, String presentationPoste, 
                         List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse) {
         this.nom = nom;
-        this.statut = StatutDePoste.EN_ATTEND;
+        this.statut = StatutDePoste.EN_ATTENTE;
         this.presentationEntreprise = presentationEntreprise;
         this.presentationPoste = presentationPoste;
         this.listeCompetenceRecherchees = listeCompetenceRecherchees;

@@ -86,6 +86,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         }
     }    
     
+    @Override
     public List<Personne> findByEquipe(Equipe equipe) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);
@@ -98,4 +99,10 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     public void isRecruit(Personne p){
         p.setIsCollaborateur(true);
     }
+    
+    
+     public Personne getManager(Equipe e){
+        return e.getManager();
+    }
+    
 }
