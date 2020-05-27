@@ -25,10 +25,24 @@ public class Equipe implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    private Personne manager;
     private String nom;
 
     @OneToMany(mappedBy = "equipe")
     private List<Personne> collaborateurs;
+
+    public Equipe(String nomEquipe,Personne manager) {
+        this.nom=nomEquipe;
+        this.manager=manager;
+    }
+
+    public Personne getManager() {
+        return manager;
+    }
+
+    public void setManager(Personne manager) {
+        this.manager = manager;
+    }
 
     public List<Personne> getCollaborateurs() {
         return collaborateurs;
