@@ -29,6 +29,9 @@ public class Competence implements Serializable {
     @ManyToMany(mappedBy = "listeCompetences")
     private List<Personne> listePersonnes;    
 
+    public Competence() {
+    }
+
     public Competence(String nom) {
         this.nom = nom;
     }
