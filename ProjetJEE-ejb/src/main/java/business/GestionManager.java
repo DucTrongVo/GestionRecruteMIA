@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CompetenceFacadeLocal;
-import repositories.EquipeFacadeLocal;
-import repositories.FicheDePosteFacadeLocal;
-import repositories.PersonneFacadeLocal;
+import repositories.CompetenceFacade;
+import repositories.EquipeFacade;
+import repositories.FicheDePosteFacade;
+import repositories.PersonneFacade;
 
 /**
  *
@@ -25,17 +25,24 @@ import repositories.PersonneFacadeLocal;
 public class GestionManager implements GestionManagerLocal {
     
     @EJB
-    private EquipeFacadeLocal equipeFacade;
+    private EquipeFacade equipeFacade;
     
     @EJB
-    private CompetenceFacadeLocal competenceFacade;
+    private CompetenceFacade competenceFacade;
     
     @EJB
-    private PersonneFacadeLocal personneFacade;
+    private PersonneFacade personneFacade;
     
     @EJB
-    private FicheDePosteFacadeLocal ficheDePosteFacade;
+    private FicheDePosteFacade ficheDePosteFacade;
 
+    /**
+     * retourner la liste de toutes les compétences
+     * des membre d'une équipe
+     * @param idEquipe l'identificatino de l'équipe
+     * @return le liste des compétences
+     */
+    @Override
     public ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe){
         Equipe equipe = equipeFacade.find(idEquipe);
         ArrayList<Competence> listCompetences = new ArrayList<>() ;
@@ -51,6 +58,7 @@ public class GestionManager implements GestionManagerLocal {
         return listCompetences;
     }
     
+    @Override
     public void creerDemandeDeCompetence(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
         ficheDePosteFacade.creerUneDemandeDePoste(nom, presentationEntreprise, presentationPoste, listeCompetenceRecherchees, equipeDemandeuse);
     }

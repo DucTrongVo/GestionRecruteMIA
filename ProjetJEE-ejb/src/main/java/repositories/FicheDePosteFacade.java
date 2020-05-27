@@ -39,6 +39,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     public StatutDePoste getStatutDePoste(FicheDePoste poste){
         return poste.getStatut();
     }
+    
+    public List<Competence> getListeCompetenceRecherchees(FicheDePoste poste){
+        return poste.getListeCompetenceRecherchees();
+    }
     /**
      * Ajouter un candidature au liste des candidatures du poste
      * @param poste le poste en question
@@ -104,6 +108,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         System.out.println(Constants.DELETE_SUCCES);
     }
     
+    @Override
     public void creerUneDemandeDePoste(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
         FicheDePoste poste = new FicheDePoste(nom, presentationEntreprise, presentationPoste, listeCompetenceRecherchees,equipeDemandeuse );
         this.create(poste);

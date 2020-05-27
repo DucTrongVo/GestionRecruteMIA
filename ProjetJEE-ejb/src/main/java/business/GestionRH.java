@@ -72,7 +72,7 @@ public class GestionRH implements GestionRHLocal {
             if(poste == null){
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
-                candidat.postuler(poste);
+                personneFacade.postuler(candidat,poste);
                 posteFacade.ajouterUneCandidatAuPoste(poste, candidat);
             }
         }
@@ -93,8 +93,8 @@ public class GestionRH implements GestionRHLocal {
             if(poste == null){
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
-                candidat.retirerLeCandidature(poste);
-                poste.getListeCandidats().remove(candidat);
+                personneFacade.retirerLeCandidature(candidat, poste);
+                posteFacade.supprimerUnCandidatDuPoste(poste, candidat);
             }
         }
     }
@@ -142,12 +142,17 @@ public class GestionRH implements GestionRHLocal {
         return null;
     }
   
+    /**
+     * permet de retourner une liste de toutes les compétences
+     * demandées
+     * @return liste des compétences
+     */
     public List<Competence> getListeCompetencesDemandees(){
         List<FicheDePoste> postes = posteFacade.findAll();
         List<Competence> competencesDemandees = new ArrayList<>();
         
         for(FicheDePoste poste : postes){
-            List<Competence> lc = poste.getListeCompetenceRecherchees();
+            List<Competence> lc = posteFacade.getListeCompetenceRecherchees(poste);
             for(Competence c : lc){
                 if(!competencesDemandees.contains(c)){
                     competencesDemandees.add(c);
@@ -200,8 +205,15 @@ public class GestionRH implements GestionRHLocal {
         if(personne != null){
             FicheDePoste poste = posteFacade.find(idPoste);
             if(poste != null){
-                personneFacade.isRecruit(personne);
-                posteFacade.setStatut(poste, StatutDePoste.ARCHIVEE);
+                if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.OUVERT)){
+                    personneFacade.isRecruited(personne);
+                    posteFacade.setStatut(poste, StatutDePoste.ARCHIVEE);
+                }else{
+                    String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
+                    System.out.println(err);
+                    throw new IllegalArgumentException(err);
+                }
+                
             }else{
                 System.out.println(Constants.POSTE_NOT_EXIST);
                 throw new IllegalArgumentException(Constants.POSTE_NOT_EXIST);

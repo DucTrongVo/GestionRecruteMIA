@@ -5,6 +5,7 @@
  */
 package repositories;
 
+import entities.Competence;
 import entities.Equipe;
 import entities.Personne;
 import java.util.List;
@@ -32,5 +33,7 @@ public interface PersonneFacadeLocal {
     int count();
     
     List<Personne> findByEquipe(Equipe equipe);
+
+    public List<Competence> getListCompetences(Personne personne);
     
 }

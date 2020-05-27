@@ -42,10 +42,16 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
 
     ServiceCandidat serviceCandidat;
     
+    @Override
     public List<Competence> getListCompetences(Personne p){
         return p.getListeCompetences();
     }
 
+    /**
+     * Permettre au collaborateur de postuler à une poste
+     * @param personne la personne qui va postuler
+     * @param poste le poste à postuler
+     */
     public void postuler(Personne personne, FicheDePoste poste){
         if(personne.getListePostulation().contains(poste)){
             System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" a déja postuler au poste "+poste.getNom());
@@ -99,13 +105,12 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     }
     
     
-    public void isRecruit(Personne p){
+    public void isRecruited(Personne p){
         p.setIsCollaborateur(true);
     }
     
     public void ajouterUneCompetence(Personne personne, Competence competence){
         personne.getListeCompetences().add(competence);
     }
-    
     
 }
