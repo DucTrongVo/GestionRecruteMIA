@@ -33,6 +33,7 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
     public CompetenceFacade() {
         super(Competence.class);
     }
+    
     public Competence findByCompetence(String nom) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
@@ -47,8 +48,10 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
 
     public void CreerCompetence(String nom){
         Competence competence = new Competence(nom);
+        this.create(competence);
     }
     
+    @Override
     public List<Competence> findByPersonne(Personne collaborateur) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);

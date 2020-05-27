@@ -5,6 +5,7 @@
  */
 package entities;
 
+import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FicheDePoste implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nom;
-    private String statut;
+    private StatutDePoste statut;
     private String presentationEntreprise;
     private String presentationPoste;
     @OneToMany
@@ -36,16 +37,16 @@ public class FicheDePoste implements Serializable {
     private List<Personne> listeCandidats;
     @OneToOne
     private Equipe equipeDemandeuse;
-
+    
     public FicheDePoste() {
     }
 
     
     
-    public FicheDePoste(String nom, String statut, String presentationEntreprise, String presentationPoste, 
+    public FicheDePoste(String nom, String presentationEntreprise, String presentationPoste, 
                         List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse) {
         this.nom = nom;
-        this.statut = statut;
+        this.statut = StatutDePoste.EN_ATTEND;
         this.presentationEntreprise = presentationEntreprise;
         this.presentationPoste = presentationPoste;
         this.listeCompetenceRecherchees = listeCompetenceRecherchees;
@@ -69,12 +70,11 @@ public class FicheDePoste implements Serializable {
     }
 
     
-    
-    public String getStatut() {
+    public StatutDePoste getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(StatutDePoste statut) {
         this.statut = statut;
     }
 
@@ -118,6 +118,7 @@ public class FicheDePoste implements Serializable {
         this.equipeDemandeuse = equipeDemandeuse;
     }
 
+    
     public void supprimerCompetenceAuPoste(Competence c){
         this.listeCompetenceRecherchees.remove(c);
     }

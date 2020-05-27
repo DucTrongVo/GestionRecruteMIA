@@ -7,7 +7,9 @@ package repositories;
 
 import entities.Competence;
 import entities.Equipe;
+import entities.Personne;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,5 +36,16 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
         ArrayList<Competence> listeCompetences = new ArrayList<Competence>();
         
         return listeCompetences;
-    }    
+    }
+    
+    public Personne getManager(Equipe e){
+        List<Personne> collabs = e.getCollaborateurs();
+        
+        for(Personne p : collabs){
+            if(p.isIsManager()){
+                return p;
+            }
+        }
+        return null;
+    }
 }
