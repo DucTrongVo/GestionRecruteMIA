@@ -49,11 +49,11 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
         Competence competence = new Competence(nom);
     }
     
-    public List<Competence> findByPersonne(Personne personne) {
+    public List<Competence> findByPersonne(Personne collaborateur) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
         Root<Competence> root = cq.from(Competence.class);
-        cq.where(cb.equal(root.get("personne"), personne));
+        cq.where(cb.equal(root.get("collaborateur"), collaborateur));
         return getEntityManager().createQuery(cq).getResultList();
     }
     
