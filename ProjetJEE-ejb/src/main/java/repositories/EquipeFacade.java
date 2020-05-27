@@ -13,6 +13,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -36,9 +39,25 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
         ArrayList<Competence> listeCompetences = new ArrayList<Competence>();
         
         return listeCompetences;
+    }    
+    @Override
+    public Equipe creerEquipe(String nomEquipe,Personne manager) {
+        Equipe equipe = new Equipe(nomEquipe,manager);
+        this.create(equipe);
+        return equipe;
     }
     
-    public Personne getManager(Equipe e){
+    @Override
+    public Equipe findByManager(Personne manager) {
+     CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+     CriteriaQuery<Equipe> cq = cb.createQuery(Equipe.class);
+     Root<Equipe> root = cq.from(Equipe.class);
+     cq.where(cb.equal(root.get("manager"), manager));
+     return getEntityManager().createQuery(cq).getSingleResult();
+    }
+    
+    
+     public Personne getManager(Equipe e){
         List<Personne> collabs = e.getCollaborateurs();
         
         for(Personne p : collabs){
@@ -48,4 +67,5 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
         }
         return null;
     }
+    
 }
