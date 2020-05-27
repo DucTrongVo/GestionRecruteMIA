@@ -98,4 +98,8 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     public void isRecruit(Personne p){
         p.setIsCollaborateur(true);
     }
+    
+    public void ajouterUneCompetence(Personne personne, Competence competence){
+        personne.getListeCompetences().add(competence);
+    }
 }
