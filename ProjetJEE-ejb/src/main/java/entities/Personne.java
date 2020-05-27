@@ -31,13 +31,15 @@ public class Personne implements Serializable {
     private String nom;
     private String prenom;
     private boolean isCodir;
+    private boolean isManager;
+    private boolean isCollaborateur;
     
     @ManyToOne
     private Equipe equipe;
     
     
     @ManyToMany
-    private ArrayList<Competence> listeCompetences;    
+    private List<Competence> listeCompetences;    
 
     @OneToMany
     private List<FicheDePoste> listePostulation;
@@ -45,13 +47,15 @@ public class Personne implements Serializable {
     public Personne() {
     }
 
-    public Personne(String nom, String prenom, boolean isCodir, Equipe equipe, ArrayList<Competence> listeCompetences, List<FicheDePoste> listePostulation) {
+    public Personne(String nom, String prenom, List<Competence> listeCompetences) {
         this.nom = nom;
         this.prenom = prenom;
-        this.isCodir = isCodir;
-        this.equipe = equipe;
+        this.isCodir = false;
+        this.isManager = false;
+        this.equipe = null;
         this.listeCompetences = listeCompetences;
-        this.listePostulation = listePostulation;
+        this.listePostulation = new ArrayList<>();
+        this.isCollaborateur = false;
     }
     
 
@@ -87,6 +91,22 @@ public class Personne implements Serializable {
         this.isCodir = isCodir;
     }
 
+    public boolean isIsManager() {
+        return isManager;
+    }
+
+    public void setIsManager(boolean isManager) {
+        this.isManager = isManager;
+    }
+
+    public boolean isIsCollaborateur() {
+        return isCollaborateur;
+    }
+
+    public void setIsCollaborateur(boolean isCollaborateur) {
+        this.isCollaborateur = isCollaborateur;
+    }
+
     public Equipe getEquipe() {
         return equipe;
     }
@@ -95,7 +115,7 @@ public class Personne implements Serializable {
         this.equipe = equipe;
     }
 
-    public ArrayList<Competence> getListeCompetences() {
+    public List<Competence> getListeCompetences() {
         return listeCompetences;
     }
 

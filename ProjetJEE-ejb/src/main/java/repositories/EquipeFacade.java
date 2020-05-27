@@ -57,6 +57,15 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
     }
     
     
-    
+     public Personne getManager(Equipe e){
+        List<Personne> collabs = e.getCollaborateurs();
+        
+        for(Personne p : collabs){
+            if(p.isIsManager()){
+                return p;
+            }
+        }
+        return null;
+    }
     
 }
