@@ -109,8 +109,8 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     }
     
     @Override
-    public void creerUneDemandeDePoste(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        FicheDePoste poste = new FicheDePoste(nom, presentationEntreprise, presentationPoste, listeCompetenceRecherchees,equipeDemandeuse );
+    public void creerUneDemandeDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        FicheDePoste poste = new FicheDePoste(nom, "", "", listeCompetenceRecherchees,equipeDemandeuse );
         this.create(poste);
         System.out.println(Constants.CREATE_SUCCES);
     }
@@ -136,6 +136,13 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     public void setStatut(FicheDePoste p, StatutDePoste statut){
         p.setStatut(statut);
         System.out.println("Statut du poste "+p.getNom()+" remet à "+statut.toString()+" avec succès!");
+    }
+
+    @Override
+    public void ajouterDescriptionDePoste(FicheDePoste poste, String presentationEntreprise, String presentationPoste) {
+        poste.setPresentationEntreprise(presentationEntreprise);
+        poste.setPresentationPoste(presentationPoste);
+        System.out.println(Constants.SUCCES);
     }
 }
 

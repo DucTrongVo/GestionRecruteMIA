@@ -44,19 +44,6 @@ public class GestionRH implements GestionRHLocal {
             posteFacade.supprimerPoste(poste);
         }
     }
-    /**
-     * Fonction qui permet de créer une poste
-     * @param nom nom de la poste
-     * @param presentationEntreprise présentation de l'entreprise
-     * @param presentationPoste présentation de la poste
-     * @param listeCompetenceRecherchees la liste des comptétences recherchées
-     * @param equipeDemandeuse l'équipe qui fait la demande des compétences
-     */
-    public void creerUnPoste(String nom, String presentationEntreprise, String presentationPoste, 
-                            List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        posteFacade.creerUneDemandeDePoste(nom, presentationEntreprise, presentationPoste,
-                                            listeCompetenceRecherchees,equipeDemandeuse );
-    }
         
     /**
      * permet une personne à candidater dans une poste
@@ -165,8 +152,10 @@ public class GestionRH implements GestionRHLocal {
      * fonction permettre à un codir de valider la création d'une poste
      * @param idPersonne l'id de la personne qui va valider (doit être un codir)
      * @param idPoste l'id de la poste à valider
+     * @param presentationEntreprise la présentation de l'entreprise à ajouter lors de la validation du poste
+     * @param presentationPoste la présentation du poste à ajouter lors de la validation du poste
      */
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste){
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste){
         Personne p = personneFacade.find(idPersonne);
         if(p != null){
             if(p.isIsCodir()){
@@ -177,6 +166,7 @@ public class GestionRH implements GestionRHLocal {
                 }else{
                     if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.EN_ATTENTE)){
                         posteFacade.setStatut(poste, StatutDePoste.OUVERT);
+                        posteFacade.ajouterDescriptionDePoste(poste, presentationEntreprise, presentationPoste);
                     }else{
                         String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
                         System.out.println(err);
@@ -231,7 +221,13 @@ public class GestionRH implements GestionRHLocal {
         if(personne != null){
             FicheDePoste poste = posteFacade.find(idPoste);
             if(poste != null){
-                posteFacade.supprimerUnCandidatDuPoste(poste, personne);
+                if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.OUVERT)){
+                    posteFacade.supprimerUnCandidatDuPoste(poste, personne);
+                }else{
+                    String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
+                    System.out.println(err);
+                    throw new IllegalArgumentException(err);
+                }
             }else{
                 System.out.println(Constants.POSTE_NOT_EXIST);
                 throw new IllegalArgumentException(Constants.POSTE_NOT_EXIST);

@@ -21,5 +21,7 @@ public final class Constants {
     public static final String CREATE_SUCCES = "Création succès!";
     
     public static final String POSTE_STATUS_IS = "Le poste en question est de statut ";
+    
+    public static final String SUCCES = "L'action fini avec succès!";
         
 }

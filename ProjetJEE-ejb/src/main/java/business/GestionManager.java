@@ -59,8 +59,8 @@ public class GestionManager implements GestionManagerLocal {
     }
     
     @Override
-    public void creerDemandeDeCompetence(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        ficheDePosteFacade.creerUneDemandeDePoste(nom, presentationEntreprise, presentationPoste, listeCompetenceRecherchees, equipeDemandeuse);
+    public void creerDemandeDeCompetence(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        ficheDePosteFacade.creerUneDemandeDePoste(nom, listeCompetenceRecherchees, equipeDemandeuse);
     }
 
 }

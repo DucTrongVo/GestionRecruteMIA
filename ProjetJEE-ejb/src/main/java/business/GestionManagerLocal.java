@@ -20,7 +20,7 @@ public interface GestionManagerLocal {
     
     ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe);
     
-    void creerDemandeDeCompetence(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);
+    void creerDemandeDeCompetence(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);
 
     
 }

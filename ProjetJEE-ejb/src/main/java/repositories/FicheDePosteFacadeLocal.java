@@ -34,7 +34,7 @@ public interface FicheDePosteFacadeLocal {
     
     public void supprimerPoste(FicheDePoste poste);
     
-    void creerUneDemandeDePoste(String nom, String presentationEntreprise, String presentationPoste, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);  
+    void creerUneDemandeDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);  
 
-    
+    void ajouterDescriptionDePoste(FicheDePoste poste, String presentationEntreprise, String presentationPoste);
 }
