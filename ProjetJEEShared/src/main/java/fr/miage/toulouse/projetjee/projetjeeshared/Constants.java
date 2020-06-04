@@ -23,5 +23,6 @@ public final class Constants {
     public static final String POSTE_STATUS_IS = "Le poste en question est de statut ";
     
     public static final String SUCCES = "L'action fini avec succès!";
-        
+    
+    public static final String ONLY_CODIR_CAN_VALIDATE = "Seulement un codir peut valider la création d'une poste!";
 }

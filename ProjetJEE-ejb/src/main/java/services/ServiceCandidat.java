@@ -26,6 +26,7 @@ public class ServiceCandidat implements ServiceCandidatRemote {
         listeDesPostes = gestionRH.getListPostes();
     }
 
+    @Override
     public void creerUneCandidature(Long idCandidat, Long idPoste) {
         gestionRH.creerUneCandidature(idCandidat, idPoste);
     }

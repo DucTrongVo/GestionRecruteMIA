@@ -7,7 +7,6 @@ package repositories;
 
 import entities.Competence;
 import entities.Equipe;
-import entities.FicheDePoste;
 import entities.Personne;
 import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import java.util.ArrayList;

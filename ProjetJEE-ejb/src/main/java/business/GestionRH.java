@@ -114,7 +114,7 @@ public class GestionRH implements GestionRHLocal {
         if(c != null){
             return posteFacade.getEquipesDemandeursDeCompetence(c);
         }
-        System.out.println("L'id "+idCompetence.toString()+" n'appartient à aucune compétence");
+        System.out.println(Constants.COMPETENCE_NOT_EXIST);
         return null;
     }
     
@@ -123,7 +123,7 @@ public class GestionRH implements GestionRHLocal {
         if(poste != null){
             return posteFacade.getEquipeDuDemandeurDePoste(poste);
         }
-        System.out.println("L'id "+idPoste.toString()+" n'appartient à aucun poste");
+        System.out.println(Constants.POSTE_NOT_EXIST);
         return null;
     }
   
@@ -174,7 +174,7 @@ public class GestionRH implements GestionRHLocal {
                     }
                 }
             }else{
-                String err = "Seulement un codir peut valider la création d'une poste!";
+                String err = Constants.ONLY_CODIR_CAN_VALIDATE;
                 System.out.println(err);
                 throw new IllegalArgumentException(err);
             }
