@@ -10,8 +10,8 @@
 /ExempleMino/target/
 
 # glassfish and so on
-/ProjetJEE/ProjetJEE-ear/src/main/application/META-INF/
-/ProjetJEE/ProjetJEE-ejb/src/main/resources/META-INF/
+/ProjetJEE/ProjetJEE-ear/src/main/application/META-INF/glassfish-resources.xml
+/ProjetJEE/ProjetJEE-ejb/src/main/resources/META-INF/persistence.xml
 
 tomcat
 
