@@ -59,7 +59,7 @@ public class GestionRH implements GestionRHLocal {
             if(poste == null){
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
-                posteFacade.ajouterUneCandidatAuPoste(poste, candidat);
+                posteFacade.ajouterUneCandidatureAuPoste(poste, candidat);
             }
         }
     }
@@ -101,7 +101,7 @@ public class GestionRH implements GestionRHLocal {
      * Retourner la liste des postes disponibles
      * @return liste des postes ouverts
      */
-    public List<FicheDePoste> getListPostes(){
+    public List<FicheDePoste> getPostesDispo(){
         return posteFacade.findAll();
     }
     /**

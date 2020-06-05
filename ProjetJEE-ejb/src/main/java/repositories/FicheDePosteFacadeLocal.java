@@ -37,4 +37,6 @@ public interface FicheDePosteFacadeLocal {
     void creerUneDemandeDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);  
 
     void ajouterDescriptionDePoste(FicheDePoste poste, String presentationEntreprise, String presentationPoste);
+    
+    List<FicheDePoste> findPostesDisponibles();
 }

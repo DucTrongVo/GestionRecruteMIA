@@ -16,6 +16,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -48,7 +51,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      * @param poste le poste en question
      * @param candidat le candidat qui postule
      */
-    public void ajouterUneCandidatAuPoste(FicheDePoste poste, Personne candidat){
+    public void ajouterUneCandidatureAuPoste(FicheDePoste poste, Personne candidat){
         if(poste.getListeCandidats().contains(candidat)){
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+poste.getNom());
         }else{
@@ -143,6 +146,15 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         poste.setPresentationEntreprise(presentationEntreprise);
         poste.setPresentationPoste(presentationPoste);
         System.out.println(Constants.SUCCES);
+    }
+    
+    @Override
+    public List<FicheDePoste> findPostesDisponibles(){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<FicheDePoste> cq = cb.createQuery(FicheDePoste.class);
+        Root<FicheDePoste> root = cq.from(FicheDePoste.class);
+        cq.where(cb.equal(root.get("statut"), StatutDePoste.OUVERT));
+        return getEntityManager().createQuery(cq).getResultList();
     }
 }
 

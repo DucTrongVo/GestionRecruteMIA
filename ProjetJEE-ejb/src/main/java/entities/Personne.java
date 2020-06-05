@@ -37,12 +37,8 @@ public class Personne implements Serializable {
     @ManyToOne
     private Equipe equipe;
     
-    
     @ManyToMany
     private List<Competence> listeCompetences;    
-
-    @OneToMany
-    private List<FicheDePoste> listePostulation;
 
     public Personne() {
     }
