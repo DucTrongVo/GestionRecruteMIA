@@ -83,10 +83,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void ajouterCompetenceAuPoste(FicheDePoste poste, Competence competence){
         if(poste.getListeCompetenceRecherchees().contains(competence)){
-            System.out.println("Le compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
         }else{
             poste.getListeCompetenceRecherchees().add(competence);
-            System.out.println("Le compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
         }
     }
     
@@ -97,10 +97,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void supprimerCompetenceAuPoste(FicheDePoste poste, Competence competence){
         if(!poste.getListeCompetenceRecherchees().contains(competence)){
-            System.out.println("Le compétence "+competence.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
         }else{
             poste.getListeCompetenceRecherchees().remove(competence);
-            System.out.println("Le compétence "+competence.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
         }
     }
 
@@ -115,10 +115,11 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     }
     
     @Override
-    public void creerUneDemandeDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        FicheDePoste poste = new FicheDePoste(nom, "", "", listeCompetenceRecherchees,equipeDemandeuse );
+    public FicheDePoste creerUneFicheDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        FicheDePoste poste = new FicheDePoste(nom, Constants.PRESENTATION_ENTREPRISE, "", listeCompetenceRecherchees,equipeDemandeuse );
         this.create(poste);
         System.out.println(Constants.CREATE_SUCCES);
+        return poste;
     }
     
     public Equipe getEquipeDuDemandeurDePoste(FicheDePoste poste){

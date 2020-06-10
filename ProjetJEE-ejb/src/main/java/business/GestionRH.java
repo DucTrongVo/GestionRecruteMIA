@@ -16,6 +16,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import repositories.CompetenceFacade;
+import repositories.CompetenceFacadeLocal;
+import repositories.EquipeFacadeLocal;
 import repositories.FicheDePosteFacade;
 import repositories.PersonneFacade;
 
@@ -28,9 +30,11 @@ public class GestionRH implements GestionRHLocal {
     @EJB
     private FicheDePosteFacade posteFacade;
     @EJB
-    private CompetenceFacade competenceFacade;
+    private CompetenceFacadeLocal competenceFacade;
     @EJB
     private PersonneFacade personneFacade;
+    @EJB
+    private EquipeFacadeLocal equipeFacade;
     
     /**
      * Enlever un poste de la liste des poste disponible
@@ -247,5 +251,14 @@ public class GestionRH implements GestionRHLocal {
         FicheDePoste poste = posteFacade.find(idPoste);
         Equipe equipeDemandeuse = poste.getEquipeDemandeuse();
         personne.setEquipe(equipeDemandeuse);
+    }
+    
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
+        Equipe equipe = equipeFacade.findByNom(nomEquipe);
+        ArrayList<Competence> listCompetences = new ArrayList<>();
+        for (int i=0;i<listIdCompetences.size();i++) {
+            listCompetences.add(competenceFacade.find(listIdCompetences.get(i)));
+        }
+        return(posteFacade.creerUneFicheDePoste(nomFicheDePoste, listCompetences, equipe));
     }
 }

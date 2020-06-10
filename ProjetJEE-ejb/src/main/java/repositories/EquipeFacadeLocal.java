@@ -32,8 +32,10 @@ public interface EquipeFacadeLocal {
 
     int count();
     
-    public Equipe findByManager(Personne manager);
+    Equipe findByManager(Personne manager);
     
-    public Equipe creerEquipe(String nomEquipe,Personne manager);
+    Equipe creerEquipe(String nomEquipe,Personne manager);
+    
+    Equipe findByNom(String nom);
       
 }

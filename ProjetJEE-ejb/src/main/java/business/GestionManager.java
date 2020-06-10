@@ -7,11 +7,15 @@ package business;
 
 import entities.Competence;
 import entities.Equipe;
+import entities.FicheDePoste;
 import entities.Personne;
+import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
+import static fr.miage.toulouse.projetjee.projetjeeshared.Constants.EQUIPE_NOT_EXIST;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import repositories.CompetenceFacade;
 import repositories.EquipeFacade;
 import repositories.FicheDePosteFacade;
@@ -35,6 +39,8 @@ public class GestionManager implements GestionManagerLocal {
     
     @EJB
     private FicheDePosteFacade ficheDePosteFacade;
+    
+    private GestionRH gestionRH;
 
     /**
      * retourner la liste de toutes les compétences
@@ -44,23 +50,24 @@ public class GestionManager implements GestionManagerLocal {
      */
     @Override
     public ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe){
+        
         Equipe equipe = equipeFacade.find(idEquipe);
-        ArrayList<Competence> listCompetences = new ArrayList<>() ;
+        ArrayList<Competence> listTotalCompetences = new ArrayList<>() ;
         List<Personne> listPersonne = personneFacade.findByEquipe(equipe);
         for(Personne personne : listPersonne){
             List<Competence> listCompetencesProvisoire = personneFacade.getListCompetences(personne);
             for(Competence competence : listCompetencesProvisoire){
-                if(!listCompetences.contains(competence)){
-                    listCompetences.add(competence);
+                if(!listTotalCompetences.contains(competence)){
+                    listTotalCompetences.add(competence);
                 }
             }
         }
-        return listCompetences;
+        return listTotalCompetences;
     }
     
     @Override
-    public void creerDemandeDeCompetence(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        ficheDePosteFacade.creerUneDemandeDePoste(nom, listeCompetenceRecherchees, equipeDemandeuse);
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
+        return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, listIdCompetences, nomEquipe);
     }
 
 }

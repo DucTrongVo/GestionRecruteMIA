@@ -43,7 +43,7 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
         
     }
     
-    public Competence findByCompetence(String nom) {
+    public Competence findByNomCompetence(String nom) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
         Root<Competence> root = cq.from(Competence.class);

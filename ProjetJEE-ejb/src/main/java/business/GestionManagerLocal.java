@@ -7,6 +7,7 @@ package business;
 
 import entities.Competence;
 import entities.Equipe;
+import entities.FicheDePoste;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
@@ -20,7 +21,6 @@ public interface GestionManagerLocal {
     
     ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe);
     
-    void creerDemandeDeCompetence(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse);
-
-    
+    FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe);
+ 
 }
