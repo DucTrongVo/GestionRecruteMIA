@@ -6,10 +6,8 @@
 package business;
 
 import entities.Competence;
-import entities.Equipe;
 import entities.FicheDePoste;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Local;
 
 /**

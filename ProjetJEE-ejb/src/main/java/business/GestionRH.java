@@ -257,6 +257,7 @@ public class GestionRH implements GestionRHLocal {
         personne.setEquipe(equipeDemandeuse);
     }
     
+    @Override
     public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
         Equipe equipe = equipeFacade.findByNom(nomEquipe);
         ArrayList<Competence> listCompetences = new ArrayList<>();

@@ -9,18 +9,11 @@ import entities.Competence;
 import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
-import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
-import static fr.miage.toulouse.projetjee.projetjeeshared.Constants.EQUIPE_NOT_EXIST;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
-import repositories.CompetenceFacade;
-import repositories.EquipeFacade;
 import repositories.EquipeFacadeLocal;
-import repositories.FicheDePosteFacade;
-import repositories.PersonneFacade;
 import repositories.PersonneFacadeLocal;
 
 /**
