@@ -27,7 +27,7 @@ public class ServiceCandidat implements ServiceCandidatRemote {
     }
 
     @Override
-    public void postuler(Long idCandidat, Long idPoste) {
+    public void creerUneCandidature(Long idCandidat, Long idPoste) {
         gestionRH.creerUneCandidature(idCandidat, idPoste);
     }
 

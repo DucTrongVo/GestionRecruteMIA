@@ -194,7 +194,7 @@ public class GestionRH implements GestionRHLocal {
             FicheDePoste poste = posteFacade.find(idPoste);
             if(poste != null){
                 if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.OUVERT)){
-                    personneFacade.isRecruited(personne);
+                    this.recruterCollaborateurDansEquipe(idPersonne, idPoste);
                     posteFacade.setStatut(poste, StatutDePoste.ARCHIVEE);
                 }else{
                     String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
@@ -240,5 +240,12 @@ public class GestionRH implements GestionRHLocal {
     
     public void creerCandidat(String nom, String prenom){
             personneFacade.creerCandidatSiInexistant(prenom, nom);
+    }
+    
+    public void recruterCollaborateurDansEquipe(Long idPersonne, Long idPoste){
+        Personne personne = personneFacade.find(idPersonne);
+        FicheDePoste poste = posteFacade.find(idPoste);
+        Equipe equipeDemandeuse = poste.getEquipeDemandeuse();
+        personne.setEquipe(equipeDemandeuse);
     }
 }

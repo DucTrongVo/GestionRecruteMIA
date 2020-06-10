@@ -90,11 +90,6 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         return getEntityManager().createQuery(cq).getResultList();
     }
     
-    
-    public void isRecruited(Personne p){
-        p.setIsCollaborateur(true);
-    }
-    
     public void ajouterUneCompetence(Personne personne, Competence competence){
         personne.getListeCompetences().add(competence);
     }
