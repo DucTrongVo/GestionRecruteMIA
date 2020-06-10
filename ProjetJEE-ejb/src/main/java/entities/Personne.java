@@ -32,15 +32,12 @@ public class Personne implements Serializable {
     private String prenom;
     private boolean isCodir;
     private boolean isManager;
-    private boolean isCollaborateur;
     
     @ManyToOne
     private Equipe equipe;
     
-    
     @ManyToMany
     private List<Competence> listeCompetences;    
-
 
     public Personne() {
     }
@@ -52,7 +49,6 @@ public class Personne implements Serializable {
         this.isManager = false;
         this.equipe = null;
         this.listeCompetences = listeCompetences;
-        this.isCollaborateur = false;
     }
     
 
@@ -94,14 +90,6 @@ public class Personne implements Serializable {
 
     public void setIsManager(boolean isManager) {
         this.isManager = isManager;
-    }
-
-    public boolean isIsCollaborateur() {
-        return isCollaborateur;
-    }
-
-    public void setIsCollaborateur(boolean isCollaborateur) {
-        this.isCollaborateur = isCollaborateur;
     }
 
     public Equipe getEquipe() {

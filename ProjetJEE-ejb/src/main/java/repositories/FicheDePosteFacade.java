@@ -16,6 +16,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -36,10 +39,12 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         super(FicheDePoste.class);
     }
 
+    @Override
     public StatutDePoste getStatutDePoste(FicheDePoste poste){
         return poste.getStatut();
     }
     
+    @Override
     public List<Competence> getListeCompetenceRecherchees(FicheDePoste poste){
         return poste.getListeCompetenceRecherchees();
     }
@@ -48,7 +53,8 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      * @param poste le poste en question
      * @param candidat le candidat qui postule
      */
-    public void ajouterUneCandidatAuPoste(FicheDePoste poste, Personne candidat){
+    @Override
+    public void ajouterUneCandidatureAuPoste(FicheDePoste poste, Personne candidat){
         if(poste.getListeCandidats().contains(candidat)){
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+poste.getNom());
         }else{
@@ -58,10 +64,11 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     }
     
     /**
-     * Supprimer un candidature au liste des candidatures du poste
+     * Supprimer un candidat de la liste des candidatures du poste
      * @param poste le poste en question
      * @param personne le candidat qui doit être supprimer
      */
+    @Override
     public void supprimerUnCandidatDuPoste(FicheDePoste poste, Personne personne){
         if(!poste.getListeCandidats().contains(personne)){
             String err = "Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'existe pas dans le poste "+poste.getNom();
@@ -80,10 +87,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void ajouterCompetenceAuPoste(FicheDePoste poste, Competence competence){
         if(poste.getListeCompetenceRecherchees().contains(competence)){
-            System.out.println("Le compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" existe déja dans la demande du poste "+poste.getNom());
         }else{
             poste.getListeCompetenceRecherchees().add(competence);
-            System.out.println("Le compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" ajouté avec succès dans la demande du poste "+poste.getNom());
         }
     }
     
@@ -94,10 +101,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void supprimerCompetenceAuPoste(FicheDePoste poste, Competence competence){
         if(!poste.getListeCompetenceRecherchees().contains(competence)){
-            System.out.println("Le compétence "+competence.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" n'existe pas dans la demande du poste "+poste.getNom());
         }else{
             poste.getListeCompetenceRecherchees().remove(competence);
-            System.out.println("Le compétence "+competence.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
+            System.out.println("La compétence "+competence.getNom()+" supprimé avec succès de la demande du poste "+poste.getNom());
         }
     }
 
@@ -112,15 +119,18 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     }
     
     @Override
-    public void creerUneDemandeDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        FicheDePoste poste = new FicheDePoste(nom, "", "", listeCompetenceRecherchees,equipeDemandeuse );
+    public FicheDePoste creerUneFicheDePoste(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
+        FicheDePoste poste = new FicheDePoste(nom, Constants.PRESENTATION_ENTREPRISE, "", listeCompetenceRecherchees,equipeDemandeuse );
         this.create(poste);
         System.out.println(Constants.CREATE_SUCCES);
+        return poste;
     }
     
+    @Override
     public Equipe getEquipeDuDemandeurDePoste(FicheDePoste poste){
         return poste.getEquipeDemandeuse();
     }
+    @Override
     public List<Equipe> getEquipesDemandeursDeCompetence(Competence c){
         List<Equipe> equipes = new ArrayList<>();
         
@@ -136,6 +146,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         return equipes;
     }
     
+    @Override
     public void setStatut(FicheDePoste p, StatutDePoste statut){
         p.setStatut(statut);
         System.out.println("Statut du poste "+p.getNom()+" remet à "+statut.toString()+" avec succès!");
@@ -146,6 +157,15 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         poste.setPresentationEntreprise(presentationEntreprise);
         poste.setPresentationPoste(presentationPoste);
         System.out.println(Constants.SUCCES);
+    }
+    
+    @Override
+    public List<FicheDePoste> findPostesDisponibles(){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<FicheDePoste> cq = cb.createQuery(FicheDePoste.class);
+        Root<FicheDePoste> root = cq.from(FicheDePoste.class);
+        cq.where(cb.equal(root.get("statut"), StatutDePoste.OUVERT));
+        return getEntityManager().createQuery(cq).getResultList();
     }
 }
 

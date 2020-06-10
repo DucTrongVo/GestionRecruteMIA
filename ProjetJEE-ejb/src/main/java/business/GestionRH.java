@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CompetenceFacade;
+import repositories.CompetenceFacadeLocal;
+import repositories.EquipeFacadeLocal;
 import repositories.FicheDePosteFacade;
-import repositories.PersonneFacade;
+import repositories.FicheDePosteFacadeLocal;
+import repositories.PersonneFacadeLocal;
 
 /**
  *
@@ -25,12 +27,18 @@ import repositories.PersonneFacade;
  */
 @Stateless
 public class GestionRH implements GestionRHLocal {
+    
     @EJB
-    private FicheDePosteFacade posteFacade;
+    private FicheDePosteFacadeLocal posteFacade;
+    
     @EJB
-    private CompetenceFacade competenceFacade;
+    private CompetenceFacadeLocal competenceFacade;
+    
     @EJB
-    private PersonneFacade personneFacade;
+    private PersonneFacadeLocal personneFacade;
+    
+    @EJB
+    private EquipeFacadeLocal equipeFacade;
     
     /**
      * Enlever un poste de la liste des poste disponible
@@ -59,7 +67,7 @@ public class GestionRH implements GestionRHLocal {
             if(poste == null){
                 System.out.println(Constants.POSTE_NOT_EXIST);
             }else{
-                posteFacade.ajouterUneCandidatAuPoste(poste, candidat);
+                posteFacade.ajouterUneCandidatureAuPoste(poste, candidat);
             }
         }
     }
@@ -101,11 +109,11 @@ public class GestionRH implements GestionRHLocal {
      * Retourner la liste des postes disponibles
      * @return liste des postes ouverts
      */
-    public List<FicheDePoste> getListPostes(){
+    public List<FicheDePoste> getPostesDispo(){
         return posteFacade.findAll();
     }
     /**
-     * Retourner une liste d'équipe qui a fait la demande de compétence
+     * Retourner une liste des équipes qui ont fait la demande de compétence
      * @param idCompetence l'id de la compétence démandé
      * @return la liste des équipes qui ont fait la demande
      */
@@ -194,7 +202,7 @@ public class GestionRH implements GestionRHLocal {
             FicheDePoste poste = posteFacade.find(idPoste);
             if(poste != null){
                 if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.OUVERT)){
-                    personneFacade.isRecruited(personne);
+                    this.recruterCollaborateurDansEquipe(idPersonne, idPoste);
                     posteFacade.setStatut(poste, StatutDePoste.ARCHIVEE);
                 }else{
                     String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
@@ -236,5 +244,26 @@ public class GestionRH implements GestionRHLocal {
             System.out.println(Constants.USER_NOT_EXIST);
             throw new IllegalArgumentException(Constants.USER_NOT_EXIST);
         }
+    }
+    
+    public void creerCandidat(String nom, String prenom){
+            personneFacade.creerCandidatSiInexistant(prenom, nom);
+    }
+    
+    public void recruterCollaborateurDansEquipe(Long idPersonne, Long idPoste){
+        Personne personne = personneFacade.find(idPersonne);
+        FicheDePoste poste = posteFacade.find(idPoste);
+        Equipe equipeDemandeuse = poste.getEquipeDemandeuse();
+        personne.setEquipe(equipeDemandeuse);
+    }
+    
+    @Override
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
+        Equipe equipe = equipeFacade.findByNom(nomEquipe);
+        ArrayList<Competence> listCompetences = new ArrayList<>();
+        for (int i=0;i<listIdCompetences.size();i++) {
+            listCompetences.add(competenceFacade.find(listIdCompetences.get(i)));
+        }
+        return(posteFacade.creerUneFicheDePoste(nomFicheDePoste, listCompetences, equipe));
     }
 }

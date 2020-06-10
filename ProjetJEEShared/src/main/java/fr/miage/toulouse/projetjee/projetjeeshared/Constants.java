@@ -12,6 +12,8 @@ package fr.miage.toulouse.projetjee.projetjeeshared;
 public final class Constants {
     public static final String USER_NOT_EXIST = "L'utilisateur n'existe pas!";
     
+    public static final String EQUIPE_NOT_EXIST = "L'équipe n'existe pas!";
+    
     public static final String POSTE_NOT_EXIST = "Le poste recherché n'existe pas!";
     
     public static final String COMPETENCE_NOT_EXIST = "La compétence n'existe pas!";
@@ -25,4 +27,6 @@ public final class Constants {
     public static final String SUCCES = "L'action fini avec succès!";
     
     public static final String ONLY_CODIR_CAN_VALIDATE = "Seulement un codir peut valider la création d'une poste!";
+    
+    public static final String PRESENTATION_ENTREPRISE = "Bring it est une entreprise internationnale";
 }

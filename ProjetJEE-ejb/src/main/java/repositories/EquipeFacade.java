@@ -35,7 +35,7 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
         super(Equipe.class);
     }
     
-    public ArrayList<Competence> listerLesCompetences(){
+    public ArrayList<Competence> findAllCompetences(){
         ArrayList<Competence> listeCompetences = new ArrayList<>();
         
         return listeCompetences;
@@ -54,6 +54,15 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
      Root<Equipe> root = cq.from(Equipe.class);
      cq.where(cb.equal(root.get("manager"), manager));
      return getEntityManager().createQuery(cq).getSingleResult();
+    }
+    
+    @Override
+    public Equipe findByNom(String nom) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Equipe> cq = cb.createQuery(Equipe.class);
+        Root<Equipe> root = cq.from(Equipe.class);
+        cq.where(cb.equal(root.get("nom"), nom));
+        return getEntityManager().createQuery(cq).getSingleResult();
     }
     
 }

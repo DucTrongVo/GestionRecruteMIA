@@ -23,7 +23,7 @@ public class ServiceCandidat implements ServiceCandidatRemote {
     
     @Override
     public void updateListPostes() {
-        listeDesPostes = gestionRH.getListPostes();
+        listeDesPostes = gestionRH.getPostesDispo();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ServiceCandidat implements ServiceCandidatRemote {
     }
 
     @Override
-    public void retirerUnCandidature(Long idCandidat, Long idPoste) {
+    public void retirerUneCandidature(Long idCandidat, Long idPoste) {
         gestionRH.retirerUnCandidature(idCandidat, idPoste);
     }
 
@@ -46,9 +46,13 @@ public class ServiceCandidat implements ServiceCandidatRemote {
         return this.posteAConsulter;
     }
     
-    public List<FicheDePoste> getListeDesPostes(){
+    public List<FicheDePoste> getPostesDispo(){
         this.updateListPostes();
         return this.listeDesPostes;
+    }
+    
+    public void creerCandidat(String nom, String prenom){
+        gestionRH.creerCandidat(nom, prenom);
     }
 
     

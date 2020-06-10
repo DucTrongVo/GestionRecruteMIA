@@ -7,15 +7,14 @@ package business;
 
 import entities.Competence;
 import entities.Equipe;
+import entities.FicheDePoste;
 import entities.Personne;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CompetenceFacade;
-import repositories.EquipeFacade;
-import repositories.FicheDePosteFacade;
-import repositories.PersonneFacade;
+import repositories.EquipeFacadeLocal;
+import repositories.PersonneFacadeLocal;
 
 /**
  *
@@ -25,16 +24,12 @@ import repositories.PersonneFacade;
 public class GestionManager implements GestionManagerLocal {
     
     @EJB
-    private EquipeFacade equipeFacade;
+    private EquipeFacadeLocal equipeFacade;
     
     @EJB
-    private CompetenceFacade competenceFacade;
-    
-    @EJB
-    private PersonneFacade personneFacade;
-    
-    @EJB
-    private FicheDePosteFacade ficheDePosteFacade;
+    private PersonneFacadeLocal personneFacade;
+
+    private GestionRHLocal gestionRH;
 
     /**
      * retourner la liste de toutes les compétences
@@ -44,23 +39,24 @@ public class GestionManager implements GestionManagerLocal {
      */
     @Override
     public ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe){
+        
         Equipe equipe = equipeFacade.find(idEquipe);
-        ArrayList<Competence> listCompetences = new ArrayList<>() ;
+        ArrayList<Competence> listTotalCompetences = new ArrayList<>() ;
         List<Personne> listPersonne = personneFacade.findByEquipe(equipe);
         for(Personne personne : listPersonne){
             List<Competence> listCompetencesProvisoire = personneFacade.getListCompetences(personne);
             for(Competence competence : listCompetencesProvisoire){
-                if(!listCompetences.contains(competence)){
-                    listCompetences.add(competence);
+                if(!listTotalCompetences.contains(competence)){
+                    listTotalCompetences.add(competence);
                 }
             }
         }
-        return listCompetences;
+        return listTotalCompetences;
     }
     
     @Override
-    public void creerDemandeDeCompetence(String nom, List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse){
-        ficheDePosteFacade.creerUneDemandeDePoste(nom, listeCompetenceRecherchees, equipeDemandeuse);
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
+        return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, listIdCompetences, nomEquipe);
     }
 
 }
