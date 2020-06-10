@@ -51,8 +51,8 @@ public class ServiceCandidat implements ServiceCandidatRemote {
         return this.listeDesPostes;
     }
     
-    public void createCandidat(){
-        
+    public void creerCandidat(String nom, String prenom){
+        gestionRH.creerCandidat(nom, prenom);
     }
 
     

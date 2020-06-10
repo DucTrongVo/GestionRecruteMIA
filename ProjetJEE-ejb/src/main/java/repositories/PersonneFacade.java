@@ -7,7 +7,6 @@ package repositories;
 
 import entities.Competence;
 import entities.Equipe;
-import entities.FicheDePoste;
 import entities.Personne;
 import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
         return p.getListeCompetences();
     }
 
-    public Personne findByPrenomAndNom(String prenom, String nom) {
+    public Personne findByNomAndPrenom(String prenom, String nom) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);
         Root<Personne> root = cq.from(Personne.class);
@@ -62,12 +61,23 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
 
     public Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences) {
         try{
-            return this.findByPrenomAndNom(prenom, nom);
+            return this.findByNomAndPrenom(prenom, nom);
         }catch(NoResultException noRes){
             Personne nouveauCollaborateur = new Personne(prenom, nom, listeCompetences);
             this.create(nouveauCollaborateur);
             System.out.println(Constants.CREATE_SUCCES);
             return nouveauCollaborateur;
+        }
+    }    
+    
+    public Personne creerCandidatSiInexistant(String prenom, String nom) {
+        try{
+            return this.findByNomAndPrenom(prenom, nom);
+        }catch(NoResultException noRes){
+            Personne newCandidat = new Personne(prenom, nom, null);
+            this.create(newCandidat);
+            System.out.println(Constants.CREATE_SUCCES);
+            return newCandidat;
         }
     }    
     

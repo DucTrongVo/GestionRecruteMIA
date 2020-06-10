@@ -67,10 +67,13 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      */
     public void supprimerUnCandidatDuPoste(FicheDePoste poste, Personne personne){
         if(!poste.getListeCandidats().contains(personne)){
-            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'existe pas dans le poste "+poste.getNom());
+            String err = "Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'existe pas dans le poste "+poste.getNom();
+            System.out.println(err);
+            throw new IllegalArgumentException(err);
         }else{
             poste.getListeCandidats().remove(personne);
-            System.out.println("Candidat "+personne.getNom()+" "+personne.getPrenom()+" supprimé avec succès du poste "+poste.getNom());
+            String success = "Candidat "+personne.getNom()+" "+personne.getPrenom()+" supprimé avec succès du poste "+poste.getNom();
+            System.out.println(success);
         }
     }
     /**
