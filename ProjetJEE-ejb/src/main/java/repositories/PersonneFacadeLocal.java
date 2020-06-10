@@ -34,6 +34,8 @@ public interface PersonneFacadeLocal {
     
     List<Personne> findByEquipe(Equipe equipe);
 
-    public List<Competence> getListCompetences(Personne personne);
+     List<Competence> getListCompetences(Personne personne);
+    
+    Personne creerCandidatSiInexistant(String prenom, String nom);
     
 }

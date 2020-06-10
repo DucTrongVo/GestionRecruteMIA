@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import repositories.CompetenceFacade;
 import repositories.CompetenceFacadeLocal;
 import repositories.EquipeFacadeLocal;
 import repositories.FicheDePosteFacade;
-import repositories.PersonneFacade;
+import repositories.FicheDePosteFacadeLocal;
+import repositories.PersonneFacadeLocal;
 
 /**
  *
@@ -27,12 +27,16 @@ import repositories.PersonneFacade;
  */
 @Stateless
 public class GestionRH implements GestionRHLocal {
+    
     @EJB
-    private FicheDePosteFacade posteFacade;
+    private FicheDePosteFacadeLocal posteFacade;
+    
     @EJB
     private CompetenceFacadeLocal competenceFacade;
+    
     @EJB
-    private PersonneFacade personneFacade;
+    private PersonneFacadeLocal personneFacade;
+    
     @EJB
     private EquipeFacadeLocal equipeFacade;
     
@@ -109,7 +113,7 @@ public class GestionRH implements GestionRHLocal {
         return posteFacade.findAll();
     }
     /**
-     * Retourner une liste d'équipe qui a fait la demande de compétence
+     * Retourner une liste des équipes qui ont fait la demande de compétence
      * @param idCompetence l'id de la compétence démandé
      * @return la liste des équipes qui ont fait la demande
      */

@@ -5,6 +5,8 @@
  */
 package business;
 
+import entities.FicheDePoste;
+import java.util.ArrayList;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionRHLocal {
+    
+    FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe);
     
 }

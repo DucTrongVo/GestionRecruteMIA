@@ -39,10 +39,12 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         super(FicheDePoste.class);
     }
 
+    @Override
     public StatutDePoste getStatutDePoste(FicheDePoste poste){
         return poste.getStatut();
     }
     
+    @Override
     public List<Competence> getListeCompetenceRecherchees(FicheDePoste poste){
         return poste.getListeCompetenceRecherchees();
     }
@@ -51,6 +53,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
      * @param poste le poste en question
      * @param candidat le candidat qui postule
      */
+    @Override
     public void ajouterUneCandidatureAuPoste(FicheDePoste poste, Personne candidat){
         if(poste.getListeCandidats().contains(candidat)){
             System.out.println("Candidat "+candidat.getNom()+" "+candidat.getPrenom()+" a déja postulé au poste "+poste.getNom());
@@ -61,10 +64,11 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
     }
     
     /**
-     * Supprimer un candidature au liste des candidatures du poste
+     * Supprimer un candidat de la liste des candidatures du poste
      * @param poste le poste en question
      * @param personne le candidat qui doit être supprimer
      */
+    @Override
     public void supprimerUnCandidatDuPoste(FicheDePoste poste, Personne personne){
         if(!poste.getListeCandidats().contains(personne)){
             String err = "Candidat "+personne.getNom()+" "+personne.getPrenom()+" n'existe pas dans le poste "+poste.getNom();
@@ -122,9 +126,11 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         return poste;
     }
     
+    @Override
     public Equipe getEquipeDuDemandeurDePoste(FicheDePoste poste){
         return poste.getEquipeDemandeuse();
     }
+    @Override
     public List<Equipe> getEquipesDemandeursDeCompetence(Competence c){
         List<Equipe> equipes = new ArrayList<>();
         
@@ -140,6 +146,7 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         return equipes;
     }
     
+    @Override
     public void setStatut(FicheDePoste p, StatutDePoste statut){
         p.setStatut(statut);
         System.out.println("Statut du poste "+p.getNom()+" remet à "+statut.toString()+" avec succès!");

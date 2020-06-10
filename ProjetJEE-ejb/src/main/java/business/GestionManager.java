@@ -18,8 +18,10 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import repositories.CompetenceFacade;
 import repositories.EquipeFacade;
+import repositories.EquipeFacadeLocal;
 import repositories.FicheDePosteFacade;
 import repositories.PersonneFacade;
+import repositories.PersonneFacadeLocal;
 
 /**
  *
@@ -29,18 +31,12 @@ import repositories.PersonneFacade;
 public class GestionManager implements GestionManagerLocal {
     
     @EJB
-    private EquipeFacade equipeFacade;
+    private EquipeFacadeLocal equipeFacade;
     
     @EJB
-    private CompetenceFacade competenceFacade;
-    
-    @EJB
-    private PersonneFacade personneFacade;
-    
-    @EJB
-    private FicheDePosteFacade ficheDePosteFacade;
-    
-    private GestionRH gestionRH;
+    private PersonneFacadeLocal personneFacade;
+
+    private GestionRHLocal gestionRH;
 
     /**
      * retourner la liste de toutes les compétences
