@@ -15,6 +15,7 @@ import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import fr.miage.toulouse.projetjee.projetjeeshared.EquipeShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.PersonneShared;
+import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -65,29 +66,27 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
             return null;
         }
     }
-    private PersonneShared getPersonneSharedFromPersonne(Personne personne, EquipeShared equipe){
+    private PersonneShared getPersonneSharedFromPersonne(Personne personne){
         List<Competence> listeCompetenceManager = personne.getListeCompetences();
         List<CompetenceShared> listeCompetenceShared = new ArrayList<>();
         for(int i=0;i<listeCompetenceManager.size();i++){
-            CompetenceShared competenceShared = new CompetenceShared(listeCompetenceManager.get(i).getNom());
-            listeCompetenceShared.add(competenceShared);
+            listeCompetenceShared.add(new CompetenceShared(listeCompetenceManager.get(i).getNom()));
         }
         PersonneShared personneShared = new PersonneShared(personne.getId(),personne.getNom(), personne.getPrenom(), listeCompetenceShared);
-        personneShared.setEquipe(equipe);
+        //personneShared.setEquipe(equipe);
         personneShared.setIsCodir(personne.isIsCodir());
         personneShared.setIsManager(personne.isIsManager());
         return personneShared;
     }
     private EquipeShared getEquipeSharedFromEquipe(Equipe equipe){
         Personne manager = equipe.getManager();
-        PersonneShared managerShared = getPersonneSharedFromPersonne(manager, null);
+        PersonneShared managerShared = getPersonneSharedFromPersonne(manager);
         EquipeShared equipeShared = new EquipeShared(managerShared, equipe.getNom());
         managerShared.setEquipe(equipeShared);
         List<PersonneShared> listCollaborateursShared = new ArrayList<>();
         List<Personne> listCollaborateurs = equipe.getCollaborateurs();
         for(int i=0;i<listCollaborateurs.size();i++){
-            PersonneShared personneShared = getPersonneSharedFromPersonne(listCollaborateurs.get(i),equipeShared);
-            listCollaborateursShared.add(personneShared);
+            listCollaborateursShared.add(getPersonneSharedFromPersonne(listCollaborateurs.get(i)));
         }
         equipeShared.setCollaborateurs(listCollaborateursShared);
         return equipeShared;
@@ -104,7 +103,7 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
                     CompetenceShared competenceShared = new CompetenceShared(listeCompetence.get(i).getNom());
                     listeCompetenceShared.add(competenceShared);
                 }
-            return new FicheDePosteShared(equipeS.getNom(), Constants.PRESENTATION_ENTREPRISE, nomFicheDePoste, listeCompetenceShared, equipeS);
+            return new FicheDePosteShared(poste.getId(), equipeS.getNom(), Constants.PRESENTATION_ENTREPRISE, nomFicheDePoste, listeCompetenceShared, equipeS);
         }catch(Exception e){
             System.out.println(e.toString());
             return null;
@@ -125,7 +124,7 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
                     poste.getEquipeDemandeuse().getManager().getNom(), poste.getEquipeDemandeuse().getManager().getPrenom(), null);
             EquipeShared equipeDemandeuse = new EquipeShared(manager, poste.getEquipeDemandeuse().getNom());
             // ajouter poste dans la liste
-            allOpendPostsShared.add(new FicheDePosteShared(poste.getNom(), Constants.PRESENTATION_ENTREPRISE, poste.getPresentationPoste(), 
+            allOpendPostsShared.add(new FicheDePosteShared(poste.getId(), poste.getNom(), Constants.PRESENTATION_ENTREPRISE, poste.getPresentationPoste(), 
                     lcs, equipeDemandeuse));
             }
             return allOpendPostsShared;
@@ -149,7 +148,7 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
                     poste.getEquipeDemandeuse().getManager().getNom(), poste.getEquipeDemandeuse().getManager().getPrenom(), null);
             EquipeShared equipeDemandeuse = new EquipeShared(manager, poste.getEquipeDemandeuse().getNom());
             // ajouter poste dans la liste
-            allWaitingPostsShared.add(new FicheDePosteShared(poste.getNom(), Constants.PRESENTATION_ENTREPRISE, poste.getPresentationPoste(), 
+            allWaitingPostsShared.add(new FicheDePosteShared(poste.getId(), poste.getNom(), Constants.PRESENTATION_ENTREPRISE, poste.getPresentationPoste(), 
                     lcs, equipeDemandeuse));
             }
             return allWaitingPostsShared;
@@ -170,7 +169,7 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
             PersonneShared manager = new PersonneShared(posteAConsulter.getEquipeDemandeuse().getManager().getId(), 
                     posteAConsulter.getEquipeDemandeuse().getManager().getNom(), posteAConsulter.getEquipeDemandeuse().getManager().getPrenom(), null);
             EquipeShared equipeDemandeuse = new EquipeShared(manager, posteAConsulter.getEquipeDemandeuse().getNom());
-            FicheDePosteShared posteShared = new FicheDePosteShared(posteAConsulter.getNom(), posteAConsulter.getPresentationEntreprise(), posteAConsulter.getPresentationPoste(), 
+            FicheDePosteShared posteShared = new FicheDePosteShared(posteAConsulter.getId(), posteAConsulter.getNom(), posteAConsulter.getPresentationEntreprise(), posteAConsulter.getPresentationPoste(), 
                     lcs, equipeDemandeuse);
             return posteShared;
         }else{
@@ -246,7 +245,7 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
 
     @Override
     public CompetenceShared creerCompetence(String nom) {
-        Competence competence = gestionRH.creerCompetence(nom);
+        gestionRH.creerCompetence(nom);
         return new CompetenceShared(nom);
     }
 
@@ -274,7 +273,14 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
 
     @Override
     public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+        //posteShared.setStatut(StatutDePoste.OUVERT);
+    }
+
+    @Override
+    public void setCodir(PersonneShared personne) {
+        gestionRH.setCodir(personne.getId());
+        personne.setIsCodir(true);
     }
     
     

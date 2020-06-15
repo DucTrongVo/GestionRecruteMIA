@@ -24,8 +24,9 @@ public class FicheDePosteShared implements Serializable{
     private EquipeShared equipeDemandeuse;
     
     public FicheDePosteShared(){};
-    public FicheDePosteShared(String nom, String presentationEntreprise, String presentationPoste, 
+    public FicheDePosteShared(Long id, String nom, String presentationEntreprise, String presentationPoste, 
                         List<CompetenceShared> listeCompetenceRecherchees, EquipeShared equipeDemandeuse) {
+        this.id = id;
         this.nom = nom;
         this.statut = StatutDePoste.EN_ATTENTE;
         this.presentationEntreprise = presentationEntreprise;

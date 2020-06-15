@@ -35,4 +35,6 @@ public interface GestionRHLocal {
     public Competence creerCompetence(String nom);
     public List<Equipe> getAllEquipes();
     public List<Competence> getAllCompetences();
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste);
+    public void setCodir(Long idPersonne);
 }

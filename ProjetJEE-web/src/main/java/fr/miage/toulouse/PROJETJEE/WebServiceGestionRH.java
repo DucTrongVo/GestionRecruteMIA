@@ -66,6 +66,12 @@ public class WebServiceGestionRH {
         return ejbRef.getListCollaborateur();
     }
 
+    @WebMethod(operationName = "setCodir")
+    @Oneway
+    public void setCodir(@WebParam(name = "personne") PersonneShared personne) {
+        ejbRef.setCodir(personne);
+    }
+
     @WebMethod(operationName = "creerCandidatSiInexistant")
     public PersonneShared creerCandidatSiInexistant(@WebParam(name = "prenom") String prenom, @WebParam(name = "nom") String nom) {
         return ejbRef.creerCandidatSiInexistant(prenom, nom);

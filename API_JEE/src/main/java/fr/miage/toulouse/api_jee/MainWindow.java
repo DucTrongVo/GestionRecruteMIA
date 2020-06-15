@@ -9,6 +9,7 @@ import fr.miage.toulouse.projetjee.projetjeeshared.CompetenceShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.EquipeShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.PersonneShared;
+import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,18 +60,33 @@ public class MainWindow extends javax.swing.JFrame {
     }
     public void initialeValue(){
         try{
+            // create competence
             listCompetences.add(serviceRH.creerCompetence("Java"));
             listCompetences.add(serviceRH.creerCompetence("Flutter"));
+            
+            // create collab
             PersonneShared laminus = serviceRH.creerPersonneSiInexistant("Lamine", "Boutaleb", (ArrayList<CompetenceShared>) listCompetences);
             listPersonnes.add(laminus);
             PersonneShared maxime = serviceRH.creerPersonneSiInexistant("Maxime", "Bertrou-Rivot", (ArrayList<CompetenceShared>) listCompetences);
             listPersonnes.add(maxime);
+            PersonneShared trong = serviceRH.creerPersonneSiInexistant("Trong", "VO", (ArrayList<CompetenceShared>) listCompetences);
+            listPersonnes.add(trong);
+            serviceRH.setCodir(trong);
+            trong.setIsCodir(true);
+            System.out.println("TRONG IS NOW CODIR "+trong.isIsCodir());
+            
+            // create equipe
             EquipeShared equipe1 = serviceRH.creerEquipe("MIAGE", maxime.getNom(), maxime.getPrenom() );
             listEquipes.add(equipe1);
             ArrayList<String> nomCompetence = new ArrayList<>(Arrays.asList(listCompetences.get(0).getNom()));
             FicheDePosteShared fdps = serviceRH.creerFicheDePosteDeDemande("Chercher Java DEV", nomCompetence, listEquipes.get(0).getNom());
-            //serviceRH.validerLaCreationUnPoste
+            System.out.println("POST CREATED "+fdps.getNom());
+            serviceRH.validerLaCreationUnPoste(trong.getId(), fdps.getId(), fdps.getPresentationEntreprise(), "Une poste test");
+            fdps.setStatut(StatutDePoste.OUVERT);
+            System.out.println("POST VALIDATED "+fdps.getNom());
             listPostes.add(fdps);
+            
+            // charger tableau
             this.chargerCollaborateur();
             fillListCompetence();
             fillListEquipe();
@@ -185,10 +201,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         tableauFDP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nom", "Presentation Poste", "Equipe Demandeuse", "Presentation Entreprise"

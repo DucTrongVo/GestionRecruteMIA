@@ -181,6 +181,7 @@ public class GestionRH implements GestionRHLocal {
      * @param presentationEntreprise la présentation de l'entreprise à ajouter lors de la validation du poste
      * @param presentationPoste la présentation du poste à ajouter lors de la validation du poste
      */
+    @Override
     public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste){
         Personne p = personneFacade.find(idPersonne);
         if(p != null){
@@ -363,6 +364,15 @@ public class GestionRH implements GestionRHLocal {
             }else{
                 System.out.println("personne does not existed!");
             }
+    }
+    @Override
+    public void setCodir(Long idPersonne){
+        try{
+            Personne codir = personneFacade.find(idPersonne);
+            codir.setIsCodir(true);
+        }catch(NoResultException NoRes){
+            System.out.println(NoRes.toString());
+        }
     }
     @Override
     public Competence creerCompetence(String nom){
