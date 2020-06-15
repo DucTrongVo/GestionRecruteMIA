@@ -312,6 +312,18 @@ public class GestionRH implements GestionRHLocal {
          }
         return allWaitingPosts;
     }
+    
+    @Override
+    public List<FicheDePoste> getAllClosedPoste() {
+        List<FicheDePoste> allPostes = posteFacade.findAll();
+        List<FicheDePoste> allClosedPosts = new ArrayList<>();
+        for(FicheDePoste poste : allPostes){
+            if(poste.getStatut() == StatutDePoste.ARCHIVEE){
+                allClosedPosts.add(poste);
+            }
+         }
+        return allClosedPosts;
+    }    
 
     @Override
     public List<Personne> getListCollaborateur() {
