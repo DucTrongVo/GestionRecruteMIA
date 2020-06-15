@@ -42,9 +42,8 @@ public class WebServiceGestionRH {
     }
 
     @WebMethod(operationName = "creerFicheDePosteDeDemande")
-    @Oneway
-    public void creerFicheDePosteDeDemande(@WebParam(name = "nomFicheDePoste") String nomFicheDePoste, @WebParam(name = "nomCompetences") ArrayList<String> nomCompetences, @WebParam(name = "nomEquipe") String nomEquipe) {
-        ejbRef.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);
+    public FicheDePosteShared creerFicheDePosteDeDemande(@WebParam(name = "nomFicheDePoste") String nomFicheDePoste, @WebParam(name = "nomCompetences") ArrayList<String> nomCompetences, @WebParam(name = "nomEquipe") String nomEquipe) {
+        return ejbRef.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);
     }
 
     @WebMethod(operationName = "getAllOpenedPoste")
@@ -95,6 +94,12 @@ public class WebServiceGestionRH {
     @WebMethod(operationName = "getAllCompetences")
     public List<CompetenceShared> getAllCompetences() {
         return ejbRef.getAllCompetences();
+    }
+
+    @WebMethod(operationName = "validerLaCreationUnPoste")
+    @Oneway
+    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste) {
+        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
     }
     
 }

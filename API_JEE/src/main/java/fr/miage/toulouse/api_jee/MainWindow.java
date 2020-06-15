@@ -10,6 +10,7 @@ import fr.miage.toulouse.projetjee.projetjeeshared.EquipeShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.PersonneShared;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import javax.naming.InitialContext;
@@ -36,6 +37,7 @@ public class MainWindow extends javax.swing.JFrame {
     };
     final ServiceGestionRHRemote serviceRH;
     DefaultTableModel collabTableModel;
+    DefaultTableModel fdpTableModel;
     //DefaultListModel listCompetenceModel;
 
     /**
@@ -46,6 +48,7 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         this.serviceRH = serviceRH;
         collabTableModel = (DefaultTableModel) collabTable.getModel();
+        fdpTableModel = (DefaultTableModel) tableauFDP.getModel();
         jListCompetences.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         listCompetences = new ArrayList<>();
         listPersonnes = new ArrayList<>();
@@ -64,9 +67,14 @@ public class MainWindow extends javax.swing.JFrame {
             listPersonnes.add(maxime);
             EquipeShared equipe1 = serviceRH.creerEquipe("MIAGE", maxime.getNom(), maxime.getPrenom() );
             listEquipes.add(equipe1);
+            ArrayList<String> nomCompetence = new ArrayList<>(Arrays.asList(listCompetences.get(0).getNom()));
+            FicheDePosteShared fdps = serviceRH.creerFicheDePosteDeDemande("Chercher Java DEV", nomCompetence, listEquipes.get(0).getNom());
+            //serviceRH.validerLaCreationUnPoste
+            listPostes.add(fdps);
             this.chargerCollaborateur();
             fillListCompetence();
             fillListEquipe();
+            chargerLesPostesOuverts();
         }catch(Exception e){
             System.out.println("Error : "+e.toString());
         } 
@@ -102,6 +110,19 @@ public class MainWindow extends javax.swing.JFrame {
         }
         
     }
+    public void chargerLesPostesOuverts(){
+        try{
+            List<FicheDePosteShared> listFicheDePoste = serviceRH.getAllOpenedPoste();
+            listFicheDePoste.stream().map((FicheDePosteShared ficheDePoste) -> {
+                String[] line = {ficheDePoste.getNom(), ficheDePoste.getPresentationPoste(), ficheDePoste.getEquipeDemandeuse().getNom(),ficheDePoste.getPresentationEntreprise()};
+                return line;
+                }).forEachOrdered((line) -> {
+                    fdpTableModel.addRow(line);
+            });
+        }catch(Exception e){
+            System.out.println("Error : "+e.toString());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -117,6 +138,8 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         collabTable = new javax.swing.JTable();
         listPostsOuverts = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableauFDP = new javax.swing.JTable();
         creerDemandePoste = new javax.swing.JPanel();
         nomFicheDePoste = new javax.swing.JLabel();
         nomFicheDePosteText = new javax.swing.JTextField();
@@ -160,15 +183,34 @@ public class MainWindow extends javax.swing.JFrame {
 
         creerDemandePosteTab.addTab("Liste Collaborateur", listCollab);
 
+        tableauFDP.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nom", "Presentation Poste", "Equipe Demandeuse", "Presentation Entreprise"
+            }
+        ));
+        jScrollPane3.setViewportView(tableauFDP);
+
         javax.swing.GroupLayout listPostsOuvertsLayout = new javax.swing.GroupLayout(listPostsOuverts);
         listPostsOuverts.setLayout(listPostsOuvertsLayout);
         listPostsOuvertsLayout.setHorizontalGroup(
             listPostsOuvertsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 820, Short.MAX_VALUE)
+            .addGroup(listPostsOuvertsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+                .addContainerGap())
         );
         listPostsOuvertsLayout.setVerticalGroup(
             listPostsOuvertsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 451, Short.MAX_VALUE)
+            .addGroup(listPostsOuvertsLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(267, Short.MAX_VALUE))
         );
 
         creerDemandePosteTab.addTab("Liste Postes Ouverts", listPostsOuverts);
@@ -334,6 +376,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JList<String> jListCompetences;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel label2;
     private javax.swing.JLabel label3;
     private javax.swing.JPanel listCollab;
@@ -341,6 +384,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel listPostsOuverts;
     private javax.swing.JLabel nomFicheDePoste;
     private javax.swing.JTextField nomFicheDePosteText;
+    private javax.swing.JTable tableauFDP;
     private javax.swing.JLabel titre;
     // End of variables declaration//GEN-END:variables
 }

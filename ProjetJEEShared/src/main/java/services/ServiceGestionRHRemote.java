@@ -21,7 +21,7 @@ import javax.ejb.Remote;
 public interface ServiceGestionRHRemote {
     public List<CompetenceShared> getListeCompetencesDemandees();
     public List<CompetenceShared> getListeCompetencesDeCollaborateur(PersonneShared collab);
-    public void creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe);
+    public FicheDePosteShared creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe);
     public List<FicheDePosteShared> getAllOpenedPoste();
     public List<FicheDePosteShared> getAllWaitingPoste();
     public FicheDePosteShared consulterUnPoste(Long idPoste);
@@ -32,4 +32,5 @@ public interface ServiceGestionRHRemote {
     public CompetenceShared creerCompetence(String nom);
     public List<EquipeShared> getAllEquipes();
     public List<CompetenceShared> getAllCompetences();
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste);
 }
