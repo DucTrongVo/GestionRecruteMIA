@@ -332,10 +332,11 @@ public class GestionRH implements GestionRHLocal {
     
     @Override
     public Equipe creerEquipe(String nomEquipe, String nomManager, String prenomManager){
-        Personne manager = personneFacade.creerPersonneSiInexistant(prenomManager, nomManager, new ArrayList<Competence>());
+        Personne manager = personneFacade.creerPersonneSiInexistant(nomManager, prenomManager, new ArrayList<Competence>());
         System.out.println("GESTION RH : MANAGER IS "+manager.getNom());
         Equipe equipe = equipeFacade.creerEquipe(nomEquipe, manager);
         this.setEquipe(manager.getId(), equipe.getNom());
+        manager.setIsManager(true);
         return equipe;
     }
     
@@ -355,5 +356,15 @@ public class GestionRH implements GestionRHLocal {
     public Competence creerCompetence(String nom){
         competenceFacade.creerCompetence(nom);
         return competenceFacade.findByNomCompetence(nom);
+    }
+
+    @Override
+    public List<Equipe> getAllEquipes() {
+        return equipeFacade.findAll();
+    }
+
+    @Override
+    public List<Competence> getAllCompetences() {
+        return competenceFacade.findAll();
     }
 }

@@ -25,11 +25,13 @@ public interface GestionRHLocal {
     public FicheDePoste consulterUnPoste(Long idPoste);
     public List<Competence> getListeCompetencesDeCollaborateur(Personne collab);
     public Personne creerCandidatSiInexistant(String nom, String prenom);
-    Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
+    public Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
     public List<FicheDePoste> getAllOpenedPoste();
     public List<FicheDePoste> getAllWaitingPoste();
     public List<Personne> getListCollaborateur();
     public Equipe creerEquipe(String nomEquipe,String nomManager, String prenomManager);
     public void setEquipe(Long idPersonne, String nomEquipe);
     public Competence creerCompetence(String nom);
+    public List<Equipe> getAllEquipes();
+    public List<Competence> getAllCompetences();
 }

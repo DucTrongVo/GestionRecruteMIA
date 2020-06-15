@@ -6,12 +6,15 @@
 package fr.miage.toulouse.api_jee;
 
 import fr.miage.toulouse.projetjee.projetjeeshared.CompetenceShared;
+import fr.miage.toulouse.projetjee.projetjeeshared.EquipeShared;
+import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.PersonneShared;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import services.ServiceGestionRHRemote;
 
@@ -20,14 +23,20 @@ import services.ServiceGestionRHRemote;
  * @author trongvo
  */
 public class MainWindow extends javax.swing.JFrame {
+    private List<CompetenceShared> listCompetences;
+    private List<PersonneShared> listPersonnes;
+    private List<EquipeShared> listEquipes;
+    private List<FicheDePosteShared> listPostes;
+    //private EquipeShared equipeChoisi;
+    //private List<CompetenceShared> listCompetencesChoisi;
     private final String[] Role = {
         "Collaborateur",
         "Codir",
         "Manager",
-        "Candidat",
     };
     final ServiceGestionRHRemote serviceRH;
     DefaultTableModel collabTableModel;
+    //DefaultListModel listCompetenceModel;
 
     /**
      * Creates new form MainWindow
@@ -37,40 +46,39 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         this.serviceRH = serviceRH;
         collabTableModel = (DefaultTableModel) collabTable.getModel();
+        jListCompetences.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listCompetences = new ArrayList<>();
+        listPersonnes = new ArrayList<>();
+        listEquipes = new ArrayList<>();
+        listPostes = new ArrayList<>();
+        //equipeChoisi = null;
+        this.initialeValue();
+    }
+    public void initialeValue(){
         try{
-            CompetenceShared cs;
-            List<CompetenceShared> listCompetences = new ArrayList<>();
-            cs = serviceRH.creerCompetence("Java");
-            System.out.println("COMPETENCE CREATE SUCCES "+cs.getNom());
-            listCompetences.add(cs);
-            System.out.println("ADDED "+listCompetences.get(0).getNom());
-            cs = serviceRH.creerCompetence("Flutter");
-            listCompetences.add(cs);
-//            System.out.println("ADDED "+listCompetences.get(0).getNom());
-//            System.out.println("COMPETENCE SHARED size"+listCompetences.size());
-//            System.out.println("COMPETENCE SHARED "+listCompetences.get(0).getNom());
-            //PersonneShared lamine = serviceRH.creerPersonneSiInexistant("Lamine", "Boutaleb", listCompetences);
-            //PersonneShared lamine = serviceRH.creerPersonneSiInexistant("Lamine", "Boutaleb", listCompetences);
+            listCompetences.add(serviceRH.creerCompetence("Java"));
+            listCompetences.add(serviceRH.creerCompetence("Flutter"));
+            PersonneShared laminus = serviceRH.creerPersonneSiInexistant("Lamine", "Boutaleb", (ArrayList<CompetenceShared>) listCompetences);
+            listPersonnes.add(laminus);
             PersonneShared maxime = serviceRH.creerPersonneSiInexistant("Maxime", "Bertrou-Rivot", (ArrayList<CompetenceShared>) listCompetences);
-            serviceRH.creerEquipe("MIAGE", maxime.getNom(), maxime.getPrenom() );
+            listPersonnes.add(maxime);
+            EquipeShared equipe1 = serviceRH.creerEquipe("MIAGE", maxime.getNom(), maxime.getPrenom() );
+            listEquipes.add(equipe1);
             this.chargerCollaborateur();
+            fillListCompetence();
+            fillListEquipe();
         }catch(Exception e){
             System.out.println("Error : "+e.toString());
-        }     
+        } 
     }
-    
     public void chargerCollaborateur(){
         try{
             List<PersonneShared> listCollab = serviceRH.getListCollaborateur();
             listCollab.stream().map((PersonneShared personne) -> {
-                String role;
-                if(personne.getEquipe() == null){
-                    role = Role[3];
-                }else{
-                    role = Role[0];
-                    role += personne.isIsCodir() ? " "+Role[1] : "";
-                    role += personne.isIsManager()? " "+Role[2] : "";
-                }
+                String role = Role[0];
+                role += personne.isIsCodir() ? " ; "+Role[1] : "";
+                role += personne.isIsManager() ? " ; "+Role[2] : "";
+                
                 String[] line = {personne.getNom(), personne.getPrenom(), role};
                 return line;
                 }).forEachOrdered((line) -> {
@@ -79,6 +87,20 @@ public class MainWindow extends javax.swing.JFrame {
         }catch(Exception e){
             System.out.println("Error : "+e.toString());
         }
+    }
+    public void fillListCompetence(){
+        String[] data = new String[listCompetences.size()];
+        for(int i=0; i<listCompetences.size(); i++){
+            data[i] = listCompetences.get(i).getNom();
+           //listCompetenceBox.addItem(listCompetences.get(i).getNom());
+        }
+        this.jListCompetences.setListData(data);
+    }
+    public void fillListEquipe(){
+        for(EquipeShared es : listEquipes){
+            listEquipeBox.addItem(es.getNom());
+        }
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,6 +118,14 @@ public class MainWindow extends javax.swing.JFrame {
         collabTable = new javax.swing.JTable();
         listPostsOuverts = new javax.swing.JPanel();
         creerDemandePoste = new javax.swing.JPanel();
+        nomFicheDePoste = new javax.swing.JLabel();
+        nomFicheDePosteText = new javax.swing.JTextField();
+        label2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListCompetences = new javax.swing.JList<>();
+        label3 = new javax.swing.JLabel();
+        BttDemander = new javax.swing.JToggleButton();
+        listEquipeBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,15 +173,74 @@ public class MainWindow extends javax.swing.JFrame {
 
         creerDemandePosteTab.addTab("Liste Postes Ouverts", listPostsOuverts);
 
+        nomFicheDePoste.setText("Nom de la Fiche de Poste :");
+        nomFicheDePoste.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        label2.setText("Choisir les compétences :");
+        label2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jScrollPane2.setViewportView(jListCompetences);
+
+        label3.setText("Choisir l'équipe demandeuse");
+        label3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        BttDemander.setText("FAIRE LA DEMANDE DE FICHE DE POSTE");
+        BttDemander.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BttDemanderActionPerformed(evt);
+            }
+        });
+
+        listEquipeBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listEquipeBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout creerDemandePosteLayout = new javax.swing.GroupLayout(creerDemandePoste);
         creerDemandePoste.setLayout(creerDemandePosteLayout);
         creerDemandePosteLayout.setHorizontalGroup(
             creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 820, Short.MAX_VALUE)
+            .addGroup(creerDemandePosteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(creerDemandePosteLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(creerDemandePosteLayout.createSequentialGroup()
+                                    .addComponent(label3)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(listEquipeBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(creerDemandePosteLayout.createSequentialGroup()
+                                    .addComponent(nomFicheDePoste)
+                                    .addGap(38, 38, 38)
+                                    .addComponent(nomFicheDePosteText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(creerDemandePosteLayout.createSequentialGroup()
+                                .addComponent(label2)
+                                .addGap(42, 42, 42)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(BttDemander, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(370, Short.MAX_VALUE))
         );
         creerDemandePosteLayout.setVerticalGroup(
             creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 451, Short.MAX_VALUE)
+            .addGroup(creerDemandePosteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomFicheDePoste)
+                    .addComponent(nomFicheDePosteText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label2))
+                .addGap(34, 34, 34)
+                .addGroup(creerDemandePosteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label3)
+                    .addComponent(listEquipeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
+                .addComponent(BttDemander)
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         creerDemandePosteTab.addTab("Creer Demande Poste", creerDemandePoste);
@@ -181,6 +270,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void listEquipeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listEquipeBoxActionPerformed
+       String nomChoisi = (String)listEquipeBox.getSelectedItem();
+    }//GEN-LAST:event_listEquipeBoxActionPerformed
+
+    private void BttDemanderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BttDemanderActionPerformed
+        serviceRH.creerFicheDePosteDeDemande(nomFicheDePosteText.getText(), (ArrayList<String>)jListCompetences.getSelectedValuesList(), (String)listEquipeBox.getSelectedItem());
+    }//GEN-LAST:event_BttDemanderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,12 +327,20 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton BttDemander;
     private javax.swing.JTable collabTable;
     private javax.swing.JPanel creerDemandePoste;
     private javax.swing.JTabbedPane creerDemandePosteTab;
+    private javax.swing.JList<String> jListCompetences;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel label2;
+    private javax.swing.JLabel label3;
     private javax.swing.JPanel listCollab;
+    private javax.swing.JComboBox<String> listEquipeBox;
     private javax.swing.JPanel listPostsOuverts;
+    private javax.swing.JLabel nomFicheDePoste;
+    private javax.swing.JTextField nomFicheDePosteText;
     private javax.swing.JLabel titre;
     // End of variables declaration//GEN-END:variables
 }

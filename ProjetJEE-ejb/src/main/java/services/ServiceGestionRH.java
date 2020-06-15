@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
 import repositories.CompetenceFacadeLocal;
-import repositories.EquipeFacadeLocal;
 import repositories.PersonneFacadeLocal;
 
 /**
@@ -36,8 +34,6 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
     private PersonneFacadeLocal personneFacade;
     @EJB
     private CompetenceFacadeLocal competenceFacade;
-    @EJB
-    private EquipeFacadeLocal equipeFacade;
     
     @Override
     public List<CompetenceShared> getListeCompetencesDemandees(){
@@ -56,7 +52,7 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
 
     @Override
     public List<CompetenceShared> getListeCompetencesDeCollaborateur(PersonneShared collab) {
-        Personne personne = personneFacade.findByNomAndPrenom(collab.getPrenom(), collab.getNom());
+        Personne personne = personneFacade.findByNomAndPrenom(collab.getNom(), collab.getPrenom());
         if(personne != null){
             List<Competence> listCompetenceCollab = gestionRH.getListeCompetencesDeCollaborateur(personne);
             List<CompetenceShared> listFinal = new ArrayList<>();
@@ -157,7 +153,14 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
                 for(Competence competence : personne.getListeCompetences()){
                     lcs.add(new CompetenceShared(competence.getNom()));
                 }
-                allCollab.add(new PersonneShared(personne.getId(), personne.getNom(), personne.getPrenom(), lcs));
+                PersonneShared personneShared = new PersonneShared(personne.getId(), personne.getNom(), personne.getPrenom(), lcs);
+                if(personne.isIsCodir()){
+                    personneShared.setIsCodir(true);
+                }
+                if(personne.isIsManager()){
+                    personneShared.setIsManager(true);
+                }
+                allCollab.add(personneShared);
             }
             return allCollab;
         }else{
@@ -201,23 +204,36 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
         PersonneShared managerShared = new PersonneShared(manager.getId(), manager.getNom(), manager.getPrenom(), listCompetencesShared);
         EquipeShared equipeShared = new EquipeShared(managerShared, nomEquipe);
         managerShared.setEquipe(equipeShared);
+        managerShared.setIsManager(true);
         return new EquipeShared(managerShared, nomEquipe);
-//        try{
-//            Personne personne = personneFacade.findByNomAndPrenom(manager.getPrenom(), manager.getNom());
-//            Equipe equipe = equipeFacade.creerEquipe(nomEquipe, personne);
-//            return new EquipeShared(manager, nomEquipe);
-//        }catch(NoResultException NoRes){
-//            System.out.println("Manager not found");
-//            return null;
-//        }
     }
 
     @Override
     public CompetenceShared creerCompetence(String nom) {
-        System.out.println("SERVICE GESTION RH : BEGIN CREATE COMPETENCE");
         Competence competence = gestionRH.creerCompetence(nom);
-        System.out.println("SERVICE GESTION RH : COMPETENCE CREATE IN GESTION RH "+competence.getNom());
         return new CompetenceShared(nom);
+    }
+
+    @Override
+    public List<EquipeShared> getAllEquipes() {
+        List<Equipe> equipes = gestionRH.getAllEquipes();
+        List<EquipeShared> equipesShared = new ArrayList<>();
+        for(Equipe equipe : equipes){
+            PersonneShared personneS = new PersonneShared(equipe.getManager().getId(), equipe.getManager().getNom(),
+                                                        equipe.getManager().getPrenom(), null);
+            equipesShared.add(new EquipeShared(personneS, equipe.getNom()));
+        }
+        return equipesShared;
+    }
+
+    @Override
+    public List<CompetenceShared> getAllCompetences() {
+        List<Competence> competences = gestionRH.getAllCompetences();
+        List<CompetenceShared> competencesShared = new ArrayList<>();
+        for(Competence competence : competences){
+            competencesShared.add(new CompetenceShared(competence.getNom()));
+        }
+        return competencesShared;
     }
     
     

@@ -86,5 +86,15 @@ public class WebServiceGestionRH {
     public CompetenceShared creerCompetence(@WebParam(name = "nom") String nom) {
         return ejbRef.creerCompetence(nom);
     }
+
+    @WebMethod(operationName = "getAllEquipes")
+    public List<EquipeShared> getAllEquipes() {
+        return ejbRef.getAllEquipes();
+    }
+
+    @WebMethod(operationName = "getAllCompetences")
+    public List<CompetenceShared> getAllCompetences() {
+        return ejbRef.getAllCompetences();
+    }
     
 }

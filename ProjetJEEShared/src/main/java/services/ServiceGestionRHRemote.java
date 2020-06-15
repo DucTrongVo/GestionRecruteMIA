@@ -30,4 +30,6 @@ public interface ServiceGestionRHRemote {
     public PersonneShared creerPersonneSiInexistant(String prenom, String nom, ArrayList<CompetenceShared> listeCompetences);
     public EquipeShared creerEquipe(String nomEquipe,String nomManager, String prenomManager);
     public CompetenceShared creerCompetence(String nom);
+    public List<EquipeShared> getAllEquipes();
+    public List<CompetenceShared> getAllCompetences();
 }

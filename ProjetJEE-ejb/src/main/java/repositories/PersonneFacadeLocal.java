@@ -39,7 +39,7 @@ public interface PersonneFacadeLocal {
     
     Personne creerCandidatSiInexistant(String prenom, String nom);
     Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
-    Personne findByNomAndPrenom(String prenom, String nom);
+    Personne findByNomAndPrenom(String nom, String prenom);
     void setEquipe(Personne personne, Equipe equipe);
     
 }
