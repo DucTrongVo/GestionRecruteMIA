@@ -28,6 +28,7 @@ public interface GestionRHLocal {
     Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
     public List<FicheDePoste> getAllOpenedPoste();
     public List<FicheDePoste> getAllWaitingPoste();
+    public List<FicheDePoste> getAllClosedPoste();
     public List<Personne> getListCollaborateur();
     public Equipe creerEquipe(String nomEquipe,String nomManager, String prenomManager);
     public void setEquipe(Long idPersonne, String nomEquipe);
