@@ -19,6 +19,6 @@ public interface GestionManagerLocal {
     
     ArrayList<Competence> listerCompetencesDeEquipe(long idEquipe);
     
-    FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe);
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe);
  
 }

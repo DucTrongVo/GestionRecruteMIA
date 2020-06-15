@@ -5,8 +5,12 @@
  */
 package business;
 
+import entities.Competence;
+import entities.Equipe;
 import entities.FicheDePoste;
+import entities.Personne;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,6 +20,16 @@ import javax.ejb.Local;
 @Local
 public interface GestionRHLocal {
     
-    FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe);
-    
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe);
+    public List<Competence> getListeCompetencesDemandees();
+    public FicheDePoste consulterUnPoste(Long idPoste);
+    public List<Competence> getListeCompetencesDeCollaborateur(Personne collab);
+    public Personne creerCandidatSiInexistant(String nom, String prenom);
+    Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
+    public List<FicheDePoste> getAllOpenedPoste();
+    public List<FicheDePoste> getAllWaitingPoste();
+    public List<Personne> getListCollaborateur();
+    public Equipe creerEquipe(String nomEquipe,String nomManager, String prenomManager);
+    public void setEquipe(Long idPersonne, String nomEquipe);
+    public Competence creerCompetence(String nom);
 }

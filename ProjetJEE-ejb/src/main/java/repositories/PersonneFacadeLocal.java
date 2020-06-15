@@ -8,6 +8,7 @@ package repositories;
 import entities.Competence;
 import entities.Equipe;
 import entities.Personne;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -37,5 +38,8 @@ public interface PersonneFacadeLocal {
      List<Competence> getListCompetences(Personne personne);
     
     Personne creerCandidatSiInexistant(String prenom, String nom);
+    Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
+    Personne findByNomAndPrenom(String prenom, String nom);
+    void setEquipe(Personne personne, Equipe equipe);
     
 }

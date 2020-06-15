@@ -10,6 +10,7 @@ import entities.Personne;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -34,19 +35,26 @@ public class CompetenceFacade extends AbstractFacade<Competence> implements Comp
         super(Competence.class);
     }
 
-    public void CreerCompetence(String nom){
-        Competence competence = new Competence(nom);
-        this.create(competence);
+    @Override
+    public void creerCompetence(String nom){
+        try{
+            this.findByNomCompetence(nom);
+        }catch(NoResultException noRes){
+            Competence competence = new Competence(nom);
+            this.create(competence);
+        }
     }
 
     public void affecterCompetence(Personne personne){
         
     }
     
+    @Override
     public Competence findByNomCompetence(String nom) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Competence> cq = cb.createQuery(Competence.class);
         Root<Competence> root = cq.from(Competence.class);
+        //cq.where(cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase()));
         cq.where(
                 cb.and(
                         cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())

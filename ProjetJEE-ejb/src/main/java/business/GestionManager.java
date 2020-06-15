@@ -55,8 +55,8 @@ public class GestionManager implements GestionManagerLocal {
     }
     
     @Override
-    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
-        return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, listIdCompetences, nomEquipe);
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe){
+        return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);
     }
 
 }

@@ -5,7 +5,6 @@
  */
 package repositories;
 
-import entities.Competence;
 import entities.Equipe;
 import entities.Personne;
 import java.util.List;

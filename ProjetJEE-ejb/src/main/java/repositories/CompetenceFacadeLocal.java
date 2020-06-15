@@ -32,5 +32,7 @@ public interface CompetenceFacadeLocal {
     int count();
     
     List<Competence> findByPersonne(Personne personne);
+    public Competence findByNomCompetence(String nom);
+    public void creerCompetence(String nom);
     
 }

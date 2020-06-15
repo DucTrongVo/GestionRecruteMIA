@@ -15,17 +15,10 @@ import javax.ejb.Stateless;
  * @author trongvo
  */
 @Stateless
-public class ServiceCandidat implements ServiceCandidatRemote {
+public class ServiceCandidat implements ServiceCandidatLocal {
 
     private GestionRH gestionRH;
-    private List<FicheDePoste> listeDesPostes;
-    private FicheDePoste posteAConsulter;
     
-    @Override
-    public void updateListPostes() {
-        listeDesPostes = gestionRH.getPostesDispo();
-    }
-
     @Override
     public void creerUneCandidature(Long idCandidat, Long idPoste) {
         gestionRH.creerUneCandidature(idCandidat, idPoste);
@@ -36,24 +29,19 @@ public class ServiceCandidat implements ServiceCandidatRemote {
         gestionRH.retirerUnCandidature(idCandidat, idPoste);
     }
 
+    
     @Override
-    public void updatePosteAConsulter(Long idPoste) {
-        posteAConsulter = gestionRH.consulterUnPoste(idPoste);
-    }
-    
     public FicheDePoste getPosteAConsulter(Long idPoste){
-        this.updatePosteAConsulter(idPoste);
-        return this.posteAConsulter;
+        return gestionRH.consulterUnPoste(idPoste);
     }
     
+    @Override
     public List<FicheDePoste> getPostesDispo(){
-        this.updateListPostes();
-        return this.listeDesPostes;
+        return gestionRH.getPostesDispo();
     }
     
-    public void creerCandidat(String nom, String prenom){
-        gestionRH.creerCandidat(nom, prenom);
+    @Override
+    public void creerCandidatSiInexistant(String nom, String prenom){
+        gestionRH.creerCandidatSiInexistant(nom, prenom);
     }
-
-    
 }

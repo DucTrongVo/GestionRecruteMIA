@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import repositories.CompetenceFacadeLocal;
 import repositories.EquipeFacadeLocal;
-import repositories.FicheDePosteFacade;
 import repositories.FicheDePosteFacadeLocal;
 import repositories.PersonneFacadeLocal;
 
@@ -96,6 +96,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idPoste du poste à consulter
      * @return le poste avec l'id passé dans le paramètre
      */
+    @Override
     public FicheDePoste consulterUnPoste(Long idPoste){
         FicheDePoste poste = posteFacade.find(idPoste);
         if(poste == null){
@@ -140,6 +141,7 @@ public class GestionRH implements GestionRHLocal {
      * demandées
      * @return liste des compétences
      */
+    @Override
     public List<Competence> getListeCompetencesDemandees(){
         List<FicheDePoste> postes = posteFacade.findAll();
         List<Competence> competencesDemandees = new ArrayList<>();
@@ -154,6 +156,22 @@ public class GestionRH implements GestionRHLocal {
         }
         
         return competencesDemandees;
+    }
+    
+    /**
+     * retourner la liste des compétences d'un collaborateur
+     * @param collab le collaborateur
+     * @return liste des compétences du collaborateur en paramètre
+     */
+    @Override
+    public List<Competence> getListeCompetencesDeCollaborateur(Personne collab){
+        try{
+            Personne personne = personneFacade.findByNomAndPrenom(collab.getNom(), collab.getPrenom());
+            return personne.getListeCompetences();
+        }catch(Exception e) {
+            System.out.println(e.toString());
+            return null;
+        }
     }
     
     /**
@@ -202,7 +220,7 @@ public class GestionRH implements GestionRHLocal {
             FicheDePoste poste = posteFacade.find(idPoste);
             if(poste != null){
                 if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.OUVERT)){
-                    this.recruterCollaborateurDansEquipe(idPersonne, idPoste);
+                    this.recruterCollaborateurDansEquipe(personne, poste);
                     posteFacade.setStatut(poste, StatutDePoste.ARCHIVEE);
                 }else{
                     String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
@@ -246,24 +264,99 @@ public class GestionRH implements GestionRHLocal {
         }
     }
     
-    public void creerCandidat(String nom, String prenom){
-            personneFacade.creerCandidatSiInexistant(prenom, nom);
+    @Override
+    public Personne creerCandidatSiInexistant(String nom, String prenom){
+        return personneFacade.creerCandidatSiInexistant(prenom, nom);
     }
     
-    public void recruterCollaborateurDansEquipe(Long idPersonne, Long idPoste){
-        Personne personne = personneFacade.find(idPersonne);
-        FicheDePoste poste = posteFacade.find(idPoste);
+    public void recruterCollaborateurDansEquipe(Personne personne, FicheDePoste poste){
+//        Personne personne = personneFacade.find(idPersonne);
+//        FicheDePoste poste = posteFacade.find(idPoste);
         Equipe equipeDemandeuse = poste.getEquipeDemandeuse();
         personne.setEquipe(equipeDemandeuse);
     }
     
     @Override
-    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<Long> listIdCompetences, String nomEquipe){
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe){
         Equipe equipe = equipeFacade.findByNom(nomEquipe);
         ArrayList<Competence> listCompetences = new ArrayList<>();
-        for (int i=0;i<listIdCompetences.size();i++) {
-            listCompetences.add(competenceFacade.find(listIdCompetences.get(i)));
+        for (String nomC : nomCompetences) {
+            listCompetences.add(competenceFacade.findByNomCompetence(nomC));
         }
         return(posteFacade.creerUneFicheDePoste(nomFicheDePoste, listCompetences, equipe));
+    }
+    /**
+     * Retourner toutes les fiches de poste 
+     * @return liste de poste valité (ouvert)
+     */
+    @Override
+    public List<FicheDePoste> getAllOpenedPoste() {
+        List<FicheDePoste> allPostes = posteFacade.findAll();
+        List<FicheDePoste> allOpenedPosts = new ArrayList<>();
+        for(FicheDePoste poste : allPostes){
+            if(poste.getStatut() == StatutDePoste.OUVERT){
+                allOpenedPosts.add(poste);
+            }
+         }
+        return allOpenedPosts;
+    }
+
+    @Override
+    public List<FicheDePoste> getAllWaitingPoste() {
+        List<FicheDePoste> allPostes = posteFacade.findAll();
+        List<FicheDePoste> allWaitingPosts = new ArrayList<>();
+        for(FicheDePoste poste : allPostes){
+            if(poste.getStatut() == StatutDePoste.EN_ATTENTE){
+                allWaitingPosts.add(poste);
+            }
+         }
+        return allWaitingPosts;
+    }
+
+    @Override
+    public List<Personne> getListCollaborateur() {
+        List<Personne> allPersonne = personneFacade.findAll();
+        List<Personne> allCollab = new ArrayList<>();
+        for(Personne personne : allPersonne){
+            if(personne.getEquipe() != null){
+                allCollab.add(personne);
+            }
+        }
+        return allCollab;
+    }
+
+    @Override
+    public Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences) {
+        return personneFacade.creerPersonneSiInexistant(prenom, nom, listeCompetences);
+    }
+    
+    @Override
+    public Equipe creerEquipe(String nomEquipe, String nomManager, String prenomManager){
+        Personne manager;
+        try{
+            manager = personneFacade.findByNomAndPrenom(prenomManager, nomManager);
+        }catch(NoResultException NoRes){
+            manager = personneFacade.creerPersonneSiInexistant(prenomManager, nomManager, new ArrayList<Competence>());
+        }
+        return equipeFacade.creerEquipe(nomEquipe, manager);
+        
+    }
+    
+    @Override
+    public void setEquipe(Long idPersonne, String nomEquipe){
+        Personne personne = personneFacade.find(idPersonne);
+            if(personne != null){
+                Equipe equipe = equipeFacade.findByNom(nomEquipe);
+                if(equipe != null){
+                    personneFacade.setEquipe(personne, equipe);
+                }
+            }else{
+                System.out.println("personne does not existed!");
+            }
+    }
+    @Override
+    public Competence creerCompetence(String nom){
+        competenceFacade.creerCompetence(nom);
+        return competenceFacade.findByNomCompetence(nom);
     }
 }
