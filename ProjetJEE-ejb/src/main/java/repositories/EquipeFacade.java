@@ -11,6 +11,7 @@ import entities.Personne;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -42,9 +43,14 @@ public class EquipeFacade extends AbstractFacade<Equipe> implements EquipeFacade
     }    
     @Override
     public Equipe creerEquipe(String nomEquipe,Personne manager) {
-        Equipe equipe = new Equipe(nomEquipe,manager);
-        this.create(equipe);
-        return equipe;
+        try{
+            return this.findByNom(nomEquipe);
+        }catch(NoResultException NoRes){
+            Equipe equipe = new Equipe(nomEquipe,manager);
+            this.create(equipe);
+            return this.findByNom(nomEquipe);
+        }
+        
     }
     
     @Override

@@ -332,14 +332,11 @@ public class GestionRH implements GestionRHLocal {
     
     @Override
     public Equipe creerEquipe(String nomEquipe, String nomManager, String prenomManager){
-        Personne manager;
-        try{
-            manager = personneFacade.findByNomAndPrenom(prenomManager, nomManager);
-        }catch(NoResultException NoRes){
-            manager = personneFacade.creerPersonneSiInexistant(prenomManager, nomManager, new ArrayList<Competence>());
-        }
-        return equipeFacade.creerEquipe(nomEquipe, manager);
-        
+        Personne manager = personneFacade.creerPersonneSiInexistant(prenomManager, nomManager, new ArrayList<Competence>());
+        System.out.println("GESTION RH : MANAGER IS "+manager.getNom());
+        Equipe equipe = equipeFacade.creerEquipe(nomEquipe, manager);
+        this.setEquipe(manager.getId(), equipe.getNom());
+        return equipe;
     }
     
     @Override

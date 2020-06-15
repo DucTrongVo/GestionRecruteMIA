@@ -182,16 +182,15 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
                 if(competence != null){listC.add(competence);}
                 else{listC.add(new Competence(cmp.getNom()));}
             }
-        }
-        
+        }      
         Personne personne = gestionRH.creerPersonneSiInexistant(prenom, nom, (ArrayList<Competence>) listC);
-        return new PersonneShared(personne.getId() != null ? personne.getId() : Long.valueOf(1), nom, prenom, listeCompetences);
+        return new PersonneShared(personne.getId(), nom, prenom, listeCompetences);
     }
 
     @Override
-    public EquipeShared creerEquipe(String nomEquipe,String nomManager, String prenomManager) {
+    public EquipeShared creerEquipe(String nomEquipe, String nomManager, String prenomManager) {
         Equipe equipe = gestionRH.creerEquipe(nomEquipe, nomManager, prenomManager);
-        Personne manager = personneFacade.findByNomAndPrenom(prenomManager, nomManager);
+        Personne manager = equipe.getManager();
         List<CompetenceShared> listCompetencesShared = new ArrayList<>();
         if(manager.getListeCompetences() != null){
             for( Competence competence : manager.getListeCompetences()){
@@ -200,6 +199,8 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
         }
         
         PersonneShared managerShared = new PersonneShared(manager.getId(), manager.getNom(), manager.getPrenom(), listCompetencesShared);
+        EquipeShared equipeShared = new EquipeShared(managerShared, nomEquipe);
+        managerShared.setEquipe(equipeShared);
         return new EquipeShared(managerShared, nomEquipe);
 //        try{
 //            Personne personne = personneFacade.findByNomAndPrenom(manager.getPrenom(), manager.getNom());

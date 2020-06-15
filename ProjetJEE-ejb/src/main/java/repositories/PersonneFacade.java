@@ -48,14 +48,32 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
 
     @Override
     public Personne findByNomAndPrenom(String prenom, String nom) {
+//        try{
+//        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+//        CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);
+//        Root<Personne> root = cq.from(Personne.class);
+//        cq.where(
+//            cb.and(
+//                cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+//                cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
+//            )
+//            );
+//        return getEntityManager().createQuery(cq).getSingleResult();
+//            }
+//        catch(NoResultException NoRes){
+//            System.err.println("PERSONNE FACADE : PERSONNE NOT FOUND");
+//            System.out.println(NoRes.toString());
+//            return null;
+//        }
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Personne> cq = cb.createQuery(Personne.class);
         Root<Personne> root = cq.from(Personne.class);
+        //cq.where(cb.equal(root.get("prenom"), prenom.toUpperCase()));
         cq.where(
-                cb.and(
-                        cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
-                        cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
-                )
+            cb.and(
+                cb.equal(cb.upper(root.get("prenom").as(String.class)), prenom.toUpperCase()),
+                cb.equal(cb.upper(root.get("nom").as(String.class)), nom.toUpperCase())
+            )
         );
         return getEntityManager().createQuery(cq).getSingleResult();
     }
@@ -69,6 +87,7 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
             this.create(nouveauCollaborateur);
             System.out.println(noRes.toString());
             System.out.println(Constants.CREATE_SUCCES);
+            //return this.findByNomAndPrenom(prenom, nom);
             return nouveauCollaborateur;
         }
     }    

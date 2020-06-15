@@ -24,7 +24,7 @@ public class MainWindow extends javax.swing.JFrame {
         "Collaborateur",
         "Codir",
         "Manager",
-        "Candidata",
+        "Candidat",
     };
     final ServiceGestionRHRemote serviceRH;
     DefaultTableModel collabTableModel;
@@ -38,12 +38,14 @@ public class MainWindow extends javax.swing.JFrame {
         this.serviceRH = serviceRH;
         collabTableModel = (DefaultTableModel) collabTable.getModel();
         try{
+            CompetenceShared cs;
             List<CompetenceShared> listCompetences = new ArrayList<>();
-            CompetenceShared cs = serviceRH.creerCompetence("Java");
+            cs = serviceRH.creerCompetence("Java");
             System.out.println("COMPETENCE CREATE SUCCES "+cs.getNom());
             listCompetences.add(cs);
-//            System.out.println("ADDED "+listCompetences.get(0).getNom());
-//            listCompetences.add(serviceRH.creerCompetence("Flutter"));
+            System.out.println("ADDED "+listCompetences.get(0).getNom());
+            cs = serviceRH.creerCompetence("Flutter");
+            listCompetences.add(cs);
 //            System.out.println("ADDED "+listCompetences.get(0).getNom());
 //            System.out.println("COMPETENCE SHARED size"+listCompetences.size());
 //            System.out.println("COMPETENCE SHARED "+listCompetences.get(0).getNom());
