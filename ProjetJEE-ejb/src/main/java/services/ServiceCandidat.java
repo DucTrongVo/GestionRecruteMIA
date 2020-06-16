@@ -5,9 +5,10 @@
  */
 package services;
 
-import business.GestionRH;
+import business.GestionRHLocal;
 import entities.FicheDePoste;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -16,8 +17,8 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class ServiceCandidat implements ServiceCandidatLocal {
-
-    private GestionRH gestionRH;
+    @EJB
+    private GestionRHLocal gestionRH;
     
     @Override
     public void creerUneCandidature(Long idCandidat, Long idPoste) {
@@ -36,8 +37,8 @@ public class ServiceCandidat implements ServiceCandidatLocal {
     }
     
     @Override
-    public List<FicheDePoste> getPostesDispo(){
-        return gestionRH.getPostesDispo();
+    public List<FicheDePoste> getAllOpenedPoste(){
+        return gestionRH.getAllOpenedPoste();
     }
     
     @Override

@@ -59,6 +59,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idCandidat id du candidat
      * @param idPoste id du poste
      */
+    @Override
     public void creerUneCandidature(Long idCandidat, Long idPoste){
         try{
             Personne candidat = personneFacade.find(idCandidat);
@@ -82,6 +83,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idCandidat id du candidat
      * @param idPoste id du poste 
      */
+    @Override
     public void retirerUnCandidature(Long idCandidat, Long idPoste){
         Personne candidat = personneFacade.find(idCandidat);
         if(candidat == null){
@@ -114,6 +116,7 @@ public class GestionRH implements GestionRHLocal {
      * Retourner la liste des postes disponibles
      * @return liste des postes ouverts
      */
+    @Override
     public List<FicheDePoste> getPostesDispo(){
         return posteFacade.findAll();
     }
@@ -220,6 +223,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idPersonne le candidat à valider
      * @param idPoste le fiche de poste en question
      */
+    @Override
     public void feuVertCandidat(Long idPersonne, Long idPoste){
         Personne personne = personneFacade.find(idPersonne);
         if(personne != null){
@@ -248,6 +252,7 @@ public class GestionRH implements GestionRHLocal {
      * @param idPersonne le candidat à refuser
      * @param idPoste le fiche de poste en question
      */
+    @Override
     public void feuRougeCandidat(Long idPersonne, Long idPoste){
         Personne personne = personneFacade.find(idPersonne);
         if(personne != null){

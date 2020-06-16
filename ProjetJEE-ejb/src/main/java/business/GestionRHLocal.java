@@ -21,6 +21,11 @@ import javax.ejb.Local;
 @Local
 public interface GestionRHLocal {
     
+    public void creerUneCandidature(Long idCandidat, Long idPoste);
+    public void retirerUnCandidature(Long idCandidat, Long idPoste);
+    public List<FicheDePoste> getPostesDispo();
+    public void feuVertCandidat(Long idPersonne, Long idPoste);
+    public void feuRougeCandidat(Long idPersonne, Long idPoste);
     public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe);
     public List<Competence> getListeCompetencesDemandees();
     public FicheDePoste consulterUnPoste(Long idPoste);

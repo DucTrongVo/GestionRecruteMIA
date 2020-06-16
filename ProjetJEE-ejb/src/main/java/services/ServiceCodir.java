@@ -6,7 +6,9 @@
 package services;
 
 import business.GestionRH;
+import business.GestionRHLocal;
 import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -16,7 +18,8 @@ import javax.ejb.Stateless;
 @Stateless
 public class ServiceCodir implements ServiceCodirLocal {
     
-    private GestionRH gestionRH;
+    @EJB
+    private GestionRHLocal gestionRH;
     
     @Override
     public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared) {

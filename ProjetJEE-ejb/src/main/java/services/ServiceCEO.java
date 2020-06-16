@@ -6,9 +6,11 @@
 package services;
 
 import business.GestionCEO;
+import business.GestionCEOLocal;
 import business.GestionRH;
 import entities.Competence;
 import java.util.ArrayList;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -17,8 +19,8 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class ServiceCEO implements ServiceCEOLocal {
-
-    GestionCEO gestionCEO;
+    @EJB
+    private GestionCEOLocal gestionCEO;
     
     public ServiceCEO() {
     }

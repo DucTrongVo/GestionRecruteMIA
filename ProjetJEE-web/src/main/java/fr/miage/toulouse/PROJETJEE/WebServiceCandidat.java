@@ -33,9 +33,9 @@ public class WebServiceCandidat {
         ejbRef.creerCandidatSiInexistant(nom, prenom);
     }
 
-    @WebMethod(operationName = "getPostesDispo")
-    public List<FicheDePoste> getPostesDispo() {
-        return ejbRef.getPostesDispo();
+    @WebMethod(operationName = "getAllOpenedPoste")
+    public List<FicheDePoste> getAllOpenedPoste() {
+        return ejbRef.getAllOpenedPoste();
     }
 
     @WebMethod(operationName = "getPosteAConsulter")
