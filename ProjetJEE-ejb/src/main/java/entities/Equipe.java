@@ -12,12 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author igouane
  */
 @Entity
+@XmlRootElement
+
 public class Equipe implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,6 +34,7 @@ public class Equipe implements Serializable {
     private String nom;
 
     @OneToMany(mappedBy = "equipe")
+    @XmlTransient
     private List<Personne> collaborateurs;
 
     public Equipe() {
@@ -38,7 +44,7 @@ public class Equipe implements Serializable {
         this.nom=nomEquipe;
         this.manager=manager;
     }
-
+    @XmlTransient
     public Personne getManager() {
         return manager;
     }
@@ -46,7 +52,7 @@ public class Equipe implements Serializable {
     public void setManager(Personne manager) {
         this.manager = manager;
     }
-
+    @XmlTransient
     public List<Personne> getCollaborateurs() {
         return collaborateurs;
     }
@@ -55,7 +61,7 @@ public class Equipe implements Serializable {
         this.collaborateurs = collaborateurs;
     }
 
-
+    @XmlElement
     public String getNom() {
         return nom;
     }
@@ -63,7 +69,7 @@ public class Equipe implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
-
+    @XmlElement
     public Long getId() {
         return id;
     }

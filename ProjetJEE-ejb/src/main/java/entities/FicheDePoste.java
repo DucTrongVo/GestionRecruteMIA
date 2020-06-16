@@ -15,36 +15,47 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author zamourak
  */
 @Entity
+@XmlRootElement
+
 public class FicheDePoste implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
+
     private String nom;
+
     private StatutDePoste statut;
+
     private String presentationEntreprise;
+
     private String presentationPoste;
     @OneToMany
+
     private List<Competence> listeCompetenceRecherchees;
     @OneToMany
+
     private List<Personne> listeCandidats;
     @OneToOne
+
     private Equipe equipeDemandeuse;
-    
+
     public FicheDePoste() {
     }
 
-    
-    
-    public FicheDePoste(String nom, String presentationEntreprise, String presentationPoste, 
-                        List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse) {
+    public FicheDePoste(String nom, String presentationEntreprise, String presentationPoste,
+            List<Competence> listeCompetenceRecherchees, Equipe equipeDemandeuse) {
         this.nom = nom;
         this.statut = StatutDePoste.EN_ATTENTE;
         this.presentationEntreprise = presentationEntreprise;
@@ -54,13 +65,13 @@ public class FicheDePoste implements Serializable {
         this.equipeDemandeuse = equipeDemandeuse;
     }
 
-    
-    
+    @XmlElement
+
     public Long getId() {
         return id;
     }
 
-
+    @XmlElement
     public String getNom() {
         return nom;
     }
@@ -69,7 +80,7 @@ public class FicheDePoste implements Serializable {
         this.nom = nom;
     }
 
-    
+    @XmlTransient
     public StatutDePoste getStatut() {
         return statut;
     }
@@ -78,6 +89,7 @@ public class FicheDePoste implements Serializable {
         this.statut = statut;
     }
 
+    @XmlElement
     public String getPresentationEntreprise() {
         return presentationEntreprise;
     }
@@ -85,6 +97,8 @@ public class FicheDePoste implements Serializable {
     public void setPresentationEntreprise(String presentationEntreprise) {
         this.presentationEntreprise = presentationEntreprise;
     }
+
+    @XmlElement
 
     public String getPresentationPoste() {
         return presentationPoste;
@@ -94,6 +108,7 @@ public class FicheDePoste implements Serializable {
         this.presentationPoste = presentationPoste;
     }
 
+    @XmlTransient
     public List<Competence> getListeCompetenceRecherchees() {
         return listeCompetenceRecherchees;
     }
@@ -102,6 +117,7 @@ public class FicheDePoste implements Serializable {
         this.listeCompetenceRecherchees = listeCompetenceRecherchees;
     }
 
+    @XmlTransient
     public List<Personne> getListeCandidats() {
         return listeCandidats;
     }
@@ -109,6 +125,8 @@ public class FicheDePoste implements Serializable {
     public void setListeCandidats(List<Personne> listeCandidats) {
         this.listeCandidats = listeCandidats;
     }
+
+    @XmlTransient
 
     public Equipe getEquipeDemandeuse() {
         return equipeDemandeuse;
@@ -142,5 +160,5 @@ public class FicheDePoste implements Serializable {
     public String toString() {
         return "entities.FicheDePoste[ id=" + id + " ]";
     }
-    
+
 }

@@ -12,12 +12,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author igouane
  */
 @Entity
+@XmlRootElement
+
 public class Competence implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,6 +32,7 @@ public class Competence implements Serializable {
     private Long id;
     private String nom;    
     @ManyToMany(mappedBy = "listeCompetences")
+    @XmlTransient
     private List<Personne> listePersonnes;    
 
     public Competence() {
@@ -42,7 +48,7 @@ public class Competence implements Serializable {
     }
 
 
-    
+    @XmlElement
     public String getNom() {
         return nom;
     }
@@ -50,12 +56,12 @@ public class Competence implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
-
+    @XmlElement
     public Long getId() {
         return id;
     }
 
-
+    @XmlTransient
     public List<Personne> getListePersonnes() {
         return listePersonnes;
     }

@@ -14,12 +14,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author zamourak
  */
 @Entity
+@XmlRootElement
+
 public class Personne implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,6 +41,7 @@ public class Personne implements Serializable {
     private Equipe equipe;
     
     @ManyToMany
+    @XmlTransient
     private List<Competence> listeCompetences;    
 
     public Personne() {
@@ -50,7 +56,7 @@ public class Personne implements Serializable {
         this.listeCompetences = listeCompetences;
     }
     
-
+    @XmlElement
     public Long getId() {
         return id;
     }
@@ -59,6 +65,7 @@ public class Personne implements Serializable {
         this.id = id;
     }
 
+     @XmlElement
     public String getNom() {
         return nom;
     }
@@ -66,7 +73,7 @@ public class Personne implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
-
+     @XmlElement
     public String getPrenom() {
         return prenom;
     }
@@ -90,7 +97,7 @@ public class Personne implements Serializable {
     public void setIsManager(boolean isManager) {
         this.isManager = isManager;
     }
-
+    @XmlTransient
     public Equipe getEquipe() {
         return equipe;
     }
@@ -98,7 +105,8 @@ public class Personne implements Serializable {
     public void setEquipe(Equipe equipe) {
         this.equipe = equipe;
     }
-
+    
+    @XmlTransient
     public List<Competence> getListeCompetences() {
         return listeCompetences;
     }
