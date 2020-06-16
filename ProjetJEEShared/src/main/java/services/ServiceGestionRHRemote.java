@@ -26,12 +26,14 @@ public interface ServiceGestionRHRemote {
     public List<FicheDePosteShared> getAllWaitingPoste();
     public FicheDePosteShared consulterUnPoste(Long idPoste);
     public List<PersonneShared> getListCollaborateur();
+    public List<PersonneShared> getListCandidat();
     public void setCodir(PersonneShared personne);
-    public PersonneShared creerCandidatSiInexistant(String prenom, String nom);
-    public PersonneShared creerPersonneSiInexistant(String prenom, String nom, ArrayList<CompetenceShared> listeCompetences);
+    public void setEquipe(Long idPersonne, String nomEquipe);
+    public PersonneShared creerCandidatSiInexistant(String nom, String prenom);
+    public PersonneShared creerPersonneSiInexistant(String nom, String prenom, ArrayList<CompetenceShared> listeCompetences);
     public EquipeShared creerEquipe(String nomEquipe,String nomManager, String prenomManager);
     public CompetenceShared creerCompetence(String nom);
     public List<EquipeShared> getAllEquipes();
     public List<CompetenceShared> getAllCompetences();
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste);
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared);
 }

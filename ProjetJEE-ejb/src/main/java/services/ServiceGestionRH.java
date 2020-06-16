@@ -203,25 +203,39 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
             return null;
         }
     }
+    
+    @Override
+    public List<PersonneShared> getListCandidat(){
+        List<Personne> allCandidat = gestionRH.getListCandidat();
+        if(allCandidat != null){
+            List<PersonneShared> allCandidatShared = new ArrayList<>();
+            for(Personne personne : allCandidat){
+                allCandidatShared.add(this.getPersonneSharedFromPersonne(personne));
+            }
+            return allCandidatShared;
+        }else{
+            System.out.println("No Candidat found");
+            return null;
+        }
+    }
 
     @Override
-    public PersonneShared creerCandidatSiInexistant(String prenom, String nom) {
+    public PersonneShared creerCandidatSiInexistant(String nom, String prenom) {
         Personne personne = gestionRH.creerCandidatSiInexistant(nom, prenom);
         return new PersonneShared(personne.getId(), personne.getNom(), personne.getPrenom(), null);
     }
 
     @Override
-    public PersonneShared creerPersonneSiInexistant(String prenom, String nom, ArrayList<CompetenceShared> listeCompetences) {
+    public PersonneShared creerPersonneSiInexistant(String nom, String prenom, ArrayList<CompetenceShared> listeCompetences) {
         List<Competence> listC = new ArrayList<>();
         if(listeCompetences != null){
-            System.out.println("liste compétence not null");
             for(CompetenceShared cmp : listeCompetences){
                 Competence competence = competenceFacade.findByNomCompetence(cmp.getNom());
                 if(competence != null){listC.add(competence);}
                 else{listC.add(new Competence(cmp.getNom()));}
             }
         }      
-        Personne personne = gestionRH.creerPersonneSiInexistant(prenom, nom, (ArrayList<Competence>) listC);
+        Personne personne = gestionRH.creerPersonneSiInexistant(nom, prenom, (ArrayList<Competence>) listC);
         return new PersonneShared(personne.getId(), nom, prenom, listeCompetences);
     }
 
@@ -272,8 +286,8 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
     }
 
     @Override
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste) {
-        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared) {
+        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
         //posteShared.setStatut(StatutDePoste.OUVERT);
     }
 
@@ -283,6 +297,9 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
         personne.setIsCodir(true);
     }
     
-    
+    @Override
+    public void setEquipe(Long idPersonne, String nomEquipe){
+        gestionRH.setEquipe(idPersonne, nomEquipe);
+    }
       
 }

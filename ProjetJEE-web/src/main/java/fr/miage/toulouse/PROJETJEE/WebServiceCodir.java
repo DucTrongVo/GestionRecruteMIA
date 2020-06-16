@@ -5,6 +5,7 @@
  */
 package fr.miage.toulouse.PROJETJEE;
 
+import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.ejb.Stateless;
@@ -27,8 +28,8 @@ public class WebServiceCodir {
 
     @WebMethod(operationName = "validerLaCreationUnPoste")
     @Oneway
-    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste) {
-        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste, @WebParam(name = "posteShared") FicheDePosteShared posteShared) {
+        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
     }
 
     @WebMethod(operationName = "feuVertCandidat")

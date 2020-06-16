@@ -5,6 +5,7 @@
  */
 package services;
 
+import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import javax.ejb.Local;
 
 /**
@@ -13,7 +14,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface ServiceCodirLocal {
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste);
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared);
     public void feuVertCandidat(Long idPersonne, Long idPoste);
     public void feuRougeCandidat(Long idPersonne, Long idPoste);
 }

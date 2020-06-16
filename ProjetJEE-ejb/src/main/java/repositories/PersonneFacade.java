@@ -61,28 +61,27 @@ public class PersonneFacade extends AbstractFacade<Personne> implements Personne
     }
 
     @Override
-    public Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences) {
+    public Personne creerPersonneSiInexistant(String nom, String prenom, ArrayList<Competence> listeCompetences) {
         try{
             return this.findByNomAndPrenom(nom, prenom);
         }catch(NoResultException noRes){
-            Personne nouveauCollaborateur = new Personne(prenom, nom, listeCompetences);
+            Personne nouveauCollaborateur = new Personne(nom, prenom, listeCompetences);
             this.create(nouveauCollaborateur);
             System.out.println(noRes.toString());
             System.out.println(Constants.CREATE_SUCCES);
-            //return this.findByNomAndPrenom(prenom, nom);
             return nouveauCollaborateur;
         }
     }    
     
     @Override
-    public Personne creerCandidatSiInexistant(String prenom, String nom) {
+    public Personne creerCandidatSiInexistant(String nom, String prenom) {
         try{
             return this.findByNomAndPrenom(nom, prenom);
         }catch(NoResultException noRes){
-            Personne newCandidat = new Personne(prenom, nom, null);
+            Personne newCandidat = new Personne(nom, prenom, null);
             this.create(newCandidat);
-            System.out.println(Constants.CREATE_SUCCES);
             System.out.println(noRes.toString());
+            System.out.println(Constants.CREATE_SUCCES);
             return newCandidat;
         }
     }    

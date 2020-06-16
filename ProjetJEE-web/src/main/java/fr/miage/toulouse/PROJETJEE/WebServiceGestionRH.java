@@ -73,13 +73,13 @@ public class WebServiceGestionRH {
     }
 
     @WebMethod(operationName = "creerCandidatSiInexistant")
-    public PersonneShared creerCandidatSiInexistant(@WebParam(name = "prenom") String prenom, @WebParam(name = "nom") String nom) {
-        return ejbRef.creerCandidatSiInexistant(prenom, nom);
+    public PersonneShared creerCandidatSiInexistant(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
+        return ejbRef.creerCandidatSiInexistant(nom, prenom);
     }
 
     @WebMethod(operationName = "creerPersonneSiInexistant")
-    public PersonneShared creerPersonneSiInexistant(@WebParam(name = "prenom") String prenom, @WebParam(name = "nom") String nom, @WebParam(name = "listeCompetences") ArrayList<CompetenceShared> listeCompetences) {
-        return ejbRef.creerPersonneSiInexistant(prenom, nom, listeCompetences);
+    public PersonneShared creerPersonneSiInexistant(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom, @WebParam(name = "listeCompetences") ArrayList<CompetenceShared> listeCompetences) {
+        return ejbRef.creerPersonneSiInexistant(nom, prenom, listeCompetences);
     }
 
     @WebMethod(operationName = "creerEquipe")
@@ -101,11 +101,23 @@ public class WebServiceGestionRH {
     public List<CompetenceShared> getAllCompetences() {
         return ejbRef.getAllCompetences();
     }
+    
+    @WebMethod(operationName = "setEquipe")
+    @Oneway
+    public void setEquipe(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "nomEquipe") String nomEquipe) {
+        ejbRef.setEquipe(idPersonne, nomEquipe);
+    }
+    
+    @WebMethod(operationName = "getListCandidat")
+    @Oneway
+    public void getListCandidat() {
+        ejbRef.getListCandidat();
+    }
 
     @WebMethod(operationName = "validerLaCreationUnPoste")
     @Oneway
-    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste) {
-        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste, @WebParam(name = "posteShared") FicheDePosteShared posteShared) {
+        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
     }
     
 }

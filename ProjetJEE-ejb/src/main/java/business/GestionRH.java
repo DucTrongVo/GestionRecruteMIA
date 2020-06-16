@@ -10,6 +10,7 @@ import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
 import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
+import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,17 +60,20 @@ public class GestionRH implements GestionRHLocal {
      * @param idPoste id du poste
      */
     public void creerUneCandidature(Long idCandidat, Long idPoste){
-        Personne candidat = personneFacade.find(idCandidat);
-        if(candidat == null){
-            System.out.println(Constants.USER_NOT_EXIST);
-        }else{
+        try{
+            Personne candidat = personneFacade.find(idCandidat);
             FicheDePoste poste = posteFacade.find(idPoste);
-            if(poste == null){
-                System.out.println(Constants.POSTE_NOT_EXIST);
-            }else{
-                posteFacade.ajouterUneCandidatureAuPoste(poste, candidat);
-            }
+            posteFacade.ajouterUneCandidatureAuPoste(poste, candidat);
+        }catch(NoResultException NoRes){
+            System.out.println(NoRes.toString());
+//            if(candidat == null){
+//                System.out.println(Constants.USER_NOT_EXIST);
+//            }
+//            if(poste == null){
+//                System.out.println(Constants.POSTE_NOT_EXIST);
+//            }
         }
+        
     }
     
     /**
@@ -182,7 +186,7 @@ public class GestionRH implements GestionRHLocal {
      * @param presentationPoste la présentation du poste à ajouter lors de la validation du poste
      */
     @Override
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste){
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared){
         Personne p = personneFacade.find(idPersonne);
         if(p != null){
             if(p.isIsCodir()){
@@ -194,6 +198,7 @@ public class GestionRH implements GestionRHLocal {
                     if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.EN_ATTENTE)){
                         posteFacade.setStatut(poste, StatutDePoste.OUVERT);
                         posteFacade.ajouterDescriptionDePoste(poste, presentationEntreprise, presentationPoste);
+                        posteShared.setStatut(StatutDePoste.OUVERT);
                     }else{
                         String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
                         System.out.println(err);
@@ -267,7 +272,7 @@ public class GestionRH implements GestionRHLocal {
     
     @Override
     public Personne creerCandidatSiInexistant(String nom, String prenom){
-        return personneFacade.creerCandidatSiInexistant(prenom, nom);
+        return personneFacade.creerCandidatSiInexistant(nom, prenom);
     }
     
     public void recruterCollaborateurDansEquipe(Personne personne, FicheDePoste poste){
@@ -331,22 +336,32 @@ public class GestionRH implements GestionRHLocal {
         List<Personne> allPersonne = personneFacade.findAll();
         List<Personne> allCollab = new ArrayList<>();
         for(Personne personne : allPersonne){
-            if(personne.getEquipe() != null){
+            if(personne.getEquipe() != null || personne.isIsCodir()){
                 allCollab.add(personne);
             }
         }
         return allCollab;
     }
-
+    
     @Override
-    public Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences) {
-        return personneFacade.creerPersonneSiInexistant(prenom, nom, listeCompetences);
+    public List<Personne> getListCandidat(){
+        List<Personne> allPersonne = personneFacade.findAll();
+        List<Personne> allCandidat = new ArrayList<>();
+        for(Personne personne : allPersonne){
+            if(personne.getEquipe() == null && !personne.isIsCodir()){
+                allCandidat.add(personne);
+            }
+        }
+        return allCandidat;
+    }
+    @Override
+    public Personne creerPersonneSiInexistant(String nom, String prenom, ArrayList<Competence> listeCompetences) {
+        return personneFacade.creerPersonneSiInexistant(nom, prenom, listeCompetences);
     }
     
     @Override
     public Equipe creerEquipe(String nomEquipe, String nomManager, String prenomManager){
         Personne manager = personneFacade.creerPersonneSiInexistant(nomManager, prenomManager, new ArrayList<Competence>());
-        System.out.println("GESTION RH : MANAGER IS "+manager.getNom());
         Equipe equipe = equipeFacade.creerEquipe(nomEquipe, manager);
         this.setEquipe(manager.getId(), equipe.getNom());
         manager.setIsManager(true);

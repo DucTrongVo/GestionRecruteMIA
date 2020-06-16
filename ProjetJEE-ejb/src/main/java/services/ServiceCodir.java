@@ -6,6 +6,7 @@
 package services;
 
 import business.GestionRH;
+import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import javax.ejb.Stateless;
 
 /**
@@ -18,8 +19,8 @@ public class ServiceCodir implements ServiceCodirLocal {
     private GestionRH gestionRH;
     
     @Override
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste) {
-        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared) {
+        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
     }
 
     @Override

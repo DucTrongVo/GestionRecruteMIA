@@ -37,8 +37,8 @@ public interface PersonneFacadeLocal {
 
      List<Competence> getListCompetences(Personne personne);
     
-    Personne creerCandidatSiInexistant(String prenom, String nom);
-    Personne creerPersonneSiInexistant(String prenom, String nom, ArrayList<Competence> listeCompetences);
+    Personne creerCandidatSiInexistant(String nom, String prenom);
+    Personne creerPersonneSiInexistant(String nom, String prenom, ArrayList<Competence> listeCompetences);
     Personne findByNomAndPrenom(String nom, String prenom);
     void setEquipe(Personne personne, Equipe equipe);
     
