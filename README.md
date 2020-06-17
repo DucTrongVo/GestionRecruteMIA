@@ -11,7 +11,7 @@ Nous avons développé cette application dans l'optique de permettre de manager 
 
 Pour lancer les différentes interface graphiques il faut :
 - Cas d'une application lourde : Il faut commencer par build le projet, run le projet ear et ensuite l'application lourde API_JEE.
-- Cas d'une application legère : Il faut commencer par build le projet, run le projet ear et ensuite le web service désiré dans le dossier 'Web Services' du ProjetJEE-web.
+- Cas d'une application legère : Il faut commencer par build le projet, run le projet ear et ensuite faire 'Test Web Service' pour le web service désiré dans le dossier 'Web Services' du ProjetJEE-web.
 
 ## Lien de la vidéo de démonstration
 
