@@ -25,7 +25,10 @@ public class GestionCEO implements GestionCEOLocal {
     public ArrayList<Competence> accederListeCompetence() {
         return (ArrayList<Competence>) gestionRH.getListeCompetencesDemandees();
     }
-
+    /**
+     * permet d'accéder à la liste des postes
+     * @return retourne une liste contenant deux entrées étant le nombre de fiches de poste non archivées et le nombre de fiches de postes totales
+     */
     @Override
     public ArrayList<Integer> accederListeComptesFichesDePoste() {
         List<FicheDePoste> listePostesNonArchivees;
@@ -40,6 +43,10 @@ public class GestionCEO implements GestionCEOLocal {
         return listeComptesPostes;
     }
 
+    /**
+     * permet d'accéder au nombre de candidatures
+     * @return retourne une liste contenant deux entrées étant le nombre de candidatures retenues et le nombre de candidatures totales.
+     */
     @Override
     public ArrayList<Integer> accederNombreCandidatures() {
         int nombreCandidaturesRetenues = 0;
