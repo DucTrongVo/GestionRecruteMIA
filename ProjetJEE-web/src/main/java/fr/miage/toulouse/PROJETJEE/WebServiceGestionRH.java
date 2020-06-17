@@ -14,7 +14,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.ejb.Stateless;
-import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import services.ServiceGestionRHRemote;
@@ -66,10 +65,19 @@ public class WebServiceGestionRH {
         return ejbRef.getListCollaborateur();
     }
 
+    @WebMethod(operationName = "getListCandidat")
+    public List<PersonneShared> getListCandidat() {
+        return ejbRef.getListCandidat();
+    }
+
     @WebMethod(operationName = "setCodir")
-    @Oneway
-    public void setCodir(@WebParam(name = "personne") PersonneShared personne) {
-        ejbRef.setCodir(personne);
+    public String setCodir(@WebParam(name = "personne") PersonneShared personne) {
+        return ejbRef.setCodir(personne);
+    }
+
+    @WebMethod(operationName = "setEquipe")
+    public String setEquipe(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "nomEquipe") String nomEquipe) {
+        return ejbRef.setEquipe(idPersonne, nomEquipe);
     }
 
     @WebMethod(operationName = "creerCandidatSiInexistant")
@@ -101,23 +109,10 @@ public class WebServiceGestionRH {
     public List<CompetenceShared> getAllCompetences() {
         return ejbRef.getAllCompetences();
     }
-    
-    @WebMethod(operationName = "setEquipe")
-    @Oneway
-    public void setEquipe(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "nomEquipe") String nomEquipe) {
-        ejbRef.setEquipe(idPersonne, nomEquipe);
-    }
-    
-    @WebMethod(operationName = "getListCandidat")
-    @Oneway
-    public void getListCandidat() {
-        ejbRef.getListCandidat();
-    }
 
     @WebMethod(operationName = "validerLaCreationUnPoste")
-    @Oneway
-    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste, @WebParam(name = "posteShared") FicheDePosteShared posteShared) {
-        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
+    public String validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste) {
+        return ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
     }
     
 }

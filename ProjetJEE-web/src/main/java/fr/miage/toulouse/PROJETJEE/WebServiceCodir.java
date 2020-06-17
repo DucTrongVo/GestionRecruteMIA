@@ -27,21 +27,18 @@ public class WebServiceCodir {
     // "Web Service > Add Operation"
 
     @WebMethod(operationName = "validerLaCreationUnPoste")
-    @Oneway
-    public void validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste, @WebParam(name = "posteShared") FicheDePosteShared posteShared) {
-        ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
+    public String validerLaCreationUnPoste(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste, @WebParam(name = "presentationEntreprise") String presentationEntreprise, @WebParam(name = "presentationPoste") String presentationPoste) {
+        return ejbRef.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
     }
 
     @WebMethod(operationName = "feuVertCandidat")
-    @Oneway
-    public void feuVertCandidat(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste) {
-        ejbRef.feuVertCandidat(idPersonne, idPoste);
+    public String feuVertCandidat(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste) {
+        return ejbRef.feuVertCandidat(idPersonne, idPoste);
     }
 
     @WebMethod(operationName = "feuRougeCandidat")
-    @Oneway
-    public void feuRougeCandidat(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste) {
-        ejbRef.feuRougeCandidat(idPersonne, idPoste);
+    public String feuRougeCandidat(@WebParam(name = "idPersonne") Long idPersonne, @WebParam(name = "idPoste") Long idPoste) {
+        return ejbRef.feuRougeCandidat(idPersonne, idPoste);
     }
     
 }

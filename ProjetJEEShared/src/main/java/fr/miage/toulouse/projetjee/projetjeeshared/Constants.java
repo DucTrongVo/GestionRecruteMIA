@@ -26,6 +26,16 @@ public final class Constants {
     
     public static final String SUCCES = "L'action fini avec succès!";
     
+    public static final String CANDIDATE_SUCCESS = "Postuler avec succès!";
+    
+    public static final String WITHDRAW_CANDIDATE_SUCCESS = "Retirer le candidature avec succès!";
+    
+    public static final String POST_VALIDATION_SUCCESS = "Validation le poste avec succès!";
+    
+    public static final String GREEN_LIGHT_SUCCESS = "Validation le poste avec succès!";
+    
+    public static final String RED_LIGHT_SUCCESS = "Validation le poste avec succès!";
+    
     public static final String ONLY_CODIR_CAN_VALIDATE = "Seulement un codir peut valider la création d'une poste!";
     
     public static final String PRESENTATION_ENTREPRISE = "Bring it est une entreprise internationnale";

@@ -189,7 +189,7 @@ public class GestionRH implements GestionRHLocal {
      * @param presentationPoste la présentation du poste à ajouter lors de la validation du poste
      */
     @Override
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared){
+    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste){
         Personne p = personneFacade.find(idPersonne);
         if(p != null){
             if(p.isIsCodir()){
@@ -200,8 +200,8 @@ public class GestionRH implements GestionRHLocal {
                 }else{
                     if(posteFacade.getStatutDePoste(poste).equals(StatutDePoste.EN_ATTENTE)){
                         posteFacade.setStatut(poste, StatutDePoste.OUVERT);
-                        posteFacade.ajouterDescriptionDePoste(poste, presentationEntreprise, presentationPoste);
-                        posteShared.setStatut(StatutDePoste.OUVERT);
+                        String preE = "".equals(presentationEntreprise) ? Constants.PRESENTATION_ENTREPRISE : presentationEntreprise;
+                        posteFacade.ajouterDescriptionDePoste(poste, preE, presentationPoste);
                     }else{
                         String err = Constants.POSTE_STATUS_IS+" "+posteFacade.getStatutDePoste(poste).toString();
                         System.out.println(err);

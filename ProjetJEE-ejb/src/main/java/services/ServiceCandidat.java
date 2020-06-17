@@ -7,6 +7,7 @@ package services;
 
 import business.GestionRHLocal;
 import entities.FicheDePoste;
+import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -20,14 +21,16 @@ public class ServiceCandidat implements ServiceCandidatLocal {
     @EJB
     private GestionRHLocal gestionRH;
     
-    @Override
-    public void creerUneCandidature(Long idCandidat, Long idPoste) {
+     @Override
+    public String creerUneCandidature(Long idCandidat, Long idPoste) {
         gestionRH.creerUneCandidature(idCandidat, idPoste);
+        return Constants.CANDIDATE_SUCCESS;
     }
 
     @Override
-    public void retirerUneCandidature(Long idCandidat, Long idPoste) {
+    public String retirerUneCandidature(Long idCandidat, Long idPoste) {
         gestionRH.retirerUnCandidature(idCandidat, idPoste);
+        return Constants.WITHDRAW_CANDIDATE_SUCCESS;
     }
 
     
@@ -42,7 +45,9 @@ public class ServiceCandidat implements ServiceCandidatLocal {
     }
     
     @Override
-    public void creerCandidatSiInexistant(String nom, String prenom){
+    public String creerCandidatSiInexistant(String nom, String prenom){
         gestionRH.creerCandidatSiInexistant(nom, prenom);
+        return Constants.CREATE_SUCCES;
     }
 }
+

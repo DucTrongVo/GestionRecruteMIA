@@ -88,12 +88,12 @@ public class MainWindow extends javax.swing.JFrame {
             listEquipes.add(equipe1);
             serviceRH.setEquipe(carlos.getId(), listEquipes.get(0).getNom());
             carlos.setEquipe(listEquipes.get(0));
+            
+            // Create poste
             ArrayList<String> nomCompetence = new ArrayList<>(Arrays.asList(listCompetences.get(0).getNom()));
             FicheDePosteShared fdps = serviceRH.creerFicheDePosteDeDemande("Chercher Java DEV", nomCompetence, listEquipes.get(0).getNom());
-            System.out.println("POST CREATED "+fdps.getNom());
-            serviceRH.validerLaCreationUnPoste(trong.getId(), fdps.getId(), fdps.getPresentationEntreprise(), "Recherche de DEV en Java", fdps);
-            //fdps.setStatut(StatutDePoste.OUVERT);
-            System.out.println("POST VALIDATED "+fdps.getNom());
+            serviceRH.validerLaCreationUnPoste(trong.getId(), fdps.getId(), fdps.getPresentationEntreprise(), "Recherche de DEV en Java");
+            fdps.setStatut(StatutDePoste.OUVERT);
             listPostesOuvert.add(fdps);
             
             // charger tableau

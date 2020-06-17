@@ -15,9 +15,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface ServiceCandidatLocal {
-    public void creerCandidatSiInexistant(String nom, String prenom);
+    public String creerCandidatSiInexistant(String nom, String prenom);
     public List<FicheDePoste> getAllOpenedPoste();
     public FicheDePoste getPosteAConsulter(Long idPoste);
-    public void creerUneCandidature(Long idCandidat, Long idPoste);
-    public void retirerUneCandidature(Long idCandidat, Long idPoste);
+    public String creerUneCandidature(Long idCandidat, Long idPoste);
+    public String retirerUneCandidature(Long idCandidat, Long idPoste);
 }

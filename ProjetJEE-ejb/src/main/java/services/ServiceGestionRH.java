@@ -15,7 +15,6 @@ import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import fr.miage.toulouse.projetjee.projetjeeshared.EquipeShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.PersonneShared;
-import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -78,11 +77,10 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
         personneShared.setIsManager(personne.isIsManager());
         return personneShared;
     }
-    private EquipeShared getEquipeSharedFromEquipe(Equipe equipe){
+    private EquipeShared getEquipeSharedFromEquipe(Equipe equipe, PersonneShared managerSh){
         Personne manager = equipe.getManager();
-        PersonneShared managerShared = getPersonneSharedFromPersonne(manager);
-        EquipeShared equipeShared = new EquipeShared(managerShared, equipe.getNom());
-        managerShared.setEquipe(equipeShared);
+        EquipeShared equipeShared = new EquipeShared(managerSh, equipe.getNom());
+        managerSh.setEquipe(equipeShared);
         List<PersonneShared> listCollaborateursShared = new ArrayList<>();
         List<Personne> listCollaborateurs = equipe.getCollaborateurs();
         for(int i=0;i<listCollaborateurs.size();i++){
@@ -96,7 +94,8 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
     public FicheDePosteShared creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe) {
         try{
             FicheDePoste poste = gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);
-            EquipeShared equipeS = getEquipeSharedFromEquipe(poste.getEquipeDemandeuse());
+            PersonneShared managerShared = getPersonneSharedFromPersonne(poste.getEquipeDemandeuse().getManager());
+            EquipeShared equipeS = getEquipeSharedFromEquipe(poste.getEquipeDemandeuse(), managerShared);
             List<Competence> listeCompetence = poste.getListeCompetenceRecherchees();
                 List<CompetenceShared> listeCompetenceShared = new ArrayList<>();
                 for(int i=0;i<listeCompetence.size();i++){
@@ -286,20 +285,22 @@ public class ServiceGestionRH implements ServiceGestionRHRemote {
     }
 
     @Override
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared) {
-        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
-        //posteShared.setStatut(StatutDePoste.OUVERT);
+    public String validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste) {
+        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+        return Constants.POST_VALIDATION_SUCCESS;
     }
 
     @Override
-    public void setCodir(PersonneShared personne) {
+    public String setCodir(PersonneShared personne) {
         gestionRH.setCodir(personne.getId());
         personne.setIsCodir(true);
+        return personne.getNom() + " "+personne.getPrenom()+" est désormais CODIR";
     }
     
     @Override
-    public void setEquipe(Long idPersonne, String nomEquipe){
+    public String setEquipe(Long idPersonne, String nomEquipe){
         gestionRH.setEquipe(idPersonne, nomEquipe);
+        return "Ajoute succes dans l\'équipe "+nomEquipe;
     }
       
 }

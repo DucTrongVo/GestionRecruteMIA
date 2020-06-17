@@ -5,8 +5,8 @@
  */
 package services;
 
-import business.GestionRH;
 import business.GestionRHLocal;
+import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,17 +22,20 @@ public class ServiceCodir implements ServiceCodirLocal {
     private GestionRHLocal gestionRH;
     
     @Override
-    public void validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste, FicheDePosteShared posteShared) {
-        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste, posteShared);
+    public String validerLaCreationUnPoste(Long idPersonne, Long idPoste, String presentationEntreprise, String presentationPoste) {
+        gestionRH.validerLaCreationUnPoste(idPersonne, idPoste, presentationEntreprise, presentationPoste);
+        return Constants.POST_VALIDATION_SUCCESS;
     }
 
     @Override
-    public void feuVertCandidat(Long idPersonne, Long idPoste) {
+    public String feuVertCandidat(Long idPersonne, Long idPoste) {
         gestionRH.feuVertCandidat(idPersonne, idPoste);
+        return Constants.GREEN_LIGHT_SUCCESS;
     }
 
     @Override
-    public void feuRougeCandidat(Long idPersonne, Long idPoste) {
+    public String feuRougeCandidat(Long idPersonne, Long idPoste) {
         gestionRH.feuRougeCandidat(idPersonne, idPoste);
+        return Constants.RED_LIGHT_SUCCESS;
     }
 }

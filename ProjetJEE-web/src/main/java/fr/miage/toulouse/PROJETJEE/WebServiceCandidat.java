@@ -6,6 +6,8 @@
 package fr.miage.toulouse.PROJETJEE;
 
 import entities.FicheDePoste;
+import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
+import fr.miage.toulouse.projetjee.projetjeeshared.PersonneShared;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -28,9 +30,8 @@ public class WebServiceCandidat {
     // "Web Service > Add Operation"
 
     @WebMethod(operationName = "creerCandidatSiInexistant")
-    @Oneway
-    public void creerCandidatSiInexistant(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
-        ejbRef.creerCandidatSiInexistant(nom, prenom);
+    public String creerCandidatSiInexistant(@WebParam(name = "nom") String nom, @WebParam(name = "prenom") String prenom) {
+        return ejbRef.creerCandidatSiInexistant(nom, prenom);
     }
 
     @WebMethod(operationName = "getAllOpenedPoste")
@@ -44,15 +45,13 @@ public class WebServiceCandidat {
     }
 
     @WebMethod(operationName = "creerUneCandidature")
-    @Oneway
-    public void creerUneCandidature(@WebParam(name = "idCandidat") Long idCandidat, @WebParam(name = "idPoste") Long idPoste) {
-        ejbRef.creerUneCandidature(idCandidat, idPoste);
+    public String creerUneCandidature(@WebParam(name = "idCandidat") Long idCandidat, @WebParam(name = "idPoste") Long idPoste) {
+        return ejbRef.creerUneCandidature(idCandidat, idPoste);
     }
 
     @WebMethod(operationName = "retirerUneCandidature")
-    @Oneway
-    public void retirerUneCandidature(@WebParam(name = "idCandidat") Long idCandidat, @WebParam(name = "idPoste") Long idPoste) {
-        ejbRef.retirerUneCandidature(idCandidat, idPoste);
+    public String retirerUneCandidature(@WebParam(name = "idCandidat") Long idCandidat, @WebParam(name = "idPoste") Long idPoste) {
+        return ejbRef.retirerUneCandidature(idCandidat, idPoste);
     }
     
 }
