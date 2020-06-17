@@ -54,6 +54,13 @@ public class GestionManager implements GestionManagerLocal {
         return listTotalCompetences;
     }
     
+    /**
+     * creer un fiche de poste de status EN ATTENTE pour répondre à un demande de compétence d'un manager
+     * @param nomFicheDePoste le nom du poste
+     * @param nomCompetences la liste des noms des compétences cherchées
+     * @param nomEquipe le nom d'équipe qui faire la demande
+     * @return un fiche de poste de status EN ATTENTE
+     */
     @Override
     public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe){
         return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);

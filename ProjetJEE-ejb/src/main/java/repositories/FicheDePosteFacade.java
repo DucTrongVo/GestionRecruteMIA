@@ -145,7 +145,11 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         
         return equipes;
     }
-    
+    /**
+     * Mise à jour le status du poste
+     * @param p le poste à modifier
+     * @param statut le nouveau status du poste
+     */
     @Override
     public void setStatut(FicheDePoste p, StatutDePoste statut){
         p.setStatut(statut);
@@ -158,7 +162,10 @@ public class FicheDePosteFacade extends AbstractFacade<FicheDePoste> implements 
         poste.setPresentationPoste(presentationPoste);
         System.out.println(Constants.SUCCES);
     }
-    
+    /**
+     * retourner un liste des postes de status ouvert
+     * @return list des postes ouverts
+     */
     @Override
     public List<FicheDePoste> findPostesDisponibles(){
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

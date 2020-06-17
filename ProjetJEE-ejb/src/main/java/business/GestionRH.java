@@ -10,7 +10,6 @@ import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
 import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
-import fr.miage.toulouse.projetjee.projetjeeshared.FicheDePosteShared;
 import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,12 +66,6 @@ public class GestionRH implements GestionRHLocal {
             posteFacade.ajouterUneCandidatureAuPoste(poste, candidat);
         }catch(NoResultException NoRes){
             System.out.println(NoRes.toString());
-//            if(candidat == null){
-//                System.out.println(Constants.USER_NOT_EXIST);
-//            }
-//            if(poste == null){
-//                System.out.println(Constants.POSTE_NOT_EXIST);
-//            }
         }
         
     }
@@ -134,6 +127,11 @@ public class GestionRH implements GestionRHLocal {
         return null;
     }
     
+    /**
+     * retourner l'équipe qui a fait la demande des compétences du fiche de poste
+     * @param idPoste l'id du poste
+     * @return l'équipe demandeuse de compétences
+     */
     public Equipe getEquipeDemandeurDuPoste(Long idPoste){
         FicheDePoste poste = posteFacade.find(idPoste);
         if(poste != null){
@@ -274,19 +272,33 @@ public class GestionRH implements GestionRHLocal {
             throw new IllegalArgumentException(Constants.USER_NOT_EXIST);
         }
     }
-    
+    /**
+     * créer un nouveau candidat si il n'existe pas encore
+     * @param nom nom du candidat
+     * @param prenom prénom du candidat
+     * @return un nouveau candidat
+     */
     @Override
     public Personne creerCandidatSiInexistant(String nom, String prenom){
         return personneFacade.creerCandidatSiInexistant(nom, prenom);
     }
     
+    /**
+     * transforme un candidat en collaborateur en lui assignant une équipe
+     * @param personne le candidat à recruté
+     * @param poste le poste que le candidat a postulé
+     */
     public void recruterCollaborateurDansEquipe(Personne personne, FicheDePoste poste){
-//        Personne personne = personneFacade.find(idPersonne);
-//        FicheDePoste poste = posteFacade.find(idPoste);
         Equipe equipeDemandeuse = poste.getEquipeDemandeuse();
         personne.setEquipe(equipeDemandeuse);
     }
-    
+    /**
+     * créer une fiche de poste pour répondre au demande des compétences du manager
+     * @param nomFicheDePoste nom du fiche de poste
+     * @param nomCompetences liste des noms des compétences
+     * @param nomEquipe
+     * @return 
+     */
     @Override
     public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe){
         Equipe equipe = equipeFacade.findByNom(nomEquipe);
@@ -311,7 +323,10 @@ public class GestionRH implements GestionRHLocal {
          }
         return allOpenedPosts;
     }
-
+    /**
+     * retourne une liste des postes de status EN ATTENTE
+     * @return liste des postes de status EN ATTENTE
+     */
     @Override
     public List<FicheDePoste> getAllWaitingPoste() {
         List<FicheDePoste> allPostes = posteFacade.findAll();
@@ -323,7 +338,10 @@ public class GestionRH implements GestionRHLocal {
          }
         return allWaitingPosts;
     }
-    
+    /**
+     * retourne une liste des postes de status ARCHIVEE
+     * @return liste des postes de status ARCHIVEE
+     */
     @Override
     public List<FicheDePoste> getAllClosedPoste() {
         List<FicheDePoste> allPostes = posteFacade.findAll();
@@ -335,7 +353,10 @@ public class GestionRH implements GestionRHLocal {
          }
         return allClosedPosts;
     }    
-
+    /**
+     * retourne une liste des collaborateurs
+     * @return une liste des collaborateurs
+     */
     @Override
     public List<Personne> getListCollaborateur() {
         List<Personne> allPersonne = personneFacade.findAll();
@@ -347,7 +368,10 @@ public class GestionRH implements GestionRHLocal {
         }
         return allCollab;
     }
-    
+    /**
+     * retourne une liste des candidats
+     * @return une liste des candidats
+     */
     @Override
     public List<Personne> getListCandidat(){
         List<Personne> allPersonne = personneFacade.findAll();
@@ -359,11 +383,25 @@ public class GestionRH implements GestionRHLocal {
         }
         return allCandidat;
     }
+    
+    /**
+     * creer une nouvelle personne avec un liste des compétences
+     * @param nom nom de la personne
+     * @param prenom prénom de la personne
+     * @param listeCompetences liste des compétences
+     * @return nouvelle personne
+     */
     @Override
     public Personne creerPersonneSiInexistant(String nom, String prenom, ArrayList<Competence> listeCompetences) {
         return personneFacade.creerPersonneSiInexistant(nom, prenom, listeCompetences);
     }
-    
+    /**
+     * creer une nouvelle équipe
+     * @param nomEquipe nom de l'équipe
+     * @param nomManager nom du manager de l'équipe
+     * @param prenomManager prénom du manager de l'équipe
+     * @return nouvelle équipe
+     */
     @Override
     public Equipe creerEquipe(String nomEquipe, String nomManager, String prenomManager){
         Personne manager = personneFacade.creerPersonneSiInexistant(nomManager, prenomManager, new ArrayList<Competence>());
@@ -372,7 +410,11 @@ public class GestionRH implements GestionRHLocal {
         manager.setIsManager(true);
         return equipe;
     }
-    
+    /**
+     * assigner une personne dans l'équipe
+     * @param idPersonne l'id de la personne à assigné
+     * @param nomEquipe le nom de l'équipe
+     */
     @Override
     public void setEquipe(Long idPersonne, String nomEquipe){
         Personne personne = personneFacade.find(idPersonne);
@@ -385,6 +427,10 @@ public class GestionRH implements GestionRHLocal {
                 System.out.println("personne does not existed!");
             }
     }
+    /**
+     * transforme un collaborateur en codir
+     * @param idPersonne l'id du collaborateur
+     */
     @Override
     public void setCodir(Long idPersonne){
         try{
@@ -394,17 +440,28 @@ public class GestionRH implements GestionRHLocal {
             System.out.println(NoRes.toString());
         }
     }
+    /**
+     * creer une nouvelle compétence
+     * @param nom nom de compétence
+     * @return Competence
+     */
     @Override
     public Competence creerCompetence(String nom){
         competenceFacade.creerCompetence(nom);
         return competenceFacade.findByNomCompetence(nom);
     }
-
+    /**
+     * retourne une liste de toute les équipes
+     * @return liste des équipes
+     */
     @Override
     public List<Equipe> getAllEquipes() {
         return equipeFacade.findAll();
     }
-
+    /**
+     * retourne une liste des toutes les compétences
+     * @return liste des compétences
+     */
     @Override
     public List<Competence> getAllCompetences() {
         return competenceFacade.findAll();
