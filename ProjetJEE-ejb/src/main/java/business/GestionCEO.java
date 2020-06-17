@@ -9,6 +9,7 @@ import entities.Competence;
 import entities.FicheDePoste;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
@@ -17,33 +18,30 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class GestionCEO implements GestionCEOLocal {
-
-    private GestionRH gestionRH;
+    @EJB
+    private GestionRHLocal gestionRH;
     
     @Override
-    public ArrayList<Competence> AccederListeCompetence() {
-        this.gestionRH = new GestionRH();
+    public ArrayList<Competence> accederListeCompetence() {
         return (ArrayList<Competence>) gestionRH.getListeCompetencesDemandees();
     }
 
     @Override
-    public ArrayList<Integer> AccederListeComptesFichesDePoste() {
-        this.gestionRH = new GestionRH();
+    public ArrayList<Integer> accederListeComptesFichesDePoste() {
         List<FicheDePoste> listePostesNonArchivees;
         List<FicheDePoste> listePostesTotale;
         listePostesNonArchivees = gestionRH.getAllOpenedPoste();
         listePostesNonArchivees.addAll(gestionRH.getAllWaitingPoste());
         listePostesTotale = listePostesNonArchivees;
         listePostesTotale.addAll(gestionRH.getAllClosedPoste());
-        ArrayList<Integer> listeComptesPostes = new ArrayList<Integer>();
+        ArrayList<Integer> listeComptesPostes = new ArrayList<>();
         listeComptesPostes.add(listePostesNonArchivees.size());
         listeComptesPostes.add(listePostesTotale.size());
         return listeComptesPostes;
     }
 
     @Override
-    public ArrayList<Integer> AccederNombreCandidatures() {
-        this.gestionRH = new GestionRH();
+    public ArrayList<Integer> accederNombreCandidatures() {
         int nombreCandidaturesRetenues = 0;
         int nombreCandidaturesTotales = 0;
         List<FicheDePoste> listePostesArchivee = gestionRH.getAllClosedPoste();

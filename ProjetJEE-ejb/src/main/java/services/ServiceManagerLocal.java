@@ -5,7 +5,6 @@
  */
 package services;
 
-import java.util.ArrayList;
 import javax.ejb.Local;
 
 /**

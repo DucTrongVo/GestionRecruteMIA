@@ -26,22 +26,33 @@ public class ServiceCEO implements ServiceCEOLocal {
     }
         
     @Override
-    public ArrayList<Competence> AccederListeCompetence() {
-        gestionCEO = new GestionCEO();    
-        return gestionCEO.AccederListeCompetence();
-        
+    public String accederListeCompetence() {
+        String competences = "";  
+        ArrayList<Competence> lc = gestionCEO.accederListeCompetence();
+        for(Competence competence : lc){
+            competences += competences.length() > 0 ? "; "+competence.getNom() : competence.getNom();
+        }
+        return competences;
     }
 
     @Override
-    public ArrayList<Integer> AccederListeComptesFichesDePoste() {
-        gestionCEO = new GestionCEO();
-        return gestionCEO.AccederListeComptesFichesDePoste();  
+    public String accederListeComptesFichesDePoste() {
+        String listComptesFDP = "";
+        ArrayList<Integer> lcfdp = gestionCEO.accederListeComptesFichesDePoste();  
+        for(int nb : lcfdp){
+            listComptesFDP += listComptesFDP.length() > 0 ? "; "+Integer.toString(nb): Integer.toString(nb);
+        }
+        return listComptesFDP;
     }
 
     @Override
-    public ArrayList<Integer> AccederNombreCandidatures() {
-        gestionCEO = new GestionCEO();
-        return gestionCEO.AccederNombreCandidatures();
+    public String accederNombreCandidatures() {
+        String nbrCandidat = "";
+        ArrayList<Integer> lnc = gestionCEO.accederNombreCandidatures();
+        for(int nb : lnc){
+            nbrCandidat += nbrCandidat.length() > 0 ? "; "+Integer.toString(nb): Integer.toString(nb);
+        }
+        return nbrCandidat;
     }
 
 

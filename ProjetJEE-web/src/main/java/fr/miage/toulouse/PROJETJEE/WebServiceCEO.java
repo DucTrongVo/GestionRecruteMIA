@@ -5,8 +5,6 @@
  */
 package fr.miage.toulouse.PROJETJEE;
 
-import entities.Competence;
-import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.ejb.Stateless;
@@ -25,19 +23,19 @@ public class WebServiceCEO {
     private ServiceCEOLocal ejbRef;// Add business logic below. (Right-click in editor and choose
     // "Web Service > Add Operation"
 
-    @WebMethod(operationName = "AccederListeCompetence")
-    public ArrayList<Competence> AccederListeCompetence() {
-        return ejbRef.AccederListeCompetence();
+    @WebMethod(operationName = "accederListeCompetence")
+    public String accederListeCompetence() {
+        return ejbRef.accederListeCompetence();
     }
 
-    @WebMethod(operationName = "AccederListeComptesFichesDePoste")
-    public ArrayList<Integer> AccederListeComptesFichesDePoste() {
-        return ejbRef.AccederListeComptesFichesDePoste();
+    @WebMethod(operationName = "accederListeComptesFichesDePoste")
+    public String accederListeComptesFichesDePoste() {
+        return ejbRef.accederListeComptesFichesDePoste();
     }
 
-    @WebMethod(operationName = "AccederNombreCandidatures")
-    public ArrayList<Integer> AccederNombreCandidatures() {
-        return ejbRef.AccederNombreCandidatures();
+    @WebMethod(operationName = "accederNombreCandidatures")
+    public String accederNombreCandidatures() {
+        return ejbRef.accederNombreCandidatures();
     }
     
 }

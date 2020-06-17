@@ -16,9 +16,9 @@ import services.ServiceManagerLocal;
  *
  * @author trongvo
  */
-@WebService(serviceName = "WebServiceMangaer")
+@WebService(serviceName = "WebServiceManager")
 @Stateless()
-public class WebServiceMangaer {
+public class WebServiceManager {
 
     @EJB
     private ServiceManagerLocal ejbRef;// Add business logic below. (Right-click in editor and choose

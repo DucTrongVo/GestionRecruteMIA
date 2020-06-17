@@ -37,13 +37,13 @@ public class ServiceManager implements ServiceManagerLocal {
 
     @Override
     public String creerFicheDePosteDeDemande(String nomFicheDePoste, String nomCompetences, String nomEquipe){
-        ArrayList<String> comptences = new ArrayList<>();
-        String[] lcs = nomCompetences.split(",");
-        comptences.addAll(Arrays.asList(lcs));
-        FicheDePoste ficheDePoste = gestionManager.creerFicheDePosteDeDemande(nomFicheDePoste, comptences, nomEquipe);
+//        ArrayList<String> comptences = new ArrayList<>();
+//        String[] lcs = nomCompetences.split(",");
+//        comptences.addAll(Arrays.asList(lcs));
+        FicheDePoste ficheDePoste = gestionManager.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);
         if(ficheDePoste!=null){
             return ficheDePoste.getNom();
         }
-        return "La fiche de poste n'a pas été crée.";
+        return "La fiche de poste n'a pas été crée!";
     }
 }

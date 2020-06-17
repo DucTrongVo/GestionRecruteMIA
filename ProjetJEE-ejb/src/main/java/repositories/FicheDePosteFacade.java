@@ -12,6 +12,7 @@ import entities.Personne;
 import fr.miage.toulouse.projetjee.projetjeeshared.Constants;
 import fr.miage.toulouse.projetjee.projetjeeshared.StatutDePoste;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

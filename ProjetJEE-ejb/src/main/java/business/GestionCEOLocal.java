@@ -15,7 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface GestionCEOLocal {
-    public ArrayList<Competence> AccederListeCompetence();
-    public ArrayList<Integer> AccederListeComptesFichesDePoste();
-    public ArrayList<Integer> AccederNombreCandidatures();    
+    public ArrayList<Competence> accederListeCompetence();
+    public ArrayList<Integer> accederListeComptesFichesDePoste();
+    public ArrayList<Integer> accederNombreCandidatures();    
 }

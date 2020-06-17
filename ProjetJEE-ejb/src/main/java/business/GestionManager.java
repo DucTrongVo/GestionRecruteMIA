@@ -10,10 +10,13 @@ import entities.Equipe;
 import entities.FicheDePoste;
 import entities.Personne;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import repositories.CompetenceFacadeLocal;
 import repositories.EquipeFacadeLocal;
+import repositories.FicheDePosteFacadeLocal;
 import repositories.PersonneFacadeLocal;
 
 /**
@@ -28,8 +31,12 @@ public class GestionManager implements GestionManagerLocal {
     
     @EJB
     private PersonneFacadeLocal personneFacade;
-
-    private GestionRHLocal gestionRH;
+    
+    @EJB
+    private CompetenceFacadeLocal competenceFacade;
+    
+    @EJB
+    private FicheDePosteFacadeLocal posteFacade;
 
     /**
      * retourner la liste de toutes les compétences
@@ -62,8 +69,17 @@ public class GestionManager implements GestionManagerLocal {
      * @return un fiche de poste de status EN ATTENTE
      */
     @Override
-    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, ArrayList<String> nomCompetences, String nomEquipe){
-        return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, nomCompetences, nomEquipe);
+    public FicheDePoste creerFicheDePosteDeDemande(String nomFicheDePoste, String nomCompetences, String nomEquipe){
+        ArrayList<String> comptences = new ArrayList<>();
+        String[] lcs = nomCompetences.split(",");
+        comptences.addAll(Arrays.asList(lcs));
+        Equipe equipe = equipeFacade.findByNom(nomEquipe);
+        ArrayList<Competence> listCompetences = new ArrayList<>();
+        for (String nomC : comptences) {
+            listCompetences.add(competenceFacade.findByNomCompetence(nomC));
+        }
+        return(posteFacade.creerUneFicheDePoste(nomFicheDePoste, listCompetences, equipe));
+        //return gestionRH.creerFicheDePosteDeDemande(nomFicheDePoste, comptences, nomEquipe);
     }
 
 }
